@@ -1,9 +1,10 @@
 // Load environment variables FIRST, before any other require
 const dotenv = require("dotenv");
-dotenv.config();
-
-const express = require("express");
 const path = require("path");
+
+// Load central root .env first, then backend/.env as fallback/override
+dotenv.config({ path: path.resolve(__dirname, "../.env") });
+dotenv.config({ path: path.resolve(__dirname, ".env") });
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const helmet = require("helmet");
