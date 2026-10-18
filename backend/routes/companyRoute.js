@@ -6,6 +6,7 @@ const {
   registerCompany,
   updateCompany,
   deleteCompany,
+  getCompaniesPublic,
 } = require('../controllers/companyController');
 const { singleUpload } = require('../middlewares/multer');
 
@@ -14,6 +15,8 @@ const router = express.Router();
 router.post('/register', isAuthenticated, registerCompany);
 
 router.get('/get', isAuthenticated, getCompany);
+
+router.get('/all', getCompaniesPublic);
 
 router.get('/get/:id', isAuthenticated, getCompanyById);
 

@@ -1,6 +1,6 @@
 const Company = require("../models/company");
 const User = require("../models/user");
-const uploadFileToS3 = require("../utils/uploadFileToS3");
+const saveFileLocally = require("../utils/localFileStorage");
 
 // Register a new company
 exports.registerCompany = async (req, res) => {
@@ -59,15 +59,8 @@ exports.getCompany = async (req, res) => {
     const userId = req.id;
     const companies = await Company.findAll({ where: { userId } });
 
-    if (!companies || companies.length === 0) {
-      return res.status(404).json({
-        message: "No companies found.",
-        success: false,
-      });
-    }
-
     return res.status(200).json({
-      companies,
+      companies: companies || [],
       success: true,
     });
   } catch (error) {
@@ -139,7 +132,7 @@ exports.updateCompany = async (req, res) => {
     if (req.file) {
       const fileBuffer = req.file.buffer;
       const fileName = `${Date.now()}_${req.file.originalname}`;
-      const fileUrl = await uploadFileToS3(fileBuffer, fileName, req.file.mimetype);
+      const fileUrl = await saveFileLocally(fileBuffer, fileName, req.file.mimetype);
       updateData.logo = fileUrl;
     }
 
@@ -211,6 +204,23 @@ exports.deleteCompany = async (req, res) => {
     console.error(error);
     return res.status(500).json({
       message: "Server error while deleting company.",
+      success: false,
+    });
+  }
+};
+
+// Get all companies registered on the portal (public list)
+exports.getCompaniesPublic = async (req, res) => {
+  try {
+    const companies = await Company.findAll();
+    return res.status(200).json({
+      companies: companies || [],
+      success: true,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      message: "Server error while fetching all companies.",
       success: false,
     });
   }

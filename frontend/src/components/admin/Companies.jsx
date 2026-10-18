@@ -9,6 +9,7 @@ import useGetAllCompanies from '@/hooks/useGetAllCompanies';
 import { useDispatch } from 'react-redux';
 import { setSearchCompanyByText } from '@/redux/companySlice';
 import Footer from '../shared/Footer';
+import { Plus, Search } from 'lucide-react';
 
 const Companies = () => {
     useGetAllCompanies();
@@ -18,29 +19,49 @@ const Companies = () => {
 
     useEffect(() => {
         dispatch(setSearchCompanyByText(input));
-    }, [input]);
+    }, [input, dispatch]);
 
     return (
-        <motion.div className="bg-white min-h-screen " initial={ { opacity: 0 } } animate={ { opacity: 1 } } transition={ { duration: 0.5 } }>
-            <Navbar />
-            <div className="max-w-6xl mx-auto my-10 p-5">
-                <div className="flex items-center justify-between my-5">
-                    <Input
-                        className="w-fit p-2 border border-gray-300 rounded-md shadow-sm transition-all duration-300 focus:border-blue-400"
-                        placeholder="Filter by name"
-                        onChange={ (e) => setInput(e.target.value) }
-                    />
-                    <Button
-                        onClick={ () => navigate("/admin/companies/create") }
-                        className="bg-blue-500 text-white py-2 px-4 rounded-md shadow-md hover:bg-blue-600 transition-all duration-300"
-                    >
-                        New Company
-                    </Button>
+        <div className="bg-warm-ivory min-h-screen text-charcoal flex flex-col justify-between">
+            <motion.div
+                className="flex-1"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.4 }}
+            >
+                <Navbar />
+                <div className="max-w-6xl mx-auto pt-24 pb-16 px-4 sm:px-6">
+                    <div className="mb-8">
+                        <h1 className="text-2xl sm:text-3xl font-extrabold text-charcoal tracking-tight">
+                            Registered Companies
+                        </h1>
+                        <p className="text-sm text-charcoal-muted mt-1">
+                            Manage and organize company profiles and branding
+                        </p>
+                    </div>
+
+                    <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6">
+                        <div className="relative w-full sm:w-80">
+                            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-burnt-orange" />
+                            <Input
+                                className="w-full pl-10 bg-white border border-[--border-subtle] rounded-xl text-charcoal placeholder:text-charcoal-dim focus:border-burnt-orange focus:ring-burnt-orange shadow-warm-sm"
+                                placeholder="Filter companies by name..."
+                                onChange={(e) => setInput(e.target.value)}
+                            />
+                        </div>
+                        <Button
+                            onClick={() => navigate("/admin/companies/create")}
+                            className="w-full sm:w-auto bg-burnt-orange hover:bg-burnt-orange-hover text-white rounded-xl shadow-warm-sm hover:shadow-glow-orange font-semibold flex items-center gap-2"
+                        >
+                            <Plus className="w-4 h-4" />
+                            <span>Add Company</span>
+                        </Button>
+                    </div>
+                    <CompaniesTable />
                 </div>
-                <CompaniesTable />
-            </div>
+            </motion.div>
             <Footer />
-        </motion.div>
+        </div>
     );
 };
 

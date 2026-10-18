@@ -10,7 +10,7 @@ import {
     TableRow,
 } from '../ui/table';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
-import { MoreHorizontal } from 'lucide-react';
+import { MoreHorizontal, FileText, CheckCircle2, XCircle } from 'lucide-react';
 import { useSelector } from 'react-redux';
 import { toast } from 'sonner';
 import { APPLICATION_API_END_POINT } from '@/utils/constant';
@@ -19,7 +19,7 @@ import axios from 'axios';
 const shortlistingStatus = ['Accepted', 'Rejected'];
 
 const tableRowVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 15 },
     visible: { opacity: 1, y: 0 },
 };
 
@@ -34,77 +34,111 @@ const ApplicantsTable = () => {
                 toast.success(res.data.message);
             }
         } catch (error) {
-            toast.error(error.response.data.message);
+            toast.error(error.response?.data?.message || 'Error updating status');
         }
     };
 
     return (
         <motion.div
-            initial={ { opacity: 0 } }
-            animate={ { opacity: 1 } }
-            transition={ { duration: 0.6 } }
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4 }}
+            className="overflow-x-auto border border-[--border-subtle] rounded-2xl shadow-warm-md bg-white"
         >
-            <Table className="bg-white shadow-md rounded-lg">
-                <TableCaption className="text-blue-600">A list of your recent applied users</TableCaption>
+            <Table className="min-w-full">
+                <TableCaption className="text-charcoal-dim py-4 text-xs">
+                    List of candidates who submitted applications for this posting
+                </TableCaption>
                 <TableHeader>
-                    <TableRow>
-                        <TableHead className="text-blue-500">FullName</TableHead>
-                        <TableHead className="text-blue-500">Email</TableHead>
-                        <TableHead className="text-blue-500">Contact</TableHead>
-                        <TableHead className="text-blue-500">Resume</TableHead>
-                        <TableHead className="text-blue-500">Date</TableHead>
-                        <TableHead className="text-right text-blue-500">Action</TableHead>
+                    <TableRow className="bg-warm-ivory-dark/70 hover:bg-warm-ivory-dark/70 border-b border-[--border-subtle]">
+                        <TableHead className="py-4 px-6 text-charcoal font-bold text-xs uppercase tracking-wider">Candidate</TableHead>
+                        <TableHead className="py-4 px-6 text-charcoal font-bold text-xs uppercase tracking-wider">Email</TableHead>
+                        <TableHead className="py-4 px-6 text-charcoal font-bold text-xs uppercase tracking-wider">Phone</TableHead>
+                        <TableHead className="py-4 px-6 text-charcoal font-bold text-xs uppercase tracking-wider">Resume</TableHead>
+                        <TableHead className="py-4 px-6 text-charcoal font-bold text-xs uppercase tracking-wider">Date</TableHead>
+                        <TableHead className="py-4 px-6 text-right text-charcoal font-bold text-xs uppercase tracking-wider">Decision</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    { applicants?.applications?.map((item, index) => (
-                        <motion.tr
-                            key={ item._id }
-                            variants={ tableRowVariants }
-                            initial="hidden"
-                            animate="visible"
-                            transition={ { delay: index * 0.1 } }
-                            className="hover:bg-blue-50"
-                        >
-                            <TableCell>{ item?.applicant?.fullname }</TableCell>
-                            <TableCell>{ item?.applicant?.email }</TableCell>
-                            <TableCell>{ item?.applicant?.phoneNumber }</TableCell>
-                            <TableCell>
-                                { item.applicant?.profile?.resume ? (
-                                    <a
-                                        className="text-blue-600 cursor-pointer"
-                                        href={ item?.applicant?.profile?.resume }
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        { item?.applicant?.profile?.resumeOriginalName }
-                                    </a>
-                                ) : (
-                                    <span>NA</span>
-                                ) }
-                            </TableCell>
-                            <TableCell>{ item?.applicant.createdAt.split('T')[0] }</TableCell>
-                            <TableCell className="float-right cursor-pointer">
-                                <Popover>
-                                    <PopoverTrigger>
-                                        <MoreHorizontal />
-                                    </PopoverTrigger>
-                                    <PopoverContent className="w-32">
-                                        { shortlistingStatus.map((status, index) => (
-                                            <motion.div
-                                                key={ index }
-                                                onClick={ () => statusHandler(status, item?._id) }
-                                                whileHover={ { scale: 1.05 } }
-                                                className={ `${status === "Accepted" ? "text-green-700" : "text-red-700"} flex w-fit items-center my-2 cursor-pointer text-blue-500` }
-                                            >
-                                                <span>{ status }</span>
-                                            </motion.div>
-                                        )) }
-                                    </PopoverContent>
-                                </Popover>
-                            </TableCell>
-                        </motion.tr>
-                    )) }
+                    {applicants?.applications && applicants.applications.length > 0 ? (
+                        applicants.applications.map((item, index) => (
+                            <motion.tr
+                                key={item.id}
+                                variants={tableRowVariants}
+                                initial="hidden"
+                                animate="visible"
+                                transition={{ delay: index * 0.05 }}
+                                className="hover:bg-warm-ivory/40 border-b border-[--border-subtle] last:border-b-0 transition-colors"
+                            >
+                                <TableCell className="py-4 px-6 text-charcoal font-semibold whitespace-nowrap">
+                                    {item?.applicant?.fullname}
+                                </TableCell>
+                                <TableCell className="py-4 px-6 text-charcoal-muted text-sm whitespace-nowrap">
+                                    {item?.applicant?.email}
+                                </TableCell>
+                                <TableCell className="py-4 px-6 text-charcoal-dim text-sm whitespace-nowrap">
+                                    {item?.applicant?.phoneNumber || 'NA'}
+                                </TableCell>
+                                <TableCell className="py-4 px-6 whitespace-nowrap">
+                                    {item.applicant?.profile?.resume ? (
+                                        <a
+                                            className="text-burnt-orange hover:text-burnt-orange-hover hover:underline cursor-pointer transition-colors font-medium text-sm inline-flex items-center gap-1.5"
+                                            href={item?.applicant?.profile?.resume}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            <FileText className="w-4 h-4 text-burnt-orange" />
+                                            <span>{item?.applicant?.profile?.resumeOriginalName || 'Resume.pdf'}</span>
+                                        </a>
+                                    ) : (
+                                        <span className="text-charcoal-dim text-sm">Not Provided</span>
+                                    )}
+                                </TableCell>
+                                <TableCell className="py-4 px-6 text-charcoal-dim text-sm whitespace-nowrap">
+                                    {item?.applicant?.createdAt?.split('T')[0]}
+                                </TableCell>
+                                <TableCell className="py-4 px-6 text-right whitespace-nowrap">
+                                    <Popover>
+                                        <PopoverTrigger asChild>
+                                            <button className="p-1.5 rounded-lg hover:bg-warm-ivory-dark text-charcoal-muted hover:text-burnt-orange transition">
+                                                <MoreHorizontal className="w-5 h-5 inline-block" />
+                                            </button>
+                                        </PopoverTrigger>
+                                        <PopoverContent className="w-36 bg-white border border-[--border-subtle] shadow-warm-lg p-1.5 rounded-xl space-y-1">
+                                            {shortlistingStatus.map((status, idx) => {
+                                                const isAccept = status === "Accepted";
+                                                return (
+                                                    <motion.div
+                                                        key={idx}
+                                                        onClick={() => statusHandler(status, item?.id)}
+                                                        whileHover={{ scale: 1.02 }}
+                                                        className={`flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer transition text-sm font-semibold ${
+                                                            isAccept
+                                                                ? "text-lime-green-dark hover:bg-lime-green-light"
+                                                                : "text-terracotta hover:bg-red-50"
+                                                        }`}
+                                                    >
+                                                        {isAccept ? (
+                                                            <CheckCircle2 className="w-4 h-4 text-lime-green-dark" />
+                                                        ) : (
+                                                            <XCircle className="w-4 h-4 text-terracotta" />
+                                                        )}
+                                                        <span>{status}</span>
+                                                    </motion.div>
+                                                );
+                                            })}
+                                        </PopoverContent>
+                                    </Popover>
+                                </TableCell>
+                            </motion.tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan="6" className="text-center py-12 text-charcoal-dim text-sm">
+                                No applications received for this position yet.
+                            </td>
+                        </tr>
+                    )}
                 </TableBody>
             </Table>
         </motion.div>

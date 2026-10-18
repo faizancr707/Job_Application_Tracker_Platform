@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { Button } from './ui/button';
-import { Search, ArrowRight } from 'lucide-react';
+import { Search, ArrowRight, Sparkles } from 'lucide-react';
 import { useDispatch } from 'react-redux';
 import { setSearchedQuery } from '@/redux/jobSlice';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Input } from './ui/input';
-import { toast } from 'sonner';
 
 const HeroSection = () => {
     const [query, setQuery] = useState('');
@@ -19,80 +18,88 @@ const HeroSection = () => {
         navigate('/browse');
     };
 
-    const handleNavigation = () => {
-        toast.success('Please Login into Recruiter AAccount  ')
-        navigate('/signup')
-    }
     return (
-        <div className="relative overflow-hidden pt-16 bg-gradient-to-br from-[#00040A] to-[#001636] min-h-screen text-white px-6 py-16">
-            {/* Gradient Background */ }
-            <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiMwMDAwMDAiIHN0b3Atb3BhY2l0eT0iMC4xIi8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMDAwMDAwIiBzdG9wLW9wYWNpdHk9IjAiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cGF0aCBkPSJNMCAwaDIwMHYyMDBIMHoiIGZpbGw9InVybCgjZykiLz48L3N2Zz4=')] opacity-30 pointer-events-none"></div>
+        <div className="relative overflow-hidden pt-20 pb-24 bg-gradient-to-b from-warm-ivory via-warm-ivory-light to-warm-ivory min-h-[85vh] text-charcoal px-6 flex flex-col items-center justify-center">
+            {/* Subtle warm ambient glow blobs */}
+            <div className="absolute top-12 left-1/4 w-96 h-96 bg-burnt-orange/10 rounded-full blur-3xl pointer-events-none animate-pulse"></div>
+            <div className="absolute top-24 right-1/4 w-80 h-80 bg-lime-green/15 rounded-full blur-3xl pointer-events-none"></div>
+
+            {/* Pill Badge */}
+            <motion.div
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-burnt-orange-light border border-burnt-orange/30 text-burnt-orange text-xs font-bold tracking-wide uppercase mb-6 shadow-sm"
+            >
+                <Sparkles className="w-3.5 h-3.5 text-burnt-orange" />
+                <span>Next-Gen Intelligent Job Tracking</span>
+            </motion.div>
 
             <motion.h1
-                className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 text-center tracking-tight user-select text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400"
-                initial={ { opacity: 0, scale: 0.85 } }
-                whileInView={ { opacity: 1, scale: 1 } }
-                transition={ { duration: 0.7 } }
-                viewport={ { once: true } }
+                className="text-5xl sm:text-6xl lg:text-7xl font-extrabold mb-6 text-center tracking-tight text-deep-brown max-w-4xl"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6 }}
             >
-                Find Your Dream Job With HireHub
-                {/* <span className="bg-gradient-to-r from-blue-400 to-purple-400 text-transparent bg-clip-text user-select">
-
-                </span> */}
+                Find Your Dream Job With{' '}
+                <span className="text-burnt-orange underline decoration-lime-green decoration-wavy decoration-2">
+                    HireHub
+                </span>
             </motion.h1>
 
             <motion.p
-                className="text-xl text-gray-300 mb-12 max-w-2xl mx-auto leading-relaxed text-center user-select"
-                initial={ { opacity: 0 } }
-                whileInView={ { opacity: 1 } }
-                transition={ { delay: 0.3, duration: 0.6 } }
-                viewport={ { once: true } }
+                className="text-lg sm:text-xl text-warm-charcoal mb-10 max-w-2xl mx-auto leading-relaxed text-center font-normal"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.2, duration: 0.6 }}
             >
-                Connect with top employers and discover opportunities that match your skills and aspirations. Your next career move starts here.
+                Connect with forward-thinking employers, track your applications in real-time, and supercharge your search with our intelligent AI Copilot.
             </motion.p>
 
-            <div className="flex justify-center gap-6 mb-10">
+            <div className="flex justify-center gap-4 mb-10">
                 <Button
                     size="lg"
-                    className=" bg-gradient-to-r from-blue-400 to-purple-500 text-white hover:from-blue-500 hover:to-purple-600 px-8 py-4 rounded-full flex items-center text-lg cursor-pointer"
-                    onClick={ () => navigate('/jobs') }
+                    className="bg-burnt-orange hover:bg-burnt-orange-hover text-white font-semibold px-8 py-6 rounded-full flex items-center text-base cursor-pointer shadow-warm-md hover:shadow-glow-orange transition"
+                    onClick={() => navigate('/jobs')}
                 >
-                    Find Jobs
+                    Explore Jobs
                     <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
                 <Button
-                    onClick={ handleNavigation }
                     size="lg"
                     variant="outline"
-                    className="border border-gray-600 text-white hover:bg-gray-800 bg-transparent px-8 py-4 rounded-full text-lg cursor-pointer"
+                    className="border-burnt-orange/40 text-charcoal hover:text-burnt-orange bg-white font-semibold px-8 py-6 rounded-full text-base transition shadow-warm-sm"
+                    onClick={() => navigate('/ai/copilot')}
                 >
-                    Post a Job
+                    Try AI Copilot 🤖
                 </Button>
             </div>
 
-            <motion.div
-                className="flex w-full sm:w-[70%] lg:w-[50%] shadow-md border border-gray-700 pl-3 pr-2 py-2 rounded-full items-center gap-4 mx-auto bg-[#001636] bg-opacity-90"
-                initial={ { opacity: 0, y: 50 } }
-                whileInView={ { opacity: 1, y: 0 } }
-                transition={ { duration: 0.8 } }
-                viewport={ { once: true } }
+            <motion.form
+                onSubmit={searchJobHandler}
+                className="flex w-full sm:w-[75%] lg:w-[55%] shadow-warm-lg border border-[--border-subtle] p-2 rounded-full items-center gap-2 bg-white"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3, duration: 0.6 }}
             >
-                <Input
-                    type="text"
-                    value={ query }
-                    placeholder="Search by job title or skills"
-                    onChange={ (e) => setQuery(e.target.value) }
-                    className="w-full p-3 outline-none border-none bg-transparent text-white placeholder-gray-400 rounded-full focus:ring-2 focus:ring-blue-500"
-                />
+                <div className="flex items-center pl-4 text-charcoal-dim flex-1">
+                    <Search className="h-5 w-5 mr-3 text-burnt-orange" />
+                    <Input
+                        type="text"
+                        value={query}
+                        placeholder="Search by job title, company, or skills..."
+                        onChange={(e) => setQuery(e.target.value)}
+                        className="w-full p-2 outline-none border-none bg-transparent text-charcoal placeholder:text-charcoal-dim text-sm sm:text-base focus-visible:ring-0"
+                    />
+                </div>
 
                 <Button
-                    onClick={ searchJobHandler }
-                    className="rounded-full bg-gradient-to-r from-blue-400 to-purple-500 text-white hover:from-blue-500 hover:to-purple-600 px-6 py-3 flex items-center"
+                    type="submit"
+                    className="rounded-full bg-burnt-orange hover:bg-burnt-orange-hover text-white font-semibold px-7 py-3 flex items-center shadow-sm"
                 >
-                    <Search className="h-5 w-5 mr-2" />
                     Search
                 </Button>
-            </motion.div>
+            </motion.form>
         </div>
     );
 };

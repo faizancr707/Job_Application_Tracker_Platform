@@ -71,15 +71,28 @@ const postJob = async (req, res) => {
 // GET /api/v1/job — fetch all jobs with optional keyword filtering
 const getAllJobs = async (req, res) => {
   try {
+    // Disable client-side and browser caching for jobs fetching
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+
     const keyword = req.query.keyword || "";
-    const where = keyword
-      ? {
-          [Op.or]: [
-            { title: { [Op.like]: `%${keyword}%` } },
-            { description: { [Op.like]: `%${keyword}%` } }
-          ]
-        }
-      : undefined;
+    let where = undefined;
+    if (keyword) {
+      const terms = keyword.split(/\s+/).filter(Boolean);
+      if (terms.length > 0) {
+        where = {
+          [Op.and]: terms.map(term => ({
+            [Op.or]: [
+              { title: { [Op.like]: `%${term}%` } },
+              { description: { [Op.like]: `%${term}%` } },
+              { location: { [Op.like]: `%${term}%` } },
+              { '$company.name$': { [Op.like]: `%${term}%` } }
+            ]
+          }))
+        };
+      }
+    }
 
     const jobs = await Job.findAll({
       where,  // Apply keyword filtering here
@@ -88,6 +101,8 @@ const getAllJobs = async (req, res) => {
         { model: Application, as: 'applications' }
       ]
     });
+
+    console.log(`Fetched jobs with keyword "${keyword}": found ${jobs.length} jobs.`);
 
     return res.status(200).json({ jobs, success: true });
   } catch (error) {

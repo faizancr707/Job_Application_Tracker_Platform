@@ -6,13 +6,13 @@ const isAuthenticated = async(req, res, next) => {
 
         if (!token) {
             return res.status(401).json({
-                message: "Please login frist then proceed",
+                message: "Please login first then proceed",
                 success: false,
             });
         }
 
         try {
-            const decode = jwt.verify(token, process.env.SECRET_KEY);
+            const decode = jwt.verify(token, process.env.JWT_SECRET);
             req.id = decode.userId;
             next();
         } catch (err) {

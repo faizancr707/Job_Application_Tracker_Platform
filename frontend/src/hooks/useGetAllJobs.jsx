@@ -11,9 +11,9 @@ const useGetAllJobs = () => {
   useEffect(() => {
     const fetchAllJobs = async () => {
       try {
-        // Construct query parameters only, no /get segment
-        const queryParam = searchedQuery ? `?keyword=${searchedQuery}` : '';
-        const response = await axios.get(`${JOB_API_END_POINT}/${queryParam}`, {
+        // Backend exposes the list at GET /api/v1/job/get
+        const queryParam = searchedQuery ? `?keyword=${encodeURIComponent(searchedQuery)}` : '';
+        const response = await axios.get(`${JOB_API_END_POINT}/get${queryParam}`, {
           withCredentials: true,
         });
 

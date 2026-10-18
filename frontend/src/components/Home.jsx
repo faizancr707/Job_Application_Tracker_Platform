@@ -23,7 +23,7 @@ const Home = () => {
 
   return (
     <motion.div
-      className="bg-white"
+      className="bg-night min-h-screen"
       initial={ { opacity: 0 } }
       animate={ { opacity: 1 } }
       transition={ { duration: 0.5 } }
@@ -32,7 +32,7 @@ const Home = () => {
       <Navbar />
 
       {/* Main content with padding to avoid overlap */ }
-      <div className="pt-16  bg-gradient-to-br from-[#00040A] to-[#001636]">
+      <div className="pt-16 bg-gradient-to-br from-night to-night-lighter">
         <HeroSection />
         <CategoryCarousel />
         <LatestJobs />

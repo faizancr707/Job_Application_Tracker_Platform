@@ -1,220 +1,235 @@
-# 🚀 Job Application Tracker (Full Stack | Production-Ready)
+# 🚀 AI-Powered Career Intelligence Platform
 
-A scalable full-stack application to manage job applications with secure backend APIs and a responsive frontend UI.
+> Upgraded from a Job Application Tracker into a production-ready AI career platform with 15+ AI features.
 
 ---
 
 ## 📌 Overview
 
-The Job Application Tracker helps users:
+The AI-Powered Career Intelligence Platform helps job seekers:
 
-* Track job applications
-* Manage application status
-* Search & filter jobs
-* Securely authenticate users
+* Track job applications with a full-featured dashboard
+* **Upload resumes for AI parsing, scoring, and analysis**
+* **Match resumes to jobs with explainable AI scores**
+* **Get personalized skill gap analysis and learning plans**
+* **Search jobs using natural language (semantic search)**
+* **Generate cover letters from verified resume data**
+* **Practice interviews with AI evaluation and feedback**
+* **Chat with an AI Career Copilot powered by LangGraph agents**
+* **View AI dashboard insights: rejection patterns, follow-ups, trends**
 
 Built with a **production-ready backend** and a **modular React frontend**.
 
 ---
 
-# 🧠 Architecture
+## 🧠 Architecture
 
-```id="arch1"
-Frontend (React) → Backend API (Express) → Service Layer → Database (MongoDB)
+```
+Frontend (React 19 + Vite) → Express 5 API → AI Services (OpenAI GPT-4o) → MySQL + Vector Store
+                                            → LangGraph Agent (7 tools)
+                                            → Redis Cache + S3 Storage
 ```
 
----
-
-# ⚙️ Tech Stack
-
-## 🔹 Frontend:
-
-* React.js
-* Redux (State Management)
-* Tailwind CSS
-* API calls
-
-## 🔹 Backend:
-
-* Node.js
-* Express.js
-* MySQL
-
-## 🔹 Security & Middleware:
-
-* JWT Authentication
-* bcrypt
-* Helmet
-* CORS
-  
+> See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for full system diagrams.
 
 ---
 
-# 🎯 Features
+## ⚙️ Tech Stack
 
-## 🔐 Authentication
+### Frontend
+* React 19, Vite 6, React Router v7
+* Redux Toolkit + redux-persist
+* shadcn/ui + Tailwind CSS + Framer Motion
+* react-markdown, react-dropzone, recharts
 
-* JWT-based login/signup
-* Protected routes
+### Backend
+* Node.js, Express 5.1
+* Sequelize ORM + MySQL
+* OpenAI GPT-4o / GPT-4o-mini / text-embedding-3-small
+* LangChain + LangGraph (agent framework)
+* Redis (caching) + BullMQ (queues)
+* AWS S3 (file storage)
 
-## 📊 Job Management
-
-* Add, update, delete jobs
-  
-
-## ⚡ Advanced Backend
-
-* Pagination
-* Filtering
-* Search
-* Error handling middleware
-  
-
-## 🎨 Frontend Features
-
-* Clean UI with React + Tailwind
-* Global state using Redux
-* Reusable components
-* Custom hooks for logic separation
+### Security
+* JWT Authentication + bcrypt
+* Helmet, CORS, rate limiting
+* Prompt injection protection
+* User data isolation
 
 ---
 
-# 📁 Project Structure
+## 🤖 AI Features
 
-## 🔹 Backend
+| # | Feature | Description |
+|---|---------|-------------|
+| 1 | 📄 Resume AI | Upload PDF → parse, score, extract skills, embed |
+| 2 | 🔍 Job Analysis | Analyze any job: skills, seniority, red flags, culture |
+| 3 | 🎯 Resume Matching | Explainable match score + matched/missing/partial skills |
+| 4 | 📊 Skill Gap | Career readiness %, learning priorities, 3-month plan |
+| 5 | 🔎 Semantic Search | Natural language job search with relevance ranking |
+| 6 | ✍️ Cover Letters | AI-generated from only verified resume data |
+| 7 | 🎤 Interview Prep | Technical/behavioral/HR/system-design with AI scoring |
+| 8 | 🤖 Career Copilot | LangGraph agent with streaming chat + 7 tools |
+| 9 | 📈 AI Dashboard | Rejection patterns, follow-up reminders, skill trends |
+| 10 | 🛡️ Security | Prompt guard, rate limits, user isolation, token tracking |
+| 11 | ⚡ Infrastructure | Redis cache, BullMQ queues, S3 storage (all with fallbacks) |
 
-```id="backend-struct"
+> See [docs/AI-FEATURES.md](docs/AI-FEATURES.md) for detailed feature documentation.
+
+---
+
+## 🎯 Original Features (Preserved)
+
+* 🔐 JWT authentication (login, signup, logout)
+* 📊 Job CRUD (create, update, delete, search, filter)
+* 📝 Application management (apply, track status, view applicants)
+* 🏢 Company management (create, update, logo upload)
+* 💼 Admin panel (post jobs, manage applicants, update status)
+* ⭐ Save jobs for later
+* 🎨 Dark theme UI with animations
+
+---
+
+## 📁 Project Structure
+
+```
 backend/
-├── config/
-├── controllers/
+├── config/ai.config.js          # AI model configs + env validation
+├── controllers/                 # 8 route handlers
+├── middlewares/                 # auth, rateLimiter, promptGuard, ownership
+├── models/                      # 9 Sequelize models
+├── routes/                      # 8 Express routers
 ├── services/
-├── models/
-├── routes/
-├── middlewares/
-├── utils/
-├── validations/
-├── app.js
-├── server.js
-```
+│   ├── ai/                      # 12 core AI services
+│   ├── resume/                  # parser, analyzer, embeddings
+│   ├── jobs/                    # analyzer, search, embeddings
+│   ├── interview/               # generator, evaluator
+│   ├── agents/                  # LangGraph copilot (7 tools)
+│   ├── rag/                     # RAG pipeline
+│   ├── cache/                   # Redis with in-memory fallback
+│   └── queue/                   # BullMQ with sync fallback
+└── utils/                       # db, s3, localFileStorage
 
----
-
-## 🔹 Frontend
-
-```id="frontend-struct"
 frontend/src/
-├── assets/        # Images, static files
-├── components/    # Reusable UI components
-├── hooks/         # Custom React hooks
-├── lib/           # API configs (axios setup)
-├── redux/         # Global state management
-├── utils/         # Helper functions
-├── App.jsx
-├── main.jsx
+├── components/
+│   ├── ai/                      # 10 AI feature components
+│   ├── admin/                   # Admin panel components
+│   ├── auth/                    # Login, Signup
+│   ├── shared/                  # Navbar, Footer, MarkdownRenderer
+│   └── ui/                      # shadcn/ui components
+├── redux/                       # 6 Redux slices
+└── utils/                       # API constants
+
+docs/
+├── API.md                       # Full API reference
+├── ARCHITECTURE.md              # System architecture
+└── AI-FEATURES.md               # AI feature guide
 ```
 
 ---
 
-# 🔌 API Endpoints
+## ⚡ Getting Started
 
-```id="api1"
-POST   /api/auth/register
-POST   /api/auth/login
-GET    /api/jobs
-POST   /api/jobs
-PUT    /api/jobs/:id
-DELETE /api/jobs/:id
-```
-
----
-
-# 🌐 Frontend Flow
-
-```id="flow1"
-User → React UI → Axios → Backend API → Database → Response → UI Update
-```
-
----
-
-# ⚡ Getting Started
-
-## 1️⃣ Clone Repo
-
-```id="clone"
+### 1️⃣ Clone Repo
+```bash
 git clone https://github.com/faizancr707/Job-Application-Tracker-App
+cd Job-Application-Tracker-App
 ```
 
----
-
-## 2️⃣ Backend Setup
-
-```id="backend-setup"
+### 2️⃣ Backend Setup
+```bash
 cd backend
-npm install
+npm install --legacy-peer-deps
 ```
 
-Create `.env`:
+Create `.env` (see `.env.example`):
+```env
+# Required
+DATABASE_NAME=job_tracker
+DATABASE_USER=root
+DATABASE_PASSWORD=your_password
+DATABASE_HOST=localhost
+JWT_SECRET=your_jwt_secret
+OPENAI_API_KEY=sk-your-openai-key
 
-```id="env"
-PORT=5000
-MONGO_URI=your_mongodb_uri
-JWT_SECRET=your_secret
+# Optional
+PORT=8000
+FRONTEND_URL=http://localhost:5173
+REDIS_URL=redis://localhost:6379
+AWS_ACCESS_KEY_ID=your_key
+AWS_SECRET_ACCESS_KEY=your_secret
+AWS_S3_BUCKET=your_bucket
+AWS_REGION=us-east-1
 ```
 
 Run:
-
-```id="run-backend"
-npm run dev
+```bash
+npm start
+# or: node index.js
 ```
 
----
-
-## 3️⃣ Frontend Setup
-
-```id="frontend-setup"
+### 3️⃣ Frontend Setup
+```bash
 cd frontend
-npm install
+npm install --legacy-peer-deps
 npm run dev
 ```
 
----
-
-# 🔒 Security Features
-
-* Helmet for HTTP headers
-* JWT authentication
-* Rate limiting
-* Input validation
+### 4️⃣ Verify
+- Backend health: http://localhost:8000/api/v1/health
+- Frontend: http://localhost:5173
 
 ---
 
-# 🚀 Future Improvements
+## 🔌 API Endpoints
 
-* Refresh token implementation
-* Email notifications
-* Analytics dashboard
-* Redis caching
-* Unit testing (Jest)
+### Existing
+```
+POST   /api/v1/user/register
+POST   /api/v1/user/login
+GET    /api/v1/user/logout
+POST   /api/v1/job/post
+GET    /api/v1/job/get
+POST   /api/v1/application/apply/:id
+```
+
+### AI (New)
+```
+POST   /api/v1/resumes/upload          # Upload + AI parse resume
+POST   /api/v1/ai/analyze-job          # AI job analysis
+POST   /api/v1/ai/match                # Resume-job matching
+POST   /api/v1/ai/skill-gap            # Skill gap analysis
+POST   /api/v1/ai/cover-letter         # Cover letter generation
+POST   /api/v1/ai/semantic-search      # AI job search
+GET    /api/v1/ai/dashboard-insights   # Dashboard AI insights
+POST   /api/v1/interview/generate      # Mock interview
+POST   /api/v1/interview/:id/evaluate  # Answer evaluation
+POST   /api/v1/copilot/chat            # AI copilot (SSE stream)
+```
+
+> See [docs/API.md](docs/API.md) for complete API reference.
 
 ---
 
-# 📈 Why This Project Stands Out
+## 🔒 Security
 
-* Full-stack production architecture
-* Clean separation of concerns
-* Real-world backend practices
-* Scalable frontend structure
+* Helmet HTTP security headers
+* JWT authentication with HTTP-only cookies
+* Per-user rate limiting (10 AI req/min)
+* Prompt injection detection and blocking
+* User data isolation in vector store
+* Token and cost tracking per request
+* Input sanitization and length limits
 
 ---
 
-# 👨‍💻 Author
+## 👨‍💻 Author
 
 **Faizan Alam**
-
 * GitHub: https://github.com/faizancr707
 
 ---
 
-# ⭐ Support
+## ⭐ Support
 
 If you like this project, give it a ⭐

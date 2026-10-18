@@ -79,59 +79,125 @@ const CompanySetup = () => {
   };
 
   if (companyLoading) {
-    return <div className="flex justify-center items-center min-h-screen">
-      <Loader2 className="animate-spin h-8 w-8 text-blue-600" />
-      <span className="ml-2 text-blue-600">Loading company data...</span>
-    </div>;
+    return (
+      <div className="flex justify-center items-center min-h-screen bg-warm-ivory text-charcoal">
+        <Loader2 className="animate-spin h-8 w-8 text-burnt-orange" />
+        <span className="ml-3 font-semibold text-charcoal">Loading company details...</span>
+      </div>
+    );
   }
 
   if (companyError) {
-    return <div className="text-center mt-10 text-red-600">
-      <p>Error loading company data: {companyError}</p>
-      <Button onClick={() => window.location.reload()} variant="outline" className="mt-4">Retry</Button>
-    </div>;
+    return (
+      <div className="text-center pt-24 min-h-screen bg-warm-ivory text-charcoal">
+        <p className="text-terracotta font-semibold">Error loading company data: {companyError}</p>
+        <Button onClick={() => window.location.reload()} variant="outline" className="mt-4 border-burnt-orange text-burnt-orange">
+          Retry
+        </Button>
+      </div>
+    );
   }
 
   return (
-    <motion.div className="bg-white min-h-screen" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+    <div className="bg-warm-ivory min-h-screen text-charcoal flex flex-col justify-between">
       <Navbar />
-      <div className="max-w-xl mx-auto my-10 p-5 bg-gray-50 rounded-lg shadow">
-        <form onSubmit={submitHandler} encType="multipart/form-data">
-          <div className="flex items-center gap-5 mb-6">
-            <Button onClick={() => navigate('/admin/companies')} variant="outline" type="button">
-              <ArrowLeft />
+      <motion.div
+        className="max-w-2xl mx-auto w-full pt-24 pb-16 px-4 sm:px-6 flex-1"
+        initial={{ opacity: 0, y: 15 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+      >
+        <div className="bg-white border border-[--border-subtle] rounded-2xl p-8 sm:p-10 shadow-warm-md">
+          <form onSubmit={submitHandler} encType="multipart/form-data">
+            <div className="flex items-center gap-4 mb-6 pb-4 border-b border-[--border-subtle]">
+              <Button
+                onClick={() => navigate('/admin/companies')}
+                variant="outline"
+                type="button"
+                className="border-burnt-orange/40 text-charcoal hover:bg-warm-ivory-dark rounded-xl h-10 w-10 p-0"
+              >
+                <ArrowLeft className="w-5 h-5" />
+              </Button>
+              <div>
+                <h1 className="text-2xl font-extrabold text-charcoal">Company Setup</h1>
+                <p className="text-xs text-charcoal-muted mt-0.5">Customize your brand presence and public details</p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="sm:col-span-2">
+                <Label className="block text-sm font-semibold text-charcoal mb-1">Company Name</Label>
+                <Input
+                  name="name"
+                  value={input.name}
+                  onChange={changeEventHandler}
+                  required
+                  className="bg-warm-ivory/50 border border-[--border-subtle] rounded-xl text-charcoal focus:border-burnt-orange"
+                />
+              </div>
+
+              <div className="sm:col-span-2">
+                <Label className="block text-sm font-semibold text-charcoal mb-1">Description</Label>
+                <Input
+                  name="description"
+                  value={input.description}
+                  onChange={changeEventHandler}
+                  placeholder="Tell applicants what your company does"
+                  className="bg-warm-ivory/50 border border-[--border-subtle] rounded-xl text-charcoal focus:border-burnt-orange"
+                />
+              </div>
+
+              <div>
+                <Label className="block text-sm font-semibold text-charcoal mb-1">Website URL</Label>
+                <Input
+                  name="website"
+                  value={input.website}
+                  onChange={changeEventHandler}
+                  placeholder="https://example.com"
+                  className="bg-warm-ivory/50 border border-[--border-subtle] rounded-xl text-charcoal focus:border-burnt-orange"
+                />
+              </div>
+
+              <div>
+                <Label className="block text-sm font-semibold text-charcoal mb-1">Location / HQ</Label>
+                <Input
+                  name="location"
+                  value={input.location}
+                  onChange={changeEventHandler}
+                  placeholder="San Francisco, CA or Remote"
+                  className="bg-warm-ivory/50 border border-[--border-subtle] rounded-xl text-charcoal focus:border-burnt-orange"
+                />
+              </div>
+
+              <div className="sm:col-span-2">
+                <Label className="block text-sm font-semibold text-charcoal mb-1">Company Logo</Label>
+                <Input
+                  type="file"
+                  accept="image/*"
+                  onChange={changeFileHandler}
+                  className="bg-warm-ivory/50 border border-[--border-subtle] text-charcoal file:bg-white file:border file:border-[--border-subtle] file:rounded-lg file:px-3 file:py-1 cursor-pointer text-xs"
+                />
+              </div>
+            </div>
+
+            <Button
+              type="submit"
+              className="w-full mt-8 bg-burnt-orange hover:bg-burnt-orange-hover text-white rounded-xl py-3 font-semibold shadow-sm hover:shadow-glow-orange"
+              disabled={loading}
+            >
+              {loading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Updating Profile...
+                </>
+              ) : (
+                'Save & Update Company'
+              )}
             </Button>
-            <h1 className="text-xl font-bold text-blue-600">Company Setup</h1>
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <Label>Company Name</Label>
-              <Input name="name" value={input.name} onChange={changeEventHandler} required />
-            </div>
-            <div>
-              <Label>Description</Label>
-              <Input name="description" value={input.description} onChange={changeEventHandler} />
-            </div>
-            <div>
-              <Label>Website</Label>
-              <Input name="website" value={input.website} onChange={changeEventHandler} />
-            </div>
-            <div>
-              <Label>Location</Label>
-              <Input name="location" value={input.location} onChange={changeEventHandler} />
-            </div>
-            <div>
-              <Label>Logo</Label>
-              <Input type="file" accept="image/*" onChange={changeFileHandler} />
-            </div>
-          </div>
-          <Button type="submit" className="w-full mt-6 bg-blue-500 text-white" disabled={loading}>
-            {loading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Updating...</> : 'Update'}
-          </Button>
-        </form>
-      </div>
+          </form>
+        </div>
+      </motion.div>
       <Footer />
-    </motion.div>
+    </div>
   );
 };
 

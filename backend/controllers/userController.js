@@ -1,8 +1,8 @@
 
 const User = require('../models/user');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const uploadFileToS3 = require('../utils/uploadFileToS3');
+const saveFileLocally = require('../utils/localFileStorage');
 
 // @desc Register new user
 exports.register = async (req, res) => {
@@ -12,6 +12,14 @@ exports.register = async (req, res) => {
     if (!fullname || !email || !phoneNumber || !password || !role) {
       return res.status(400).json({
         message: "All fields are required",
+        success: false,
+      });
+    }
+
+    const normalizedRole = role.toLowerCase().trim();
+    if (!['student', 'recruiter'].includes(normalizedRole)) {
+      return res.status(400).json({
+        message: "Role must be either 'student' or 'recruiter'.",
         success: false,
       });
     }
@@ -26,7 +34,7 @@ exports.register = async (req, res) => {
 
     let imageUrl = null;
     if (req.file) {
-      imageUrl = await uploadFileToS3(req.file.buffer, req.file.originalname, req.file.mimetype);
+      imageUrl = await saveFileLocally(req.file.buffer, req.file.originalname, req.file.mimetype);
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -36,7 +44,7 @@ exports.register = async (req, res) => {
       email,
       phoneNumber,
       password: hashedPassword,
-      role: role.toLowerCase().trim(), // normalize role
+      role: normalizedRole,
       profilePhoto: imageUrl,
     });
 
@@ -49,7 +57,13 @@ exports.register = async (req, res) => {
         email: user.email,
         phoneNumber: user.phoneNumber,
         role: user.role,
-        profilePhoto: user.profilePhoto,
+        profile: {
+          profilePhoto: user.profilePhoto,
+          bio: user.bio,
+          skills: user.skills || [],
+          resume: user.resume,
+          resumeOriginalName: user.resumeOriginalName,
+        }
       },
     });
   } catch (error) {
@@ -120,7 +134,13 @@ exports.login = async (req, res) => {
           email: user.email,
           phoneNumber: user.phoneNumber,
           role: user.role,
-          profilePhoto: user.profilePhoto,
+          profile: {
+            profilePhoto: user.profilePhoto,
+            bio: user.bio,
+            skills: user.skills || [],
+            resume: user.resume,
+            resumeOriginalName: user.resumeOriginalName,
+          }
         },
       });
   } catch (error) {
@@ -167,8 +187,10 @@ exports.updateProfile = async (req, res) => {
     }
 
     let resumeUrl = null;
+    let resumeName = null;
     if (file) {
-      resumeUrl = await uploadFileToS3(file.buffer, file.originalname, file.mimetype);
+      resumeUrl = await saveFileLocally(file.buffer, file.originalname, file.mimetype);
+      resumeName = file.originalname;
     }
 
     await user.update({
@@ -178,6 +200,7 @@ exports.updateProfile = async (req, res) => {
       bio: bio || user.bio,
       skills: skills ? skills.split(',').map(s => s.trim()) : user.skills,
       resume: resumeUrl || user.resume,
+      resumeOriginalName: resumeName || user.resumeOriginalName,
     });
 
     return res.status(200).json({
@@ -189,10 +212,13 @@ exports.updateProfile = async (req, res) => {
         email: user.email,
         phoneNumber: user.phoneNumber,
         role: user.role,
-        profilePhoto: user.profilePhoto,
-        bio: user.bio,
-        skills: user.skills,
-        resume: user.resume,
+        profile: {
+          profilePhoto: user.profilePhoto,
+          bio: user.bio,
+          skills: user.skills || [],
+          resume: user.resume,
+          resumeOriginalName: user.resumeOriginalName,
+        }
       },
     });
   } catch (error) {
@@ -200,6 +226,96 @@ exports.updateProfile = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: error.message || "Server Error",
+    });
+  }
+};
+
+// POST /api/v1/user/savedjob - Toggle saved job
+exports.toggleSavedJob = async (req, res) => {
+  try {
+    // Disable client-side and browser caching for saved jobs
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+
+    const userId = req.id;
+    const { jobId } = req.body;
+
+    if (!jobId) {
+      return res.status(400).json({
+        message: "Job ID is required.",
+        success: false,
+      });
+    }
+
+    const { SavedJob, Job, Company } = require('../models/assosiations');
+
+    const existing = await SavedJob.findOne({ where: { userId, jobId } });
+    let message = "";
+    if (existing) {
+      await existing.destroy();
+      message = "Job removed from saved list.";
+    } else {
+      await SavedJob.create({ userId, jobId });
+      message = "Job saved successfully.";
+    }
+
+    const savedRecords = await SavedJob.findAll({
+      where: { userId },
+      include: [{
+        model: Job,
+        as: 'job',
+        include: [{ model: Company, as: 'company' }]
+      }]
+    });
+
+    const savedJobs = savedRecords.map(record => record.job).filter(Boolean);
+
+    return res.status(200).json({
+      message,
+      savedJobs,
+      success: true,
+    });
+  } catch (error) {
+    console.error("❌ Toggle Saved Job Error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Server Error",
+    });
+  }
+};
+
+// GET /api/v1/user/savedjob - Get saved jobs
+exports.getSavedJobs = async (req, res) => {
+  try {
+    // Disable client-side and browser caching for saved jobs
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+
+    const userId = req.id;
+    const { SavedJob, Job, Company } = require('../models/assosiations');
+
+    const savedRecords = await SavedJob.findAll({
+      where: { userId },
+      include: [{
+        model: Job,
+        as: 'job',
+        include: [{ model: Company, as: 'company' }]
+      }]
+    });
+
+    const savedJobs = savedRecords.map(record => record.job).filter(Boolean);
+
+    return res.status(200).json({
+      savedJobs,
+      success: true,
+    });
+  } catch (error) {
+    console.error("❌ Get Saved Jobs Error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Server Error",
     });
   }
 };

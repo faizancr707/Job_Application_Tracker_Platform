@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -39,8 +40,8 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
 
   const fileChangeHandler = (e) => {
     const file = e.target.files?.[0];
-    if (file && !file.type.startsWith("image/")) {
-      setFileError("Only images are allowed (.jpeg, .png, .webp)");
+    if (file && file.type !== "application/pdf") {
+      setFileError("Only PDF files are allowed (.pdf)");
     } else {
       setFileError("");
     }
@@ -49,6 +50,10 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+    if (fileError) {
+      toast.error(fileError);
+      return;
+    }
     const formData = new FormData();
     formData.append("fullname", input.fullname);
     formData.append("email", input.email);
@@ -91,6 +96,9 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
         <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Update Profile</DialogTitle>
+            <DialogDescription>
+              Update your account details and profile information here. Click submit when you're done.
+            </DialogDescription>
           </DialogHeader>
           <form onSubmit={submitHandler} className="flex flex-col gap-3">
             {/* Name */}
@@ -157,6 +165,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                 id="file"
                 name="file"
                 type="file"
+                accept="application/pdf"
                 onChange={fileChangeHandler}
               />
             </div>

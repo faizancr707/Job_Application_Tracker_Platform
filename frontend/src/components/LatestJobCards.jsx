@@ -11,11 +11,11 @@ const LatestJobCards = ({ job }) => {
   return (
     <motion.div
       onClick={() => navigate(`/description/${job.id}`)}
-      className="bg-gray-900 border border-gray-800 rounded-lg overflow-hidden shadow-lg transition-all duration-300 cursor-pointer"
-      initial={{ opacity: 0, y: 30 }}
+      className="bg-white border border-[--border-subtle] rounded-xl overflow-hidden shadow-warm-sm hover:shadow-warm-md hover:border-burnt-orange/50 transition-all duration-300 cursor-pointer group"
+      initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      whileHover={{ scale: 1.05, boxShadow: '0px 8px 24px rgba(0, 0, 0, 0.1)' }}
-      transition={{ duration: 0.3 }}
+      whileHover={{ y: -4 }}
+      transition={{ duration: 0.25 }}
     >
       <div className="p-6">
         {/* Header with Company Logo */}
@@ -24,39 +24,44 @@ const LatestJobCards = ({ job }) => {
             <img
               src={job?.company?.logo || 'https://via.placeholder.com/50'}
               alt={job?.company?.name || 'Company Logo'}
-              className="w-12 h-12 rounded-full"
+              className="w-12 h-12 rounded-xl object-cover border border-[--border-subtle]"
             />
             <div className="ml-4">
-              <h3 className="text-lg font-semibold text-white">
+              <h3 className="text-lg font-bold text-charcoal group-hover:text-burnt-orange transition-colors">
                 {job?.title || 'Job Title'}
               </h3>
-              <p className="text-gray-400">{job?.company?.name || 'Company Name'}</p>
+              <p className="text-sm text-charcoal-muted font-medium">{job?.company?.name || 'Company Name'}</p>
             </div>
           </div>
-          <Button variant="ghost" size="icon">
-            <BookmarkPlus className="h-5 w-5 text-gray-400" />
+          <Button variant="ghost" size="icon" className="text-charcoal-dim hover:text-burnt-orange hover:bg-warm-ivory-dark">
+            <BookmarkPlus className="h-5 w-5" />
           </Button>
         </div>
 
         {/* Job Details */}
-        <div className="mt-4">
-          <div className="flex items-center text-gray-400 mb-2">
-            <Badge variant="secondary" className="mr-2">
-              {job?.jobType || 'Job Type'}
+        <div className="mt-5">
+          <div className="flex items-center flex-wrap gap-2 mb-3">
+            <Badge variant="secondary" className="bg-warm-ivory-dark text-charcoal border-none font-medium">
+              {job?.jobType || 'Full-time'}
             </Badge>
-            <span className="text-sm">{job?.location || 'Location'}</span>
+            <span className="text-xs font-medium text-charcoal-muted px-2.5 py-0.5 rounded-full bg-warm-ivory border border-[--border-subtle]">
+              📍 {job?.location || 'Remote'}
+            </span>
           </div>
-          <p className="text-gray-300 font-medium">
-            {job?.salary ? `${job.salary} LPA` : 'Not disclosed'}
+
+          <p className="text-burnt-orange font-bold text-base">
+            {job?.salary ? `${job.salary} LPA` : 'Competitive'}
           </p>
 
           {/* Footer with Date and Details Button */}
-          <div className="mt-4 flex items-center justify-between">
-            <span className="text-sm text-gray-400">{job?.position} Positions</span>
+          <div className="mt-4 pt-4 border-t border-[--border-subtle] flex items-center justify-between">
+            <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-lime-green-light text-lime-green-dark border border-lime-green/30">
+              {job?.position || 1} Openings
+            </span>
             <Link to={`/description/${job.id}`}>
-              <Button variant="ghost" size="sm" className="text-blue-500">
+              <Button variant="ghost" size="sm" className="text-burnt-orange hover:text-burnt-orange-hover hover:bg-burnt-orange-light font-semibold">
                 Details
-                <ArrowUpRight className="ml-2 h-4 w-4" />
+                <ArrowUpRight className="ml-1 h-4 w-4" />
               </Button>
             </Link>
           </div>

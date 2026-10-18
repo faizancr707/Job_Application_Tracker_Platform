@@ -21,13 +21,13 @@ const LatestJobs = () => {
   return (
     <div className="max-w-7xl mx-auto my-20 px-4">
       <motion.h1
-        className="text-4xl font-extrabold text-center mb-10 text-transparent bg-clip-text bg-gradient-to-br from-blue-400 via-purple-500 to-blue-600"
+        className="text-4xl font-extrabold text-center mb-10 text-charcoal tracking-tight"
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         aria-label="Latest and Top Job Openings"
       >
-        <span>Latest & Top</span> Job Openings
+        <span className="text-burnt-orange">Latest & Top</span> Job Openings
       </motion.h1>
 
       <motion.div
@@ -39,7 +39,7 @@ const LatestJobs = () => {
         {jobsList.length === 0 ? (
           <motion.span
             key="no-jobs-message"
-            className="text-center text-lg text-gray-500 col-span-full"
+            className="text-center text-lg text-beige-dim col-span-full"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.3 }}

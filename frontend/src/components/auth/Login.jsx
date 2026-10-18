@@ -42,7 +42,7 @@ const Login = () => {
         `${USER_API_END_POINT}/login`,
         {
           ...input,
-          role: input.role.trim().toLowerCase(), // ✅ Normalize role here
+          role: input.role.trim().toLowerCase(),
         },
         {
           headers: {
@@ -71,144 +71,140 @@ const Login = () => {
   }, [user, navigate]);
 
   return (
-    <>
+    <div className="bg-warm-ivory min-h-screen text-charcoal">
       <Navbar />
       <motion.div
-        className="flex justify-center items-center min-h-screen pt-16 bg-gradient-to-r from-[#00040A] to-[#001636]"
+        className="flex justify-center items-center min-h-[calc(100vh-4rem)] pt-20 px-4 pb-12"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: 0.4 }}
       >
         <motion.div
-          className="w-full max-w-md p-8 bg-gray-900 border-gray-700 shadow-lg rounded-lg border"
-          initial={{ y: 50 }}
-          animate={{ y: 0 }}
-          transition={{ type: 'spring', stiffness: 100 }}
+          className="w-full max-w-md p-8 sm:p-10 bg-white border border-[--border-subtle] shadow-warm-lg rounded-2xl"
+          initial={{ y: 25, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.4 }}
         >
-          <motion.h1
-            className="font-bold text-3xl mb-6 text-white text-center"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-          >
-            Sign In
-          </motion.h1>
+          <div className="text-center mb-8">
+            <h1 className="font-extrabold text-3xl text-deep-brown tracking-tight">
+              Welcome Back
+            </h1>
+            <p className="text-sm text-warm-charcoal mt-1.5">
+              Sign in to manage applications and access your AI Career Copilot
+            </p>
+          </div>
 
-          <form onSubmit={submitHandler}>
+          <form onSubmit={submitHandler} className="space-y-5">
             {/* Email */}
-            <motion.div
-              className="mb-4"
-              initial={{ x: -50, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ delay: 0.4 }}
-            >
-              <Label htmlFor="email" className="block text-white text-lg">
-                Email Address <span className="text-red-400">*</span>
+            <div>
+              <Label htmlFor="email" className="block text-sm font-semibold text-dark-charcoal mb-1.5">
+                Email Address <span className="text-burnt-orange">*</span>
               </Label>
               <Input
                 id="email"
                 name="email"
                 type="email"
-                placeholder="john.doe@gmail.com"
-                className="mt-1 p-3 border bg-transparent border-gray-500 rounded-md outline-none focus:border-blue-500 transition-all w-full text-white placeholder-gray-400"
+                placeholder="you@domain.com"
+                className="p-3 bg-warm-ivory/50 border border-[--border-subtle] rounded-xl outline-none focus:border-burnt-orange focus:ring-burnt-orange w-full text-charcoal placeholder:text-charcoal-dim"
                 value={input.email}
                 onChange={changeEventHandler}
               />
-            </motion.div>
+            </div>
 
             {/* Password */}
-            <motion.div
-              className="mb-4"
-              initial={{ x: -50, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ delay: 0.5 }}
-            >
-              <Label htmlFor="password" className="block text-white text-lg">
-                Password <span className="text-red-400">*</span>
+            <div>
+              <Label htmlFor="password" className="block text-sm font-semibold text-dark-charcoal mb-1.5">
+                Password <span className="text-burnt-orange">*</span>
               </Label>
               <Input
                 id="password"
                 name="password"
                 type="password"
-                placeholder="********"
-                className="mt-1 p-3 border bg-transparent border-gray-500 rounded-md outline-none focus:border-blue-500 transition-all w-full text-white placeholder-gray-400"
+                placeholder="••••••••"
+                className="p-3 bg-warm-ivory/50 border border-[--border-subtle] rounded-xl outline-none focus:border-burnt-orange focus:ring-burnt-orange w-full text-charcoal placeholder:text-charcoal-dim"
                 value={input.password}
                 onChange={changeEventHandler}
               />
-            </motion.div>
+            </div>
 
             {/* Role Selection */}
-            <motion.div
-              className="mb-6"
-              initial={{ x: -50, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ delay: 0.6 }}
-            >
-              <Label className="block text-white mb-2 text-lg">
-                I am a: <span className="text-red-400">*</span>
+            <div>
+              <Label className="block text-sm font-semibold text-dark-charcoal mb-2">
+                I am signing in as: <span className="text-burnt-orange">*</span>
               </Label>
-              <div className="flex gap-4">
-                <div className="flex items-center space-x-2">
+              <div className="grid grid-cols-2 gap-3">
+                <label
+                  htmlFor="student"
+                  className={`flex items-center justify-center gap-2 p-3 rounded-xl border cursor-pointer transition text-sm font-medium ${
+                    input.role === 'student'
+                      ? 'border-burnt-orange bg-burnt-orange-light text-burnt-orange font-bold'
+                      : 'border-[--border-subtle] bg-white text-muted-brown hover:bg-warm-ivory/50'
+                  }`}
+                >
                   <input
                     type="radio"
                     name="role"
                     value="student"
                     id="student"
-                    className="cursor-pointer accent-blue-500"
+                    className="accent-burnt-orange"
                     checked={input.role === 'student'}
                     onChange={changeEventHandler}
                   />
-                  <Label htmlFor="student" className="text-white cursor-pointer">
-                    JobSeeker
-                  </Label>
-                </div>
-                <div className="flex items-center space-x-2">
+                  <span>Job Seeker</span>
+                </label>
+
+                <label
+                  htmlFor="recruiter"
+                  className={`flex items-center justify-center gap-2 p-3 rounded-xl border cursor-pointer transition text-sm font-medium ${
+                    input.role === 'recruiter'
+                      ? 'border-burnt-orange bg-burnt-orange-light text-burnt-orange font-bold'
+                      : 'border-[--border-subtle] bg-white text-muted-brown hover:bg-warm-ivory/50'
+                  }`}
+                >
                   <input
                     type="radio"
                     name="role"
                     value="recruiter"
                     id="recruiter"
-                    className="cursor-pointer accent-blue-500"
+                    className="accent-burnt-orange"
                     checked={input.role === 'recruiter'}
                     onChange={changeEventHandler}
                   />
-                  <Label htmlFor="recruiter" className="text-white cursor-pointer">
-                    Recruiter
-                  </Label>
-                </div>
+                  <span>Recruiter</span>
+                </label>
               </div>
-            </motion.div>
+            </div>
 
             {/* Submit Button */}
             {loading ? (
-              <Button className="w-full my-2 bg-blue-600 text-white hover:bg-blue-700">
+              <Button disabled className="w-full py-3 bg-burnt-orange text-white rounded-xl shadow-sm">
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Please wait...
+                Signing In...
               </Button>
             ) : (
               <Button
                 type="submit"
-                className="w-full bg-blue-600 text-white hover:bg-blue-700 transition-all"
+                className="w-full py-3 bg-burnt-orange hover:bg-burnt-orange-hover text-white font-semibold rounded-xl transition-all shadow-sm hover:shadow-glow-orange"
               >
                 Sign In
               </Button>
             )}
 
             {/* Link to Signup */}
-            <p className="mt-4 text-center text-white">
-              Don't have an account?
+            <p className="pt-2 text-center text-sm text-warm-charcoal">
+              Don't have an account?{' '}
               <Link
                 to="/signup"
-                className="text-blue-400 hover:text-blue-300 mx-1 transition-colors"
+                className="text-burnt-orange-link hover:text-deep-brown font-semibold hover:underline ml-1"
               >
-                Sign Up
+                Create one here
               </Link>
             </p>
           </form>
         </motion.div>
       </motion.div>
-    </>
+    </div>
   );
 };
 

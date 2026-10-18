@@ -31,6 +31,21 @@ const User = sequelize.define('User', {
       isIn: [['student', 'recruiter']],
     },
   },
+  profilePhoto: {
+    type: DataTypes.STRING,
+  },
+  bio: {
+    type: DataTypes.TEXT,
+  },
+  skills: {
+    type: DataTypes.JSON,
+  },
+  resume: {
+    type: DataTypes.STRING,
+  },
+  resumeOriginalName: {
+    type: DataTypes.STRING,
+  },
 }, {
   tableName: 'Users',
 });

@@ -14,11 +14,14 @@ import {
 import storage from 'redux-persist/lib/storage';
 import companySlice from "./companySlice";
 import applicationSlice from "./applicationSlice";
+import aiSlice from "./aiSlice";
+import resumeSlice from "./resumeSlice";
 
 const persistConfig = {
     key: 'root',
     version: 1,
     storage,
+    blacklist: ['ai', 'resume'], // Don't persist AI/resume state (can be large)
 };
 
 // Root reducer with reset logic
@@ -27,6 +30,8 @@ const appReducer = combineReducers({
     job: jobSlice,
     company: companySlice,
     application: applicationSlice,
+    ai: aiSlice,
+    resume: resumeSlice,
 });
 
 const rootReducer = (state, action) => {

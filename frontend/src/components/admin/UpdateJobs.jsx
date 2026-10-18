@@ -8,13 +8,12 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 import axios from 'axios';
 import { JOB_API_END_POINT } from '@/utils/constant';
 import { toast } from 'sonner';
-import { Loader2 } from 'lucide-react';
+import { Loader2, ArrowLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Footer from '../shared/Footer';
 
 const UpdateJobs = () => {
     const { id: jobId } = useParams();
-
     const navigate = useNavigate();
     const [input, setInput] = useState({
         title: '',
@@ -29,7 +28,7 @@ const UpdateJobs = () => {
     });
     const [loading, setLoading] = useState(false);
     const [companies, setCompanies] = useState([]);
-    // Fetch job details
+
     useEffect(() => {
         const fetchJobDetails = async () => {
             setLoading(true);
@@ -46,7 +45,6 @@ const UpdateJobs = () => {
         fetchJobDetails();
     }, [jobId]);
 
-
     const changeEventHandler = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value });
     };
@@ -55,14 +53,13 @@ const UpdateJobs = () => {
         setInput({ ...input, companyId: value });
     };
 
-    // Handle form submission for updating job
     const submitHandler = async (e) => {
         e.preventDefault();
         setLoading(true);
         try {
             await axios.put(`${JOB_API_END_POINT}/update`, { ...input, jobId });
             toast.success('Job updated successfully!');
-            navigate('/jobs'); // Redirect to jobs list page
+            navigate('/admin/jobs');
         } catch (error) {
             toast.error('Failed to update the job. Please try again.');
             console.error(error);
@@ -71,13 +68,12 @@ const UpdateJobs = () => {
         }
     };
 
-    // Handle job deletion
     const handleDelete = async () => {
         setLoading(true);
         try {
             await axios.delete(`${JOB_API_END_POINT}/delete`, { data: { jobId } });
             toast.success('Job deleted successfully!');
-            navigate('/jobs'); // Redirect to jobs list page
+            navigate('/admin/jobs');
         } catch (error) {
             toast.error('Failed to delete the job. Please try again.');
             console.error(error);
@@ -87,96 +83,75 @@ const UpdateJobs = () => {
     };
 
     return (
-        <div className="bg-white min-h-screen">
+        <div className="bg-warm-ivory min-h-screen text-charcoal flex flex-col justify-between">
             <Navbar />
             <motion.div
-                className="flex items-center justify-center w-full my-5 pt-10"
-                initial={ { opacity: 0, y: -20 } }
-                animate={ { opacity: 1, y: 0 } }
-                transition={ { duration: 0.6 } }
+                className="flex items-center justify-center w-full pt-24 pb-16 px-4 sm:px-6 flex-1"
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
             >
                 <form
-                    onSubmit={ submitHandler }
-                    className="p-8 max-w-4xl w-full bg-white border border-blue-300 shadow-lg rounded-md"
+                    onSubmit={submitHandler}
+                    className="p-8 sm:p-10 max-w-4xl w-full bg-white border border-[--border-subtle] shadow-warm-md rounded-2xl"
                 >
-                    <motion.div
-                        className="grid grid-cols-1 md:grid-cols-2 gap-4"
-                        initial={ { opacity: 0 } }
-                        animate={ { opacity: 1 } }
-                        transition={ { duration: 0.7 } }
-                    >
-                        {/* Input fields */ }
-                        { Object.entries(input).map(([key, value]) => (
-                            key !== 'companyId' && (
-                                <div key={ key }>
-                                    <Label>
-                                        { key.charAt(0).toUpperCase() + key.slice(1) }{ ' ' }
-                                        <span className="text-red-500">*</span>
+                    <div className="flex items-center gap-4 mb-6 pb-4 border-b border-[--border-subtle]">
+                        <Button
+                            type="button"
+                            variant="outline"
+                            onClick={() => navigate('/admin/jobs')}
+                            className="border-burnt-orange/40 text-charcoal hover:bg-warm-ivory-dark rounded-xl h-10 w-10 p-0"
+                        >
+                            <ArrowLeft className="w-5 h-5" />
+                        </Button>
+                        <div>
+                            <h1 className="text-2xl font-extrabold text-charcoal">Update Job Posting</h1>
+                            <p className="text-xs text-charcoal-muted mt-0.5">Modify role details, compensation, and requirements</p>
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {Object.entries(input).map(([key, value]) => (
+                            key !== 'companyId' && key !== 'id' && key !== 'createdAt' && key !== 'updatedAt' && key !== 'company' && key !== 'applications' && (
+                                <div key={key}>
+                                    <Label className="block text-sm font-semibold text-charcoal mb-1">
+                                        {key.charAt(0).toUpperCase() + key.slice(1)} <span className="text-burnt-orange">*</span>
                                     </Label>
                                     <Input
-                                        type={ typeof value === 'number' ? 'number' : 'text' }
-                                        name={ key }
-                                        value={ value }
-                                        onChange={ changeEventHandler }
-                                        className="my-1 border-blue-300 focus:ring-blue-500 focus:border-blue-500"
+                                        type={typeof value === 'number' ? 'number' : 'text'}
+                                        name={key}
+                                        value={value || ''}
+                                        onChange={changeEventHandler}
+                                        className="bg-warm-ivory/50 border border-[--border-subtle] rounded-xl text-charcoal focus:border-burnt-orange"
                                     />
                                 </div>
                             )
-                        )) }
-                        { companies.length > 0 && (
-                            <div>
-                                <Label>
-                                    Company <span className="text-red-500">*</span>
-                                </Label>
-                                <Select
-                                    onValueChange={ selectChangeHandler }
-                                    defaultValue={ input.companyId || '' }
+                        ))}
+                    </div>
+
+                    <div className="flex flex-col sm:flex-row gap-3 mt-8 pt-4 border-t border-[--border-subtle]">
+                        {loading ? (
+                            <Button disabled className="w-full bg-burnt-orange text-white rounded-xl py-3 shadow-sm">
+                                <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Processing...
+                            </Button>
+                        ) : (
+                            <>
+                                <Button
+                                    type="submit"
+                                    className="flex-1 bg-burnt-orange hover:bg-burnt-orange-hover text-white rounded-xl py-3 font-semibold shadow-sm hover:shadow-glow-orange transition"
                                 >
-                                    <SelectTrigger className="w-full">
-                                        <SelectValue placeholder="Select a Company" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectGroup>
-                                            { companies.map((company) => (
-                                                <SelectItem
-                                                    key={ company._id }
-                                                    value={ company._id }
-                                                >
-                                                    { company.name }
-                                                </SelectItem>
-                                            )) }
-                                        </SelectGroup>
-                                    </SelectContent>
-                                </Select>
-                            </div>
-                        ) }
-                    </motion.div>
-                    { loading ? (
-                        <Button className="w-full my-4 bg-blue-500 text-white">
-                            <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please wait
-                        </Button>
-                    ) : (
-                        <>
-                            <Button
-                                type="submit"
-                                className="w-full my-4 bg-blue-500 hover:bg-blue-600 text-white transition duration-300"
-                            >
-                                Update Job
-                            </Button>
-                            <Button
-                                type="button"
-                                onClick={ handleDelete }
-                                className="w-full my-4 bg-red-500 hover:bg-red-600 text-white transition duration-300"
-                            >
-                                Delete Job
-                            </Button>
-                        </>
-                    ) }
-                    { companies.length === 0 && (
-                        <p className="text-xs text-red-600 font-bold text-center my-3">
-                            *Please register a company first, before updating jobs.
-                        </p>
-                    ) }
+                                    Save Changes
+                                </Button>
+                                <Button
+                                    type="button"
+                                    onClick={handleDelete}
+                                    className="bg-terracotta hover:bg-red-700 text-white rounded-xl py-3 px-6 font-semibold shadow-sm transition"
+                                >
+                                    Delete Job
+                                </Button>
+                            </>
+                        )}
+                    </div>
                 </form>
             </motion.div>
             <Footer />

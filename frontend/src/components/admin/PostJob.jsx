@@ -15,12 +15,10 @@ import {
 import axios from 'axios';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Briefcase } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Footer from '../shared/Footer';
-
-// Define the full backend API endpoint for posting jobs
-export const JOB_API_END_POINT = 'http://localhost:8000/api/v1/job/';
+import { JOB_API_END_POINT } from '@/utils/constant';
 
 const PostJob = () => {
   const [input, setInput] = useState({
@@ -47,7 +45,7 @@ const PostJob = () => {
       (company) => company.name.toLowerCase() === value
     );
     if (selectedCompany) {
-      setInput({ ...input, companyId: selectedCompany.id }); // use `id`, not `_id`
+      setInput({ ...input, companyId: selectedCompany.id });
     }
   };
 
@@ -62,11 +60,9 @@ const PostJob = () => {
       companyId: Number(input.companyId),
     };
 
-    console.log('Submitting Job Payload:', payload);
-
     try {
       setLoading(true);
-      const res = await axios.post(JOB_API_END_POINT, payload, {
+      const res = await axios.post(`${JOB_API_END_POINT}/post`, payload, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -84,112 +80,163 @@ const PostJob = () => {
   };
 
   return (
-    <div className="bg-white min-h-screen">
+    <div className="bg-warm-ivory min-h-screen text-charcoal flex flex-col justify-between">
       <Navbar />
       <motion.div
-        className="flex items-center justify-center w-full my-5 pt-10"
-        initial={{ opacity: 0, y: -20 }}
+        className="flex items-center justify-center w-full pt-24 pb-16 px-4 sm:px-6 flex-1"
+        initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
+        transition={{ duration: 0.4 }}
       >
         <form
           onSubmit={submitHandler}
-          className="p-8 max-w-4xl w-full bg-white border border-blue-300 shadow-lg rounded-md"
+          className="p-8 sm:p-10 max-w-4xl w-full bg-white border border-[--border-subtle] shadow-warm-md rounded-2xl"
         >
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 gap-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.7 }}
-          >
+          <div className="flex items-center gap-3 mb-8 pb-4 border-b border-[--border-subtle]">
+            <div className="p-3 rounded-xl bg-burnt-orange-light border border-burnt-orange/20 text-burnt-orange">
+              <Briefcase className="w-6 h-6" />
+            </div>
             <div>
-              <Label>Title <span className="text-red-500">*</span></Label>
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-charcoal tracking-tight">
+                Post a New Opportunity
+              </h1>
+              <p className="text-sm text-charcoal-muted mt-0.5">
+                Fill in the opening details to attract top talent
+              </p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div>
+              <Label className="block text-sm font-semibold text-charcoal mb-1">
+                Job Title <span className="text-burnt-orange">*</span>
+              </Label>
               <Input
                 type="text"
                 name="title"
+                placeholder="e.g. Senior Frontend Engineer"
                 value={input.title}
                 onChange={changeEventHandler}
+                className="bg-warm-ivory/50 border border-[--border-subtle] rounded-xl text-charcoal focus:border-burnt-orange"
+                required
               />
             </div>
 
             <div>
-              <Label>Description <span className="text-red-500">*</span></Label>
-              <Input
-                type="text"
-                name="description"
-                value={input.description}
-                onChange={changeEventHandler}
-              />
-            </div>
-
-            <div>
-              <Label>Requirements <span className="text-red-500">*</span></Label>
-              <Input
-                type="text"
-                name="requirements"
-                value={input.requirements}
-                onChange={changeEventHandler}
-              />
-            </div>
-
-            <div>
-              <Label>Salary LPA <span className="text-red-500">*</span></Label>
-              <Input
-                type="number"
-                name="salary"
-                value={input.salary}
-                onChange={changeEventHandler}
-              />
-            </div>
-
-            <div>
-              <Label>Location <span className="text-red-500">*</span></Label>
+              <Label className="block text-sm font-semibold text-charcoal mb-1">
+                Location <span className="text-burnt-orange">*</span>
+              </Label>
               <Input
                 type="text"
                 name="location"
+                placeholder="e.g. Bangalore, Remote, New York"
                 value={input.location}
                 onChange={changeEventHandler}
+                className="bg-warm-ivory/50 border border-[--border-subtle] rounded-xl text-charcoal focus:border-burnt-orange"
+                required
+              />
+            </div>
+
+            <div className="md:col-span-2">
+              <Label className="block text-sm font-semibold text-charcoal mb-1">
+                Job Description <span className="text-burnt-orange">*</span>
+              </Label>
+              <Input
+                type="text"
+                name="description"
+                placeholder="Detailed description of responsibilities and day-to-day work"
+                value={input.description}
+                onChange={changeEventHandler}
+                className="bg-warm-ivory/50 border border-[--border-subtle] rounded-xl text-charcoal focus:border-burnt-orange"
+                required
+              />
+            </div>
+
+            <div className="md:col-span-2">
+              <Label className="block text-sm font-semibold text-charcoal mb-1">
+                Requirements <span className="text-burnt-orange">*</span>
+              </Label>
+              <Input
+                type="text"
+                name="requirements"
+                placeholder="Comma separated skills (e.g. React, TypeScript, Node.js)"
+                value={input.requirements}
+                onChange={changeEventHandler}
+                className="bg-warm-ivory/50 border border-[--border-subtle] rounded-xl text-charcoal focus:border-burnt-orange"
+                required
               />
             </div>
 
             <div>
-              <Label>Job Type <span className="text-red-500">*</span></Label>
+              <Label className="block text-sm font-semibold text-charcoal mb-1">
+                Salary (LPA) <span className="text-burnt-orange">*</span>
+              </Label>
+              <Input
+                type="number"
+                name="salary"
+                placeholder="e.g. 15"
+                value={input.salary}
+                onChange={changeEventHandler}
+                className="bg-warm-ivory/50 border border-[--border-subtle] rounded-xl text-charcoal focus:border-burnt-orange"
+                required
+              />
+            </div>
+
+            <div>
+              <Label className="block text-sm font-semibold text-charcoal mb-1">
+                Job Type <span className="text-burnt-orange">*</span>
+              </Label>
               <Input
                 type="text"
                 name="jobType"
+                placeholder="Full-time, Part-time, Contract"
                 value={input.jobType}
                 onChange={changeEventHandler}
+                className="bg-warm-ivory/50 border border-[--border-subtle] rounded-xl text-charcoal focus:border-burnt-orange"
+                required
               />
             </div>
 
             <div>
-              <Label>Experience Level <span className="text-red-500">*</span></Label>
+              <Label className="block text-sm font-semibold text-charcoal mb-1">
+                Experience Level (Years) <span className="text-burnt-orange">*</span>
+              </Label>
               <Input
                 type="number"
                 name="experience"
+                placeholder="e.g. 3"
                 value={input.experience}
                 onChange={changeEventHandler}
+                className="bg-warm-ivory/50 border border-[--border-subtle] rounded-xl text-charcoal focus:border-burnt-orange"
+                required
               />
             </div>
 
             <div>
-              <Label>No of Positions <span className="text-red-500">*</span></Label>
+              <Label className="block text-sm font-semibold text-charcoal mb-1">
+                No. of Openings <span className="text-burnt-orange">*</span>
+              </Label>
               <Input
                 type="number"
                 name="position"
+                placeholder="e.g. 2"
                 value={input.position}
                 onChange={changeEventHandler}
+                className="bg-warm-ivory/50 border border-[--border-subtle] rounded-xl text-charcoal focus:border-burnt-orange"
+                required
               />
             </div>
 
             {companies.length > 0 && (
-              <div>
-                <Label>Company <span className="text-red-500">*</span></Label>
+              <div className="md:col-span-2">
+                <Label className="block text-sm font-semibold text-charcoal mb-1">
+                  Assign to Company <span className="text-burnt-orange">*</span>
+                </Label>
                 <Select onValueChange={selectChangeHandler}>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select a Company" />
+                  <SelectTrigger className="w-full bg-warm-ivory/50 border border-[--border-subtle] rounded-xl text-charcoal">
+                    <SelectValue placeholder="Select a Company Workspace" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-white border border-[--border-subtle] shadow-warm-lg rounded-xl">
                     <SelectGroup>
                       {companies.map((company) => (
                         <SelectItem key={company.id} value={company.name.toLowerCase()}>
@@ -201,24 +248,26 @@ const PostJob = () => {
                 </Select>
               </div>
             )}
-          </motion.div>
+          </div>
 
-          {loading ? (
-            <Button className="w-full my-4 bg-blue-500 text-white">
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please wait
-            </Button>
-          ) : (
-            <Button
-              type="submit"
-              className="w-full my-4 bg-blue-500 hover:bg-blue-600 text-white"
-            >
-              Post New Job
-            </Button>
-          )}
+          <div className="mt-8 pt-4 border-t border-[--border-subtle]">
+            {loading ? (
+              <Button disabled className="w-full py-3 bg-burnt-orange text-white rounded-xl shadow-sm">
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Publishing Opening...
+              </Button>
+            ) : (
+              <Button
+                type="submit"
+                className="w-full py-3 bg-burnt-orange hover:bg-burnt-orange-hover text-white font-semibold rounded-xl shadow-sm hover:shadow-glow-orange transition"
+              >
+                Publish Job Opening
+              </Button>
+            )}
+          </div>
 
           {companies.length === 0 && (
-            <p className="text-xs text-red-600 font-bold text-center my-3">
-              *Please register a company first, before posting jobs.
+            <p className="text-xs text-terracotta font-semibold text-center mt-4">
+              *Please register a company first before creating job listings.
             </p>
           )}
         </form>

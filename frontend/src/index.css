@@ -1,76 +1,398 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ============================================
+   Design Tokens — Burnt Orange, Warm Ivory, Lime Green & Typography System
+   ============================================ */
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* ── Typography Color System (Light Mode) ── */
+    --text-h1-h2: #713000;          /* Deep Brown for H1 and H2 */
+    --text-heading: #29251F;        /* Dark Charcoal for section & card headings */
+    --text-body: #49443C;           /* Warm Charcoal for body & paragraphs */
+    --text-secondary: #71695E;      /* Muted Brown-Gray for secondary text */
+    --text-link: #A84300;           /* Burnt Orange for links */
+    --text-link-hover: #713000;     /* Deep Brown for link hover */
+    --text-button-primary: #FFFFFF; /* White for text on Burnt Orange buttons */
+    --text-success: #356B16;        /* Deep Green for success messages */
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    /* ── Core Color Palette ── */
+    --burnt-orange: #CC5500;
+    --burnt-orange-link: #A84300;
+    --burnt-orange-hover: #B34700;
+    --burnt-orange-light: #FFF0E6;
+    --burnt-orange-dim: #E66914;
+
+    --warm-ivory: #FFF8E7;
+    --warm-ivory-light: #FFFDF7;
+    --warm-ivory-dark: #F5E8CB;
+    --warm-ivory-muted: #EADCB8;
+
+    --lime-green: #A4D65E;
+    --deep-green: #356B16;
+    --lime-green-light: #F2F9E8;
+    --lime-green-dim: #88C23C;
+
+    --deep-brown: #713000;
+    --dark-charcoal: #29251F;
+    --warm-charcoal: #49443C;
+    --muted-brown: #71695E;
+
+    /* ── Derived Surfaces ── */
+    --surface: #FFFFFF;
+    --surface-hover: #FAF4E8;
+    --surface-elevated: #FFFDF9;
+    --surface-muted: #F5EBD7;
+
+    /* ── Derived Borders ── */
+    --border-subtle: #E8DCBE;
+    --border-hover: #D8C7A0;
+
+    /* ── Glows & Shadows ── */
+    --orange-glow: rgba(204, 85, 0, 0.18);
+    --lime-glow: rgba(164, 214, 94, 0.25);
+
+    /* ── ShadCN Token Mapping ── */
+    --background: 42 100% 95%;      /* #FFF8E7 Warm Ivory */
+    --foreground: 36 15% 14%;       /* #29251F Dark Charcoal */
+
+    --card: 0 0% 100%;              /* #FFFFFF */
+    --card-foreground: 36 15% 14%;  /* #29251F */
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 36 15% 14%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 25 100% 40%;         /* #CC5500 Burnt Orange */
+    --primary-foreground: 0 0% 100%;/* #FFFFFF White */
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 42 57% 88%;        /* #F5E8CB Warm Ivory Dark */
+    --secondary-foreground: 36 15% 14%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 42 50% 90%;
+    --muted-foreground: 36 9% 41%;  /* #71695E Muted Brown-Gray */
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 84 57% 60%;           /* #A4D65E Lime Green */
+    --accent-foreground: 98 66% 25%;/* #356B16 Deep Green */
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 6 63% 46%;       /* #C0392B */
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 42 45% 83%;           /* #E8DCBE */
+    --input: 42 45% 83%;
+    --ring: 25 100% 40%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
+
+    /* Semantic Compatibility Tokens */
+    --electric: #CC5500;
+    --night: #FFF8E7;
+    --cyan-neon: #356B16;           /* Deep Green for success */
+    --cloud: #29251F;               /* Dark Charcoal */
+    --beige: #49443C;               /* Warm Charcoal */
+    --terracotta: #C0392B;
+    --night-deep: #F7EED8;
+    --night-lighter: #FFFDF7;
+    --primary-glow: rgba(204, 85, 0, 0.16);
+    --cyan-glow: rgba(164, 214, 94, 0.22);
+    --electric-soft: #E66914;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    /* ── Typography Color System (Dark Mode) ── */
+    --text-h1-h2: #FFF8E7;          /* Warm Ivory for headings */
+    --text-heading: #FFF8E7;        /* Warm Ivory for section/card headings */
+    --text-body: #D6D0C4;           /* Soft Ivory-Gray for paragraphs & body text */
+    --text-secondary: #A8A297;      /* Muted light ivory for secondary text */
+    --text-link: #FF8F3D;           /* Bright Burnt Orange for links */
+    --text-link-hover: #FFF8E7;     /* Warm Ivory hover */
+    --text-button-primary: #FFFFFF; /* White */
+    --text-success: #A4D65E;        /* Lime Green for success messages */
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --background: 213 30% 6%;
+    --foreground: 42 100% 95%;      /* #FFF8E7 Warm Ivory */
+    --card: 212 28% 9%;
+    --card-foreground: 42 100% 95%;
+    --popover: 212 28% 9%;
+    --popover-foreground: 42 100% 95%;
+    --primary: 25 100% 40%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 212 28% 12%;
+    --secondary-foreground: 42 100% 95%;
+    --muted: 212 28% 12%;
+    --muted-foreground: 41 15% 80%; /* #D6D0C4 */
+    --accent: 84 57% 60%;
+    --accent-foreground: 213 30% 6%;
+    --destructive: 6 63% 46%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 210 28% 17%;
+    --input: 210 28% 17%;
+    --ring: 25 100% 40%;
   }
 }
 
+/* ============================================
+   Base Styles & Global Typography Rules
+   ============================================ */
 @layer base {
   * {
     @apply border-border;
   }
-  body {
-    @apply bg-background text-foreground;
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: var(--warm-ivory);
   }
+
+  body {
+    @apply bg-background;
+    font-family: 'Plus Jakarta Sans', 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    background-color: var(--warm-ivory);
+    color: var(--text-body);
+  }
+
+  /* Global Heading Typography */
+  h1, h2 {
+    color: var(--text-h1-h2);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+  }
+
+  h3, h4, h5, h6 {
+    color: var(--text-heading);
+    font-weight: 700;
+  }
+
+  p {
+    color: var(--text-body);
+  }
+
+  /* Global Link Typography */
+  a:not([class*="btn"]):not([class*="Button"]) {
+    color: var(--text-link);
+    transition: color 0.2s ease;
+  }
+  a:not([class*="btn"]):not([class*="Button"]):hover {
+    color: var(--text-link-hover);
+  }
+
+  /* Scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--warm-ivory);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--border-subtle);
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--border-hover);
+  }
+
+  a, button, input, select, textarea {
+    transition: all 0.2s ease;
+  }
+}
+
+/* ============================================
+   Reusable Component Classes
+   ============================================ */
+@layer components {
+  /* Warm Glass cards */
+  .glass-card {
+    background: #FFFFFF;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius);
+    box-shadow: 0 4px 16px -2px rgba(43, 30, 22, 0.05), 0 2px 4px -1px rgba(43, 30, 22, 0.03);
+  }
+
+  .glass-card:hover {
+    border-color: var(--border-hover);
+    box-shadow: 0 8px 24px -4px rgba(43, 30, 22, 0.08), 0 4px 8px -2px rgba(43, 30, 22, 0.04);
+  }
+
+  /* Warm Glass nav */
+  .glass-nav {
+    background: rgba(255, 248, 231, 0.88);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border-subtle);
+    box-shadow: 0 2px 12px -2px rgba(43, 30, 22, 0.04);
+  }
+
+  /* Orange border glow */
+  .neon-border {
+    border: 1px solid rgba(204, 85, 0, 0.35);
+    box-shadow: 0 2px 14px rgba(204, 85, 0, 0.10);
+  }
+  .neon-border:hover {
+    border-color: #CC5500;
+    box-shadow: 0 4px 20px rgba(204, 85, 0, 0.20);
+  }
+
+  .neon-border-cyan, .neon-border-lime {
+    border: 1px solid rgba(164, 214, 94, 0.5);
+    box-shadow: 0 2px 14px rgba(164, 214, 94, 0.15);
+  }
+  .neon-border-cyan:hover, .neon-border-lime:hover {
+    border-color: #A4D65E;
+    box-shadow: 0 4px 22px rgba(164, 214, 94, 0.30);
+  }
+
+  /* Gradient backgrounds for primary buttons */
+  .gradient-primary {
+    background: linear-gradient(135deg, #CC5500 0%, #E66914 100%);
+    color: #FFFFFF !important;
+  }
+  .gradient-primary:hover {
+    background: linear-gradient(135deg, #B34700 0%, #CC5500 100%);
+  }
+
+  .gradient-accent {
+    background: linear-gradient(135deg, #CC5500 0%, #A4D65E 100%);
+    color: #FFFFFF !important;
+  }
+
+  /* Gradient text */
+  .text-gradient {
+    background: linear-gradient(135deg, #713000 0%, #CC5500 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-gradient-warm {
+    background: linear-gradient(135deg, #713000 0%, #CC5500 60%, #356B16 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Status badges */
+  .status-accepted {
+    background: #F2F9E8;
+    color: var(--text-success);
+    border: 1px solid #A4D65E;
+    font-weight: 700;
+  }
+
+  .status-rejected {
+    background: #FDF0ED;
+    color: #C0392B;
+    border: 1px solid #F1A99E;
+    font-weight: 700;
+  }
+
+  .status-pending {
+    background: #FFF0E6;
+    color: #A84300;
+    border: 1px solid #F5C6A5;
+    font-weight: 700;
+  }
+
+  .status-reviewing {
+    background: #FFF8E7;
+    color: #713000;
+    border: 1px solid #E5C37A;
+    font-weight: 700;
+  }
+}
+
+/* ============================================
+   Animations
+   ============================================ */
+@layer utilities {
+  .animate-glow {
+    animation: glowPulse 3s ease-in-out infinite;
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-shimmer {
+    animation: shimmer 2s linear infinite;
+    background: linear-gradient(
+      90deg,
+      #F5E8CB 25%,
+      #FAF4E8 50%,
+      #F5E8CB 75%
+    );
+    background-size: 200% 100%;
+  }
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 16px rgba(204, 85, 0, 0.15);
+  }
+  50% {
+    box-shadow: 0 0 32px rgba(204, 85, 0, 0.28);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* ============================================
+   Prose / Markdown Overrides
+   ============================================ */
+.prose a, .prose-invert a {
+  color: var(--text-link) !important;
+  text-decoration-color: var(--text-link) !important;
+  font-weight: 600;
+}
+.prose a:hover, .prose-invert a:hover {
+  color: var(--text-link-hover) !important;
+}
+.prose h1, .prose h2, .prose-invert h1, .prose-invert h2 {
+  color: var(--text-h1-h2) !important;
+}
+.prose h3, .prose h4, .prose-invert h3, .prose-invert h4 {
+  color: var(--text-heading) !important;
+}
+.prose p, .prose-invert p {
+  color: var(--text-body) !important;
+}
+.prose-invert code, .prose code {
+  color: #713000 !important;
+  background: #FFF0E6 !important;
+  border: 1px solid #F5C6A5;
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+.prose-invert pre, .prose pre {
+  background: #FFFDF7 !important;
+  border: 1px solid #E8DCBE;
+  color: var(--text-heading) !important;
+}
+.prose-invert th, .prose th {
+  border-color: #E8DCBE !important;
+  color: var(--text-heading) !important;
+}
+.prose-invert td, .prose td {
+  border-color: #E8DCBE !important;
+  color: var(--text-body) !important;
 }

@@ -31,7 +31,7 @@ const CategoryCarousel = () => {
     };
 
     return (
-        <div className="w-full max-w-4xl mx-auto my-20 bg">
+        <div className="w-full max-w-4xl mx-auto my-20">
             <Carousel className="w-full">
                 <CarouselContent>
                     {
@@ -48,7 +48,7 @@ const CategoryCarousel = () => {
                                     <Button
                                         onClick={ () => searchJobHandler(cat) }
                                         variant="outline"
-                                        className="rounded-full text-lg font-semibold bg-gradient-to-r from-[#00040A] to-[#001636] text-gray-200 hover:from-[#001636] hover:to-[#6A38C2] hover:text-white transition-all duration-300"
+                                        className="rounded-full text-base font-semibold bg-white border border-[--border-subtle] text-charcoal hover:bg-burnt-orange-light hover:text-burnt-orange hover:border-burnt-orange shadow-warm-sm transition-all duration-300"
                                     >
                                         { cat }
                                     </Button>
@@ -59,8 +59,8 @@ const CategoryCarousel = () => {
                 </CarouselContent>
 
                 {/* Previous and Next buttons */ }
-                <CarouselPrevious className="text-blue-900 hover:text-[#6A38C2]" />
-                <CarouselNext className="text-blue-900 hover:text-[#6A38C2]" />
+                <CarouselPrevious className="border-[--border-subtle] bg-surface text-beige hover:bg-surface-hover hover:text-electric hover:border-electric/40" />
+                <CarouselNext className="border-[--border-subtle] bg-surface text-beige hover:bg-surface-hover hover:text-electric hover:border-electric/40" />
             </Carousel>
         </div>
     );

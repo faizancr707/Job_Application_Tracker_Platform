@@ -74,6 +74,11 @@ const applyJob = async (req, res) => {
  */
 const getAppliedJobs = async (req, res) => {
   try {
+    // Disable client-side and browser caching for applied jobs
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+
     const userId = req.id;
 
     if (!userId) {
@@ -118,7 +123,7 @@ const getAppliedJobs = async (req, res) => {
  */
 const getApplicants = async (req, res) => {
   try {
-    const jobId = req.params.applicationId;
+    const jobId = req.params.id;
 
     if (!jobId) {
       return res.status(400).json({
@@ -136,7 +141,7 @@ const getApplicants = async (req, res) => {
             {
               model: User,
               as: 'applicant',
-              attributes: ['id', 'name', 'email']
+              attributes: ['id', 'fullname', 'email', 'phoneNumber']
             }
           ]
         }
@@ -235,7 +240,7 @@ const getSingleJob = async (req, res) => {
             {
               model: User,
               as: 'applicant',
-              attributes: ['id', 'name', 'email']
+              attributes: ['id', 'fullname', 'email', 'phoneNumber']
             }
           ]
         }

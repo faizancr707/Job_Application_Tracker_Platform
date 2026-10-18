@@ -19,30 +19,37 @@ const Browse = () => {
 
   return (
     <>
-      <div className="bg-gray-900 min-h-screen text-white bg-gradient-to-br from-[#00040A] to-[#001636]">
+      <div className="bg-warm-ivory min-h-screen text-charcoal">
         <Navbar />
-        <div className="max-w-7xl mx-auto pt-16 px-4">
-          <h1 className="font-bold text-xl my-10">
-            Search Results ({allJobs.length})
-          </h1>
+        <div className="max-w-7xl mx-auto pt-20 px-4 sm:px-6 pb-16">
+          <div className="my-8 flex items-baseline justify-between border-b border-[--border-subtle] pb-4">
+            <h1 className="font-extrabold text-2xl sm:text-3xl text-charcoal">
+              Browse Openings
+            </h1>
+            <span className="text-sm font-semibold px-3 py-1 rounded-full bg-burnt-orange-light text-burnt-orange border border-burnt-orange/20">
+              {allJobs.length} {allJobs.length === 1 ? 'Job' : 'Jobs'} Available
+            </span>
+          </div>
 
           {searchedQuery === '' && allJobs.length === 0 ? (
-            <p className="text-lg text-gray-400">
-              No jobs found. Please adjust your search criteria.
-            </p>
+            <div className="text-center py-20 bg-white rounded-2xl border border-[--border-subtle] shadow-warm-sm p-8">
+              <p className="text-lg text-charcoal-muted mb-2">No jobs found matching your criteria.</p>
+              <p className="text-sm text-charcoal-dim">Try clearing your filters or search keywords.</p>
+            </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {allJobs.length > 0 ? (
                 allJobs.map((job) => {
-                  if (!job || !job._id) {
-                    console.warn('⚠️ Skipping job due to missing _id:', job);
-                    return null; // skip rendering if job is malformed
+                  if (!job || !job.id) {
+                    console.warn('⚠️ Skipping job due to missing id:', job);
+                    return null;
                   }
-
-                  return <Job key={job._id} job={job} />;
+                  return <Job key={job.id} job={job} />;
                 })
               ) : (
-                <p>No jobs found.</p>
+                <div className="col-span-full text-center py-16 bg-white rounded-2xl border border-[--border-subtle] p-8">
+                  <p className="text-charcoal-muted">No jobs found.</p>
+                </div>
               )}
             </div>
           )}

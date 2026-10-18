@@ -21,7 +21,7 @@ const Job = ({ job }) => {
         const createdAt = new Date(mongodbTime);
         const currentTime = new Date();
         const timeDifference = currentTime - createdAt;
-        return Math.floor(timeDifference / (1000 * 60 * 60 * 24)); // fixed calculation
+        return Math.floor(timeDifference / (1000 * 60 * 60 * 24));
     };
 
     const handleSaveForLater = async (jobId) => {
@@ -40,70 +40,82 @@ const Job = ({ job }) => {
         }
     };
 
+    const isSaved = savedJobs?.some(savedJob => savedJob.id?.toString() === job?.id?.toString());
+
     return (
         <motion.div
-            className="flex items-stretch gap-4 p-4"
-            whileHover={{ scale: 1.05 }}
+            className="flex items-stretch gap-4 p-2 sm:p-3"
+            whileHover={{ y: -4 }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ type: 'spring', stiffness: 300, damping: 20, duration: 0.9 }}
+            transition={{ duration: 0.3 }}
         >
-            <Card key={job.id} className="bg-gray-900 border-gray-800 w-full p-6 rounded-lg shadow-md">
+            <Card key={job?.id} className="bg-white border border-[--border-subtle] hover:border-burnt-orange/50 w-full p-6 rounded-xl shadow-warm-sm hover:shadow-warm-md transition-all">
                 <div className="flex items-start justify-between">
                     <div className="flex items-center">
-                        <Avatar>
+                        <Avatar className="w-12 h-12 rounded-xl border border-[--border-subtle]">
                             <AvatarImage src={job?.company?.logo} alt={job?.company?.name} />
                         </Avatar>
                         <div className="ml-4">
-                            <h3 className="text-lg font-semibold text-white">{job?.title}</h3>
-                            <p className="text-gray-400">{job?.company?.name}</p>
+                            <h3 className="text-lg font-bold text-dark-charcoal hover:text-burnt-orange transition-colors cursor-pointer" onClick={() => navigate(`/description/${job?.id}`)}>
+                                {job?.title}
+                            </h3>
+                            <p className="text-sm text-muted-brown font-medium">{job?.company?.name}</p>
                         </div>
                     </div>
                     <Button
                         variant="ghost"
                         size="icon"
-                        onClick={() => handleSaveForLater(job.id)}
-                        style={{ zIndex: 999 }}
+                        onClick={() => handleSaveForLater(job?.id)}
+                        className="text-muted-brown hover:text-burnt-orange hover:bg-warm-ivory-dark"
                     >
-                        <BookmarkPlus className="h-5 w-5 text-gray-400" />
+                        <BookmarkPlus className={`h-5 w-5 ${isSaved ? 'text-burnt-orange fill-burnt-orange' : ''}`} />
                     </Button>
                 </div>
 
                 <div className="mt-4">
-                    <div className="flex items-center text-gray-400 mb-2">
-                        <Badge variant="secondary" className="mr-2">{job?.position} Positions</Badge>
-                        <span className="text-sm">{job?.location}</span>
+                    <div className="flex items-center gap-2 mb-2 flex-wrap">
+                        <Badge variant="secondary" className="bg-warm-ivory-dark text-dark-charcoal border-none font-medium">
+                            {job?.position} Positions
+                        </Badge>
+                        <span className="text-xs text-muted-brown px-2.5 py-0.5 rounded-full bg-warm-ivory border border-[--border-subtle]">
+                            📍 {job?.location}
+                        </span>
+                        <span className="text-xs text-muted-brown px-2.5 py-0.5 rounded-full bg-warm-ivory border border-[--border-subtle]">
+                            💼 {job?.jobType || 'Full Time'}
+                        </span>
                     </div>
-                    <p className="text-gray-300 font-medium"> ₹ {job?.salary} LPA</p>
 
-                    <div className="mt-4 flex items-center justify-between">
-                        {
-                            savedJobs?.some(savedJob => savedJob.id?.toString() === job?.id?.toString()) ?
-                                <Button className="bg-green-500 text-white text-xs sm:text-sm py-1 sm:py-2 px-3 sm:px-4">
-                                    Saved Already
-                                </Button> :
-                                <Button
-                                    className="bg-blue-700 text-white text-xs sm:text-sm py-1 sm:py-2 px-3 sm:px-4"
-                                    onClick={() => handleSaveForLater(job.id)}
-                                >
-                                    Save For Later
-                                </Button>
-                        }
+                    <p className="text-burnt-orange font-bold text-lg mt-3">₹ {job?.salary} LPA</p>
 
-                        <span className="text-xs sm:text-sm text-gray-400">
+                    <div className="mt-5 pt-4 border-t border-[--border-subtle] flex items-center justify-between gap-2">
+                        {isSaved ? (
+                            <Button className="bg-lime-green text-charcoal font-semibold hover:bg-lime-green-dim text-xs sm:text-sm py-1.5 px-3.5 shadow-sm">
+                                ✓ Saved
+                            </Button>
+                        ) : (
+                            <Button
+                                className="bg-burnt-orange hover:bg-burnt-orange-hover text-white font-medium text-xs sm:text-sm py-1.5 px-3.5 shadow-sm"
+                                onClick={() => handleSaveForLater(job?.id)}
+                            >
+                                Save For Later
+                            </Button>
+                        )}
+
+                        <span className="text-xs text-muted-brown">
                             {daysAgoFunction(job?.createdAt) === 0
                                 ? 'Today'
-                                : `${daysAgoFunction(job?.createdAt)} days ago`}
+                                : `${daysAgoFunction(job?.createdAt)}d ago`}
                         </span>
 
                         <Button
-                            className="text-blue-400 text-xs sm:text-sm py-1 sm:py-2 px-3 sm:px-4"
+                            className="text-burnt-orange-link hover:text-deep-brown hover:bg-burnt-orange-light text-xs sm:text-sm font-semibold py-1.5 px-3"
                             variant="ghost"
                             size="sm"
                             onClick={() => navigate(`/description/${job?.id}`)}
                         >
                             Details
-                            <ArrowUpRight className="ml-2 h-4 w-4" />
+                            <ArrowUpRight className="ml-1.5 h-4 w-4" />
                         </Button>
                     </div>
                 </div>

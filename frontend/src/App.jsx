@@ -15,6 +15,18 @@ import PostJob from './components/admin/PostJob'
 import Applicants from './components/admin/Applicants'
 import ProtectedRoute from './components/admin/ProtectedRoute'
 import UpdateJobs from './components/admin/UpdateJobs'
+import CompaniesPage from './components/companies/CompaniesPage'
+import CareersPage from './components/careers/CareersPage'
+import ContactPage from './components/contact/ContactPage'
+
+// AI Pages
+import CopilotChat from './components/ai/CopilotChat'
+import ResumeAnalysis from './components/ai/ResumeAnalysis'
+import InterviewPrep from './components/ai/InterviewPrep'
+import SemanticSearch from './components/ai/SemanticSearch'
+import SkillGapAnalysis from './components/ai/SkillGapAnalysis'
+import DashboardInsights from './components/ai/DashboardInsights'
+
 import './App.css'
 
 const appRouter = createBrowserRouter([
@@ -75,6 +87,43 @@ const appRouter = createBrowserRouter([
   {
     path: '/admin/jobs/:id/update',
     element: <ProtectedRoute><UpdateJobs /></ProtectedRoute>
+  },
+  {
+    path: '/companies',
+    element: <CompaniesPage />
+  },
+  {
+    path: '/careers',
+    element: <CareersPage />
+  },
+  {
+    path: '/contact',
+    element: <ContactPage />
+  },
+  // AI Routes
+  {
+    path: '/ai/copilot',
+    element: <CopilotChat />
+  },
+  {
+    path: '/ai/resumes',
+    element: <ResumeAnalysis />
+  },
+  {
+    path: '/ai/interviews',
+    element: <InterviewPrep />
+  },
+  {
+    path: '/ai/search',
+    element: <SemanticSearch />
+  },
+  {
+    path: '/ai/skill-gap',
+    element: <SkillGapAnalysis />
+  },
+  {
+    path: '/ai/dashboard',
+    element: <DashboardInsights />
   }
 ]);
 

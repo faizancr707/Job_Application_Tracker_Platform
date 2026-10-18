@@ -13,7 +13,7 @@ const filterData = [
         array: ["Frontend Developer", "Backend Developer", "FullStack Developer"],
     },
     {
-        filterType: "Salary",
+        filterType: "Skills",
         array: ["React.js", "Java", "DevOps", "Swift", "Flutter", "AWS"]
     },
 ];
@@ -22,17 +22,14 @@ const FilterCard = () => {
     const [selectedFilters, setSelectedFilters] = useState({
         Location: [],
         Industry: [],
-        Salary: []
+        Skills: []
     });
 
     const dispatch = useDispatch();
 
-    // Handle selection of filters, toggle on and off
     const handleFilterChange = (filterType, value) => {
         setSelectedFilters((prevFilters) => {
-            const currentSelections = prevFilters[filterType];
-
-            // If the value is already selected, remove it; otherwise, add it
+            const currentSelections = prevFilters[filterType] || [];
             const newSelections = currentSelections.includes(value)
                 ? currentSelections.filter((item) => item !== value)
                 : [...currentSelections, value];
@@ -44,47 +41,74 @@ const FilterCard = () => {
         });
     };
 
-    // Create a combined search query from the selected filters
     useEffect(() => {
-        // Convert arrays to strings for the search query
         const searchQuery = Object.values(selectedFilters)
-            .flat() // flatten arrays into a single array
-            .join(' ') // join all selections into a string
-            .trim(); // remove trailing spaces
+            .flat()
+            .join(' ')
+            .trim();
         dispatch(setSearchedQuery(searchQuery));
     }, [selectedFilters, dispatch]);
 
+    const clearFilters = () => {
+        setSelectedFilters({
+            Location: [],
+            Industry: [],
+            Skills: []
+        });
+    };
+
+    const hasActiveFilters = Object.values(selectedFilters).some(arr => arr.length > 0);
+
     return (
         <motion.div
-            className="w-full bg-transparent p-5 rounded-md shadow-md sm:w-11/12 md:w-3/4 lg:w-1/2 xl:w-1/3" // Ensuring responsiveness with Tailwind
-            initial={ { opacity: 0 } }
-            animate={ { opacity: 1 } }
-            transition={ { duration: 0.5 } }
+            className="w-full bg-white border border-[--border-subtle] p-5 rounded-xl shadow-warm-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4 }}
         >
-            <h1 className="font-bold text-lg text-blue-700">Filter Jobs</h1>
-            <hr className="mt-3" />
-            { filterData.map((data, index) => (
-                <div key={ index } className="mt-3">
-                    <h1 className="font-bold text-md text-blue-600">{ data.filterType }</h1>
-                    { data.array.map((item, idx) => {
+            <div className="flex items-center justify-between">
+                <h1 className="font-bold text-lg text-charcoal">Filter Jobs</h1>
+                {hasActiveFilters && (
+                    <button
+                        onClick={clearFilters}
+                        className="text-xs text-burnt-orange hover:underline font-semibold"
+                    >
+                        Reset
+                    </button>
+                )}
+            </div>
+            <hr className="mt-3 mb-4 border-[--border-subtle]" />
+            {filterData.map((data, index) => (
+                <div key={index} className="mt-4">
+                    <h2 className="font-bold text-xs uppercase tracking-wider text-burnt-orange mb-2.5">
+                        {data.filterType}
+                    </h2>
+                    {data.array.map((item, idx) => {
                         const itemId = `id${index}-${idx}`;
-                        const isChecked = selectedFilters[data.filterType].includes(item);
+                        const isChecked = (selectedFilters[data.filterType] || []).includes(item);
 
                         return (
-                            <div key={ itemId } className="flex items-center space-x-2 my-2">
+                            <div key={itemId} className="flex items-center space-x-2.5 my-2">
                                 <input
                                     type="checkbox"
-                                    id={ itemId }
-                                    checked={ isChecked }
-                                    onChange={ () => handleFilterChange(data.filterType, item) }
-                                    className="text-blue-600"
+                                    id={itemId}
+                                    checked={isChecked}
+                                    onChange={() => handleFilterChange(data.filterType, item)}
+                                    className="h-4 w-4 rounded cursor-pointer border-[--border-subtle] text-burnt-orange accent-burnt-orange focus:ring-burnt-orange"
                                 />
-                                <label htmlFor={ itemId } className="text-blue-600">{ item }</label>
+                                <label
+                                    htmlFor={itemId}
+                                    className={`text-sm cursor-pointer transition-colors select-none ${
+                                        isChecked ? 'text-charcoal font-semibold' : 'text-charcoal-muted hover:text-charcoal'
+                                    }`}
+                                >
+                                    {item}
+                                </label>
                             </div>
                         );
-                    }) }
+                    })}
                 </div>
-            )) }
+            ))}
         </motion.div>
     );
 };
