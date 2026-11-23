@@ -11,20 +11,20 @@ const AppliedJobTable = () => {
         switch (s) {
             case 'accepted':
                 return (
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-lime-green-light text-deep-green border border-lime-green/40">
+                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-lime-green-light text-deep-green border border-lime-green/40 shadow-neu-flat">
                         ✓ Accepted
                     </span>
                 );
             case 'rejected':
                 return (
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-red-50 text-terracotta border border-red-200">
+                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-neu-base text-terracotta border border-terracotta/30 shadow-neu-flat">
                         ✕ Rejected
                     </span>
                 );
             case 'pending':
             default:
                 return (
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-burnt-orange-light text-burnt-orange border border-burnt-orange/30">
+                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-neu-base text-burnt-orange border border-burnt-orange/30 shadow-neu-flat">
                         ⏳ Pending
                     </span>
                 );
@@ -37,14 +37,14 @@ const AppliedJobTable = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
         >
-            <div className="overflow-x-auto border border-[--border-subtle] rounded-xl">
-                <Table className="table-auto w-full bg-white text-dark-charcoal">
+            <div className="overflow-x-auto border border-white/20 rounded-neu shadow-neu-flat">
+                <Table className="table-auto w-full bg-neu-base text-charcoal">
                     <TableHeader>
-                        <TableRow className="bg-warm-ivory-dark/70 hover:bg-warm-ivory-dark/70">
-                            <TableCell className="border-b border-[--border-subtle] px-4 py-3.5 font-bold text-dark-charcoal text-xs uppercase tracking-wider">Job Title</TableCell>
-                            <TableCell className="border-b border-[--border-subtle] px-4 py-3.5 font-bold text-dark-charcoal text-xs uppercase tracking-wider">Company</TableCell>
-                            <TableCell className="border-b border-[--border-subtle] px-4 py-3.5 font-bold text-dark-charcoal text-xs uppercase tracking-wider">Applied Date</TableCell>
-                            <TableCell className="border-b border-[--border-subtle] px-4 py-3.5 font-bold text-dark-charcoal text-xs uppercase tracking-wider">Status</TableCell>
+                        <TableRow className="bg-neu-base-dark/60 hover:bg-neu-base-dark/60">
+                            <TableCell className="border-b border-white/20 px-4 py-3.5 font-bold text-charcoal text-xs uppercase tracking-wider">Job Title</TableCell>
+                            <TableCell className="border-b border-white/20 px-4 py-3.5 font-bold text-charcoal text-xs uppercase tracking-wider">Company</TableCell>
+                            <TableCell className="border-b border-white/20 px-4 py-3.5 font-bold text-charcoal text-xs uppercase tracking-wider">Applied Date</TableCell>
+                            <TableCell className="border-b border-white/20 px-4 py-3.5 font-bold text-charcoal text-xs uppercase tracking-wider">Status</TableCell>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -52,18 +52,18 @@ const AppliedJobTable = () => {
                             allAppliedJobs.map((appliedJob, index) => (
                                 <motion.tr
                                     key={appliedJob.id || index}
-                                    className="hover:bg-warm-ivory/40 transition-colors border-b border-[--border-subtle] last:border-b-0"
+                                    className="hover:bg-neu-base-dark/40 transition-colors border-b border-white/15 last:border-b-0"
                                     initial={{ opacity: 0, y: 10 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 0.2, delay: index * 0.05 }}
                                 >
-                                    <TableCell className="px-4 py-3.5 font-semibold text-dark-charcoal">
+                                    <TableCell className="px-4 py-3.5 font-semibold text-charcoal">
                                         {appliedJob?.job?.title || 'Unknown Title'}
                                     </TableCell>
-                                    <TableCell className="px-4 py-3.5 text-warm-charcoal">
+                                    <TableCell className="px-4 py-3.5 text-charcoal-muted">
                                         {appliedJob?.job?.company?.name || 'Company'}
                                     </TableCell>
-                                    <TableCell className="px-4 py-3.5 text-muted-brown text-sm">
+                                    <TableCell className="px-4 py-3.5 text-charcoal-dim text-sm">
                                         {appliedJob?.createdAt ? new Date(appliedJob.createdAt).toLocaleDateString() : 'N/A'}
                                     </TableCell>
                                     <TableCell className="px-4 py-3.5">
@@ -73,7 +73,7 @@ const AppliedJobTable = () => {
                             ))
                         ) : (
                             <tr>
-                                <td colSpan="4" className="text-center py-8 text-muted-brown text-sm">
+                                <td colSpan="4" className="text-center py-8 text-charcoal-dim text-sm">
                                     No applications submitted yet.
                                 </td>
                             </tr>

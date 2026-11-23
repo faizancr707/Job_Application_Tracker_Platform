@@ -80,18 +80,18 @@ const CompanySetup = () => {
 
   if (companyLoading) {
     return (
-      <div className="flex justify-center items-center min-h-screen bg-warm-ivory text-charcoal">
+      <div className="flex justify-center items-center min-h-screen bg-neu-base text-charcoal">
         <Loader2 className="animate-spin h-8 w-8 text-burnt-orange" />
-        <span className="ml-3 font-semibold text-charcoal">Loading company details...</span>
+        <span className="ml-3 font-bold text-charcoal">Loading company details...</span>
       </div>
     );
   }
 
   if (companyError) {
     return (
-      <div className="text-center pt-24 min-h-screen bg-warm-ivory text-charcoal">
-        <p className="text-terracotta font-semibold">Error loading company data: {companyError}</p>
-        <Button onClick={() => window.location.reload()} variant="outline" className="mt-4 border-burnt-orange text-burnt-orange">
+      <div className="text-center pt-24 min-h-screen bg-neu-base text-charcoal">
+        <p className="text-terracotta font-bold">Error loading company data: {companyError}</p>
+        <Button onClick={() => window.location.reload()} variant="outline" className="mt-4 shadow-neu-btn text-burnt-orange">
           Retry
         </Button>
       </div>
@@ -99,7 +99,7 @@ const CompanySetup = () => {
   }
 
   return (
-    <div className="bg-warm-ivory min-h-screen text-charcoal flex flex-col justify-between">
+    <div className="bg-neu-base min-h-screen text-charcoal flex flex-col justify-between">
       <Navbar />
       <motion.div
         className="max-w-2xl mx-auto w-full pt-24 pb-16 px-4 sm:px-6 flex-1"
@@ -107,82 +107,82 @@ const CompanySetup = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
       >
-        <div className="bg-white border border-[--border-subtle] rounded-2xl p-8 sm:p-10 shadow-warm-md">
+        <div className="bg-neu-base border border-white/30 rounded-neu-lg p-8 sm:p-10 shadow-neu-raised-lg">
           <form onSubmit={submitHandler} encType="multipart/form-data">
-            <div className="flex items-center gap-4 mb-6 pb-4 border-b border-[--border-subtle]">
+            <div className="flex items-center gap-4 mb-6 pb-4 border-b border-white/20">
               <Button
                 onClick={() => navigate('/admin/companies')}
                 variant="outline"
                 type="button"
-                className="border-burnt-orange/40 text-charcoal hover:bg-warm-ivory-dark rounded-xl h-10 w-10 p-0"
+                className="shadow-neu-btn hover:shadow-neu-raised-xs text-charcoal rounded-xl h-10 w-10 p-0"
               >
                 <ArrowLeft className="w-5 h-5" />
               </Button>
               <div>
-                <h1 className="text-2xl font-extrabold text-charcoal">Company Setup</h1>
+                <h1 className="text-2xl font-extrabold text-charcoal tracking-tight">Company Setup</h1>
                 <p className="text-xs text-charcoal-muted mt-0.5">Customize your brand presence and public details</p>
               </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="sm:col-span-2">
-                <Label className="block text-sm font-semibold text-charcoal mb-1">Company Name</Label>
+                <Label className="block text-xs font-bold uppercase tracking-wider text-charcoal mb-1.5">Company Name</Label>
                 <Input
                   name="name"
                   value={input.name}
                   onChange={changeEventHandler}
                   required
-                  className="bg-warm-ivory/50 border border-[--border-subtle] rounded-xl text-charcoal focus:border-burnt-orange"
+                  className="bg-gradient-to-br from-neu-base-dark to-neu-base-light shadow-neu-inset-sm border border-white/10"
                 />
               </div>
 
               <div className="sm:col-span-2">
-                <Label className="block text-sm font-semibold text-charcoal mb-1">Description</Label>
+                <Label className="block text-xs font-bold uppercase tracking-wider text-charcoal mb-1.5">Description</Label>
                 <Input
                   name="description"
                   value={input.description}
                   onChange={changeEventHandler}
                   placeholder="Tell applicants what your company does"
-                  className="bg-warm-ivory/50 border border-[--border-subtle] rounded-xl text-charcoal focus:border-burnt-orange"
+                  className="bg-gradient-to-br from-neu-base-dark to-neu-base-light shadow-neu-inset-sm border border-white/10"
                 />
               </div>
 
               <div>
-                <Label className="block text-sm font-semibold text-charcoal mb-1">Website URL</Label>
+                <Label className="block text-xs font-bold uppercase tracking-wider text-charcoal mb-1.5">Website URL</Label>
                 <Input
                   name="website"
                   value={input.website}
                   onChange={changeEventHandler}
                   placeholder="https://example.com"
-                  className="bg-warm-ivory/50 border border-[--border-subtle] rounded-xl text-charcoal focus:border-burnt-orange"
+                  className="bg-gradient-to-br from-neu-base-dark to-neu-base-light shadow-neu-inset-sm border border-white/10"
                 />
               </div>
 
               <div>
-                <Label className="block text-sm font-semibold text-charcoal mb-1">Location / HQ</Label>
+                <Label className="block text-xs font-bold uppercase tracking-wider text-charcoal mb-1.5">Location / HQ</Label>
                 <Input
                   name="location"
                   value={input.location}
                   onChange={changeEventHandler}
                   placeholder="San Francisco, CA or Remote"
-                  className="bg-warm-ivory/50 border border-[--border-subtle] rounded-xl text-charcoal focus:border-burnt-orange"
+                  className="bg-gradient-to-br from-neu-base-dark to-neu-base-light shadow-neu-inset-sm border border-white/10"
                 />
               </div>
 
               <div className="sm:col-span-2">
-                <Label className="block text-sm font-semibold text-charcoal mb-1">Company Logo</Label>
+                <Label className="block text-xs font-bold uppercase tracking-wider text-charcoal mb-1.5">Company Logo</Label>
                 <Input
                   type="file"
                   accept="image/*"
                   onChange={changeFileHandler}
-                  className="bg-warm-ivory/50 border border-[--border-subtle] text-charcoal file:bg-white file:border file:border-[--border-subtle] file:rounded-lg file:px-3 file:py-1 cursor-pointer text-xs"
+                  className="bg-gradient-to-br from-neu-base-dark to-neu-base-light shadow-neu-inset-sm border border-white/10 cursor-pointer text-xs"
                 />
               </div>
             </div>
 
             <Button
               type="submit"
-              className="w-full mt-8 bg-burnt-orange hover:bg-burnt-orange-hover text-white rounded-xl py-3 font-semibold shadow-sm hover:shadow-glow-orange"
+              className="w-full mt-8 bg-gradient-to-br from-burnt-orange-dim to-burnt-orange hover:from-burnt-orange hover:to-burnt-orange-hover text-white rounded-neu py-3.5 font-bold shadow-neu-btn hover:shadow-glow-orange"
               disabled={loading}
             >
               {loading ? (

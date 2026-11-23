@@ -34,14 +34,14 @@ const Jobs = () => {
     }, [allJobs, searchedQuery]);
 
     return (
-        <div className="bg-warm-ivory min-h-screen text-charcoal">
+        <div className="bg-neu-base min-h-screen text-charcoal">
             <Navbar />
             <div className="max-w-7xl mx-auto pt-20 min-h-[calc(100vh-5rem)]">
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 px-4 sm:px-6 py-8">
                     <div className="lg:hidden w-full">
                         <button
                             onClick={() => setShowFilters(!showFilters)}
-                            className="w-full bg-burnt-orange hover:bg-burnt-orange-hover text-white py-2.5 px-4 rounded-xl mb-4 transition-colors font-semibold shadow-sm"
+                            className="w-full bg-gradient-to-br from-burnt-orange-dim to-burnt-orange hover:from-burnt-orange hover:to-burnt-orange-hover text-white py-3 px-4 rounded-neu mb-4 font-bold shadow-neu-btn active:shadow-neu-btn-active"
                         >
                             {showFilters ? 'Hide Filters' : 'Filter Openings'}
                         </button>
@@ -73,7 +73,7 @@ const Jobs = () => {
                                     </motion.div>
                                 ))
                             ) : (
-                                <div className="text-center py-16 bg-white rounded-2xl border border-[--border-subtle] p-8 shadow-warm-sm">
+                                <div className="text-center py-16 bg-neu-base rounded-neu border border-white/25 p-8 shadow-neu-raised">
                                     <p className="text-burnt-orange font-bold text-lg mb-1">No matching jobs found</p>
                                     <p className="text-sm text-charcoal-muted">Try adjusting your filter options or search terms.</p>
                                 </div>

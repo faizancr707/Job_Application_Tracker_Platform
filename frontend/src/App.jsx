@@ -14,6 +14,7 @@ import AdminJobs from "./components/admin/AdminJobs"
 import PostJob from './components/admin/PostJob'
 import Applicants from './components/admin/Applicants'
 import ProtectedRoute from './components/admin/ProtectedRoute'
+import UserProtectedRoute from './components/shared/UserProtectedRoute'
 import UpdateJobs from './components/admin/UpdateJobs'
 import CompaniesPage from './components/companies/CompaniesPage'
 import CareersPage from './components/careers/CareersPage'
@@ -26,6 +27,7 @@ import InterviewPrep from './components/ai/InterviewPrep'
 import SemanticSearch from './components/ai/SemanticSearch'
 import SkillGapAnalysis from './components/ai/SkillGapAnalysis'
 import DashboardInsights from './components/ai/DashboardInsights'
+import JobApplicationTracker from './components/tracker/JobApplicationTracker'
 
 import './App.css'
 
@@ -56,7 +58,7 @@ const appRouter = createBrowserRouter([
   },
   {
     path: '/profile',
-    element: <Profile />
+    element: <UserProtectedRoute><Profile /></UserProtectedRoute>
   },
   {
     path: '/admin/companies',
@@ -81,9 +83,7 @@ const appRouter = createBrowserRouter([
   {
     path: '/admin/jobs/:id/applicants',
     element: <ProtectedRoute><Applicants /></ProtectedRoute>
-
   },
-  
   {
     path: '/admin/jobs/:id/update',
     element: <ProtectedRoute><UpdateJobs /></ProtectedRoute>
@@ -103,27 +103,35 @@ const appRouter = createBrowserRouter([
   // AI Routes
   {
     path: '/ai/copilot',
-    element: <CopilotChat />
+    element: <UserProtectedRoute><CopilotChat /></UserProtectedRoute>
   },
   {
     path: '/ai/resumes',
-    element: <ResumeAnalysis />
+    element: <UserProtectedRoute><ResumeAnalysis /></UserProtectedRoute>
   },
   {
     path: '/ai/interviews',
-    element: <InterviewPrep />
+    element: <UserProtectedRoute><InterviewPrep /></UserProtectedRoute>
   },
   {
     path: '/ai/search',
-    element: <SemanticSearch />
+    element: <UserProtectedRoute><SemanticSearch /></UserProtectedRoute>
   },
   {
     path: '/ai/skill-gap',
-    element: <SkillGapAnalysis />
+    element: <UserProtectedRoute><SkillGapAnalysis /></UserProtectedRoute>
   },
   {
     path: '/ai/dashboard',
-    element: <DashboardInsights />
+    element: <UserProtectedRoute><JobApplicationTracker /></UserProtectedRoute>
+  },
+  {
+    path: '/tracker',
+    element: <UserProtectedRoute><JobApplicationTracker /></UserProtectedRoute>
+  },
+  {
+    path: '/applications',
+    element: <UserProtectedRoute><JobApplicationTracker /></UserProtectedRoute>
   }
 ]);
 

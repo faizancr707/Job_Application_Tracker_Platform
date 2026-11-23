@@ -9,7 +9,6 @@ import useGetAllJobs from '@/hooks/useGetAllJobs';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-
 const Home = () => {
   useGetAllJobs();
   const { user } = useSelector(store => store.auth);
@@ -23,22 +22,21 @@ const Home = () => {
 
   return (
     <motion.div
-      className="bg-night min-h-screen"
-      initial={ { opacity: 0 } }
-      animate={ { opacity: 1 } }
-      transition={ { duration: 0.5 } }
+      className="bg-neu-base min-h-screen"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
     >
-      {/* Fixed navbar */ }
+      {/* Fixed navbar */}
       <Navbar />
 
-      {/* Main content with padding to avoid overlap */ }
-      <div className="pt-16 bg-gradient-to-br from-night to-night-lighter">
+      {/* Main content with padding to avoid overlap */}
+      <div className="pt-16 bg-gradient-to-b from-neu-base via-neu-base-light to-neu-base">
         <HeroSection />
         <CategoryCarousel />
         <LatestJobs />
         <Footer />
       </div>
-      
     </motion.div>
   );
 };

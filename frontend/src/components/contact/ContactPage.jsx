@@ -6,7 +6,7 @@ import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { Textarea } from '../ui/textarea';
 import { Label } from '../ui/label';
-import { Mail, Phone, MapPin, Send, MessageSquare, ShieldCheck, Heart } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, ShieldCheck } from 'lucide-react';
 import { toast } from 'sonner';
 
 const ContactPage = () => {
@@ -37,10 +37,10 @@ const ContactPage = () => {
   };
 
   return (
-    <div className="bg-warm-ivory min-h-screen text-charcoal">
+    <div className="bg-neu-base min-h-screen text-charcoal">
       <Navbar />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-20">
         {/* Header Section */}
         <motion.div
           className="text-center mb-14"
@@ -48,7 +48,7 @@ const ContactPage = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <span className="inline-block px-4 py-1.5 rounded-full bg-burnt-orange-light text-burnt-orange text-xs font-bold uppercase tracking-wider mb-4 border border-burnt-orange/20">
+          <span className="inline-block px-4 py-1.5 rounded-full bg-neu-base text-burnt-orange text-xs font-bold uppercase tracking-wider mb-4 border border-white/40 shadow-neu-raised-xs">
             Support & Partnerships
           </span>
           <h1 className="text-4xl sm:text-5xl font-extrabold text-charcoal mb-4 tracking-tight">
@@ -67,12 +67,12 @@ const ContactPage = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.1, duration: 0.5 }}
           >
-            <div className="bg-white border border-[--border-subtle] rounded-2xl p-8 shadow-warm-sm">
-              <h2 className="text-xl font-bold text-charcoal mb-6">Contact Channels</h2>
+            <div className="bg-neu-base border border-white/30 rounded-neu p-8 shadow-neu-raised-md">
+              <h2 className="text-xl font-bold text-charcoal mb-6 tracking-tight">Contact Channels</h2>
               
               <div className="space-y-6">
                 <div className="flex items-start space-x-4">
-                  <div className="p-3 bg-burnt-orange-light text-burnt-orange rounded-xl mt-1">
+                  <div className="p-3 bg-neu-base text-burnt-orange rounded-2xl shadow-neu-flat border border-white/20 mt-1">
                     <Mail className="h-5 w-5" />
                   </div>
                   <div>
@@ -83,7 +83,7 @@ const ContactPage = () => {
                 </div>
 
                 <div className="flex items-start space-x-4">
-                  <div className="p-3 bg-burnt-orange-light text-burnt-orange rounded-xl mt-1">
+                  <div className="p-3 bg-neu-base text-burnt-orange rounded-2xl shadow-neu-flat border border-white/20 mt-1">
                     <Phone className="h-5 w-5" />
                   </div>
                   <div>
@@ -94,7 +94,7 @@ const ContactPage = () => {
                 </div>
 
                 <div className="flex items-start space-x-4">
-                  <div className="p-3 bg-burnt-orange-light text-burnt-orange rounded-xl mt-1">
+                  <div className="p-3 bg-neu-base text-burnt-orange rounded-2xl shadow-neu-flat border border-white/20 mt-1">
                     <MapPin className="h-5 w-5" />
                   </div>
                   <div>
@@ -106,8 +106,8 @@ const ContactPage = () => {
               </div>
             </div>
 
-            <div className="bg-white border border-[--border-subtle] rounded-2xl p-6 shadow-warm-sm flex items-center space-x-4">
-              <div className="p-3 bg-lime-green-light text-lime-green-dark rounded-xl">
+            <div className="bg-neu-base border border-white/30 rounded-neu p-6 shadow-neu-raised-sm flex items-center space-x-4">
+              <div className="p-3 bg-neu-base text-lime-green-dark rounded-2xl shadow-neu-flat border border-white/20">
                 <ShieldCheck className="h-6 w-6" />
               </div>
               <div>
@@ -124,14 +124,14 @@ const ContactPage = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2, duration: 0.5 }}
           >
-            <div className="bg-white border border-[--border-subtle] rounded-2xl p-8 sm:p-10 shadow-warm-md">
-              <h2 className="text-2xl font-bold text-charcoal mb-2">Send Us a Message</h2>
+            <div className="bg-neu-base border border-white/30 rounded-neu p-8 sm:p-10 shadow-neu-raised-md">
+              <h2 className="text-2xl font-bold text-charcoal mb-2 tracking-tight">Send Us a Message</h2>
               <p className="text-sm text-charcoal-muted mb-8">
                 Fill in the form below and one of our specialists will get in touch.
               </p>
 
               <form onSubmit={handleSubmit} className="space-y-5">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
                     <Label htmlFor="name" className="block text-sm font-semibold text-charcoal mb-1.5">
                       Your Name <span className="text-burnt-orange">*</span>
@@ -142,7 +142,6 @@ const ContactPage = () => {
                       value={form.name}
                       onChange={handleChange}
                       placeholder="Alex Morgan"
-                      className="bg-warm-ivory/50 border border-[--border-subtle] rounded-xl text-charcoal focus:border-burnt-orange"
                     />
                   </div>
 
@@ -157,7 +156,6 @@ const ContactPage = () => {
                       value={form.email}
                       onChange={handleChange}
                       placeholder="alex@domain.com"
-                      className="bg-warm-ivory/50 border border-[--border-subtle] rounded-xl text-charcoal focus:border-burnt-orange"
                     />
                   </div>
                 </div>
@@ -172,7 +170,6 @@ const ContactPage = () => {
                     value={form.subject}
                     onChange={handleChange}
                     placeholder="General inquiry, Recruiter demo, or Feedback"
-                    className="bg-warm-ivory/50 border border-[--border-subtle] rounded-xl text-charcoal focus:border-burnt-orange"
                   />
                 </div>
 
@@ -187,14 +184,14 @@ const ContactPage = () => {
                     value={form.message}
                     onChange={handleChange}
                     placeholder="Tell us what you need help with..."
-                    className="bg-warm-ivory/50 border border-[--border-subtle] rounded-xl text-charcoal focus:border-burnt-orange resize-none"
+                    className="resize-none"
                   />
                 </div>
 
                 <Button
                   type="submit"
                   disabled={submitting}
-                  className="w-full py-3.5 bg-burnt-orange hover:bg-burnt-orange-hover text-white font-semibold rounded-xl transition-all shadow-sm hover:shadow-glow-orange flex items-center justify-center gap-2"
+                  className="w-full h-12 rounded-xl text-base flex items-center justify-center gap-2 mt-2"
                 >
                   <Send className="h-4 w-4" />
                   <span>{submitting ? 'Sending Message...' : 'Send Message'}</span>

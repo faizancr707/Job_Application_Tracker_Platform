@@ -83,7 +83,7 @@ const UpdateJobs = () => {
     };
 
     return (
-        <div className="bg-warm-ivory min-h-screen text-charcoal flex flex-col justify-between">
+        <div className="bg-neu-base min-h-screen text-charcoal flex flex-col justify-between">
             <Navbar />
             <motion.div
                 className="flex items-center justify-center w-full pt-24 pb-16 px-4 sm:px-6 flex-1"
@@ -93,28 +93,29 @@ const UpdateJobs = () => {
             >
                 <form
                     onSubmit={submitHandler}
-                    className="p-8 sm:p-10 max-w-4xl w-full bg-white border border-[--border-subtle] shadow-warm-md rounded-2xl"
+                    className="p-8 sm:p-10 max-w-4xl w-full bg-neu-base border border-white/30 shadow-neu-raised-lg rounded-neu-lg"
                 >
-                    <div className="flex items-center gap-4 mb-6 pb-4 border-b border-[--border-subtle]">
+                    <div className="flex items-center gap-4 mb-6 pb-4 border-b border-white/20">
                         <Button
                             type="button"
                             variant="outline"
+                            size="icon"
                             onClick={() => navigate('/admin/jobs')}
-                            className="border-burnt-orange/40 text-charcoal hover:bg-warm-ivory-dark rounded-xl h-10 w-10 p-0"
+                            className="rounded-xl"
                         >
                             <ArrowLeft className="w-5 h-5" />
                         </Button>
                         <div>
-                            <h1 className="text-2xl font-extrabold text-charcoal">Update Job Posting</h1>
+                            <h1 className="text-2xl font-extrabold text-charcoal tracking-tight">Update Job Posting</h1>
                             <p className="text-xs text-charcoal-muted mt-0.5">Modify role details, compensation, and requirements</p>
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                         {Object.entries(input).map(([key, value]) => (
                             key !== 'companyId' && key !== 'id' && key !== 'createdAt' && key !== 'updatedAt' && key !== 'company' && key !== 'applications' && (
                                 <div key={key}>
-                                    <Label className="block text-sm font-semibold text-charcoal mb-1">
+                                    <Label className="block text-sm font-semibold text-charcoal mb-1.5">
                                         {key.charAt(0).toUpperCase() + key.slice(1)} <span className="text-burnt-orange">*</span>
                                     </Label>
                                     <Input
@@ -122,30 +123,30 @@ const UpdateJobs = () => {
                                         name={key}
                                         value={value || ''}
                                         onChange={changeEventHandler}
-                                        className="bg-warm-ivory/50 border border-[--border-subtle] rounded-xl text-charcoal focus:border-burnt-orange"
                                     />
                                 </div>
                             )
                         ))}
                     </div>
 
-                    <div className="flex flex-col sm:flex-row gap-3 mt-8 pt-4 border-t border-[--border-subtle]">
+                    <div className="flex flex-col sm:flex-row gap-3 mt-8 pt-4 border-t border-white/20">
                         {loading ? (
-                            <Button disabled className="w-full bg-burnt-orange text-white rounded-xl py-3 shadow-sm">
+                            <Button disabled className="w-full h-12 rounded-xl">
                                 <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Processing...
                             </Button>
                         ) : (
                             <>
                                 <Button
                                     type="submit"
-                                    className="flex-1 bg-burnt-orange hover:bg-burnt-orange-hover text-white rounded-xl py-3 font-semibold shadow-sm hover:shadow-glow-orange transition"
+                                    className="flex-1 h-12 rounded-xl"
                                 >
                                     Save Changes
                                 </Button>
                                 <Button
                                     type="button"
+                                    variant="destructive"
                                     onClick={handleDelete}
-                                    className="bg-terracotta hover:bg-red-700 text-white rounded-xl py-3 px-6 font-semibold shadow-sm transition"
+                                    className="h-12 rounded-xl px-6"
                                 >
                                     Delete Job
                                 </Button>

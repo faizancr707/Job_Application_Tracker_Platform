@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
 import {
   Table,
   TableBody,
@@ -11,7 +10,7 @@ import {
 } from '../ui/table';
 import { Avatar, AvatarImage } from '../ui/avatar';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
-import { Edit2, MoreHorizontal, ExternalLink } from 'lucide-react';
+import { Edit2, MoreHorizontal } from 'lucide-react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -32,13 +31,13 @@ const CompaniesTable = () => {
   }, [companies, searchCompanyByText]);
 
   return (
-    <div className="bg-white border border-[--border-subtle] rounded-2xl shadow-warm-md overflow-x-auto">
+    <div className="bg-neu-base border border-white/25 rounded-neu-lg shadow-neu-raised overflow-x-auto">
       <Table className="min-w-full">
         <TableCaption className="py-4 text-xs text-charcoal-dim">
           A list of your registered company workspaces
         </TableCaption>
         <TableHeader>
-          <TableRow className="bg-warm-ivory-dark/70 hover:bg-warm-ivory-dark/70 border-b border-[--border-subtle]">
+          <TableRow className="bg-neu-base-dark/60 hover:bg-neu-base-dark/60 border-b border-white/20">
             <TableHead className="py-4 px-6 text-charcoal font-bold text-xs uppercase tracking-wider">Logo</TableHead>
             <TableHead className="py-4 px-6 text-charcoal font-bold text-xs uppercase tracking-wider">Company Name</TableHead>
             <TableHead className="py-4 px-6 text-charcoal font-bold text-xs uppercase tracking-wider">Registered Date</TableHead>
@@ -48,9 +47,9 @@ const CompaniesTable = () => {
         <TableBody>
           {filterCompany.length > 0 ? (
             filterCompany.map((company) => (
-              <TableRow key={company.id} className="hover:bg-warm-ivory/40 border-b border-[--border-subtle] last:border-b-0 transition-colors">
+              <TableRow key={company.id} className="hover:bg-neu-base-dark/40 border-b border-white/15 last:border-b-0 transition-colors">
                 <TableCell className="py-4 px-6">
-                  <Avatar className="w-10 h-10 rounded-xl border border-[--border-subtle]">
+                  <Avatar className="w-10 h-10 rounded-xl shadow-neu-flat border border-white/30">
                     <AvatarImage src={company.logo} alt={company.name} />
                   </Avatar>
                 </TableCell>
@@ -63,14 +62,14 @@ const CompaniesTable = () => {
                 <TableCell className="py-4 px-6 text-right">
                   <Popover>
                     <PopoverTrigger asChild>
-                      <button className="p-1.5 rounded-lg hover:bg-warm-ivory-dark text-charcoal-muted hover:text-burnt-orange transition">
-                        <MoreHorizontal className="w-5 h-5" />
+                      <button className="p-2 rounded-xl bg-neu-base shadow-neu-flat hover:shadow-neu-raised-xs text-charcoal-muted hover:text-burnt-orange border border-white/20 transition">
+                        <MoreHorizontal className="w-4 h-4" />
                       </button>
                     </PopoverTrigger>
-                    <PopoverContent className="w-36 bg-white border border-[--border-subtle] shadow-warm-lg rounded-xl p-1.5">
+                    <PopoverContent className="w-36 bg-neu-base border border-white/25 shadow-neu-raised-md rounded-neu p-1.5">
                       <div
                         onClick={() => navigate(`/admin/companies/${company.id}`)}
-                        className="flex items-center gap-2 cursor-pointer text-charcoal hover:text-burnt-orange hover:bg-warm-ivory-dark p-2 rounded-lg text-sm font-medium transition"
+                        className="flex items-center gap-2 cursor-pointer text-charcoal hover:text-burnt-orange hover:bg-neu-base-dark p-2 rounded-lg text-sm font-semibold transition"
                       >
                         <Edit2 className="w-4 h-4 text-burnt-orange" />
                         <span>Edit Setup</span>

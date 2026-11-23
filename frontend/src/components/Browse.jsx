@@ -19,21 +19,21 @@ const Browse = () => {
 
   return (
     <>
-      <div className="bg-warm-ivory min-h-screen text-charcoal">
+      <div className="bg-neu-base min-h-screen text-charcoal">
         <Navbar />
         <div className="max-w-7xl mx-auto pt-20 px-4 sm:px-6 pb-16">
-          <div className="my-8 flex items-baseline justify-between border-b border-[--border-subtle] pb-4">
-            <h1 className="font-extrabold text-2xl sm:text-3xl text-charcoal">
+          <div className="my-8 flex items-baseline justify-between border-b border-white/20 pb-4">
+            <h1 className="font-extrabold text-2xl sm:text-3xl text-charcoal tracking-tight">
               Browse Openings
             </h1>
-            <span className="text-sm font-semibold px-3 py-1 rounded-full bg-burnt-orange-light text-burnt-orange border border-burnt-orange/20">
+            <span className="text-sm font-bold px-3.5 py-1 rounded-full bg-neu-base shadow-neu-flat border border-burnt-orange/20 text-burnt-orange">
               {allJobs.length} {allJobs.length === 1 ? 'Job' : 'Jobs'} Available
             </span>
           </div>
 
           {searchedQuery === '' && allJobs.length === 0 ? (
-            <div className="text-center py-20 bg-white rounded-2xl border border-[--border-subtle] shadow-warm-sm p-8">
-              <p className="text-lg text-charcoal-muted mb-2">No jobs found matching your criteria.</p>
+            <div className="text-center py-20 bg-neu-base rounded-neu border border-white/25 shadow-neu-raised p-8">
+              <p className="text-lg text-charcoal-muted mb-2 font-medium">No jobs found matching your criteria.</p>
               <p className="text-sm text-charcoal-dim">Try clearing your filters or search keywords.</p>
             </div>
           ) : (
@@ -47,8 +47,8 @@ const Browse = () => {
                   return <Job key={job.id} job={job} />;
                 })
               ) : (
-                <div className="col-span-full text-center py-16 bg-white rounded-2xl border border-[--border-subtle] p-8">
-                  <p className="text-charcoal-muted">No jobs found.</p>
+                <div className="col-span-full text-center py-16 bg-neu-base rounded-neu border border-white/25 p-8 shadow-neu-raised">
+                  <p className="text-charcoal-muted font-medium">No jobs found.</p>
                 </div>
               )}
             </div>

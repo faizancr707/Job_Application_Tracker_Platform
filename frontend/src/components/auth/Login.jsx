@@ -71,7 +71,7 @@ const Login = () => {
   }, [user, navigate]);
 
   return (
-    <div className="bg-warm-ivory min-h-screen text-charcoal">
+    <div className="bg-neu-base min-h-screen text-charcoal">
       <Navbar />
       <motion.div
         className="flex justify-center items-center min-h-[calc(100vh-4rem)] pt-20 px-4 pb-12"
@@ -81,16 +81,16 @@ const Login = () => {
         transition={{ duration: 0.4 }}
       >
         <motion.div
-          className="w-full max-w-md p-8 sm:p-10 bg-white border border-[--border-subtle] shadow-warm-lg rounded-2xl"
+          className="w-full max-w-md p-8 sm:p-10 bg-neu-base border border-white/30 shadow-neu-raised-lg rounded-neu-lg"
           initial={{ y: 25, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.4 }}
         >
           <div className="text-center mb-8">
-            <h1 className="font-extrabold text-3xl text-deep-brown tracking-tight">
+            <h1 className="font-extrabold text-3xl text-charcoal tracking-tight">
               Welcome Back
             </h1>
-            <p className="text-sm text-warm-charcoal mt-1.5">
+            <p className="text-sm text-charcoal-muted mt-1.5">
               Sign in to manage applications and access your AI Career Copilot
             </p>
           </div>
@@ -98,7 +98,7 @@ const Login = () => {
           <form onSubmit={submitHandler} className="space-y-5">
             {/* Email */}
             <div>
-              <Label htmlFor="email" className="block text-sm font-semibold text-dark-charcoal mb-1.5">
+              <Label htmlFor="email" className="block text-xs font-bold uppercase tracking-wider text-charcoal mb-2">
                 Email Address <span className="text-burnt-orange">*</span>
               </Label>
               <Input
@@ -106,7 +106,7 @@ const Login = () => {
                 name="email"
                 type="email"
                 placeholder="you@domain.com"
-                className="p-3 bg-warm-ivory/50 border border-[--border-subtle] rounded-xl outline-none focus:border-burnt-orange focus:ring-burnt-orange w-full text-charcoal placeholder:text-charcoal-dim"
+                className="bg-gradient-to-br from-neu-base-dark to-neu-base-light shadow-neu-inset-sm border border-white/10 w-full"
                 value={input.email}
                 onChange={changeEventHandler}
               />
@@ -114,7 +114,7 @@ const Login = () => {
 
             {/* Password */}
             <div>
-              <Label htmlFor="password" className="block text-sm font-semibold text-dark-charcoal mb-1.5">
+              <Label htmlFor="password" className="block text-xs font-bold uppercase tracking-wider text-charcoal mb-2">
                 Password <span className="text-burnt-orange">*</span>
               </Label>
               <Input
@@ -122,7 +122,7 @@ const Login = () => {
                 name="password"
                 type="password"
                 placeholder="••••••••"
-                className="p-3 bg-warm-ivory/50 border border-[--border-subtle] rounded-xl outline-none focus:border-burnt-orange focus:ring-burnt-orange w-full text-charcoal placeholder:text-charcoal-dim"
+                className="bg-gradient-to-br from-neu-base-dark to-neu-base-light shadow-neu-inset-sm border border-white/10 w-full"
                 value={input.password}
                 onChange={changeEventHandler}
               />
@@ -130,16 +130,16 @@ const Login = () => {
 
             {/* Role Selection */}
             <div>
-              <Label className="block text-sm font-semibold text-dark-charcoal mb-2">
-                I am signing in as: <span className="text-burnt-orange">*</span>
+              <Label className="block text-xs font-bold uppercase tracking-wider text-charcoal mb-2.5">
+                Signing in as: <span className="text-burnt-orange">*</span>
               </Label>
               <div className="grid grid-cols-2 gap-3">
                 <label
                   htmlFor="student"
-                  className={`flex items-center justify-center gap-2 p-3 rounded-xl border cursor-pointer transition text-sm font-medium ${
+                  className={`flex items-center justify-center gap-2 p-3 rounded-xl border cursor-pointer transition text-sm font-semibold select-none ${
                     input.role === 'student'
-                      ? 'border-burnt-orange bg-burnt-orange-light text-burnt-orange font-bold'
-                      : 'border-[--border-subtle] bg-white text-muted-brown hover:bg-warm-ivory/50'
+                      ? 'border-burnt-orange/30 bg-neu-base shadow-neu-inset-xs text-burnt-orange'
+                      : 'border-white/20 bg-neu-base shadow-neu-flat text-charcoal-muted hover:text-charcoal'
                   }`}
                 >
                   <input
@@ -156,10 +156,10 @@ const Login = () => {
 
                 <label
                   htmlFor="recruiter"
-                  className={`flex items-center justify-center gap-2 p-3 rounded-xl border cursor-pointer transition text-sm font-medium ${
+                  className={`flex items-center justify-center gap-2 p-3 rounded-xl border cursor-pointer transition text-sm font-semibold select-none ${
                     input.role === 'recruiter'
-                      ? 'border-burnt-orange bg-burnt-orange-light text-burnt-orange font-bold'
-                      : 'border-[--border-subtle] bg-white text-muted-brown hover:bg-warm-ivory/50'
+                      ? 'border-burnt-orange/30 bg-neu-base shadow-neu-inset-xs text-burnt-orange'
+                      : 'border-white/20 bg-neu-base shadow-neu-flat text-charcoal-muted hover:text-charcoal'
                   }`}
                 >
                   <input
@@ -178,25 +178,25 @@ const Login = () => {
 
             {/* Submit Button */}
             {loading ? (
-              <Button disabled className="w-full py-3 bg-burnt-orange text-white rounded-xl shadow-sm">
+              <Button disabled className="w-full py-3.5 bg-gradient-to-br from-burnt-orange-dim to-burnt-orange text-white font-bold rounded-neu shadow-neu-btn">
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 Signing In...
               </Button>
             ) : (
               <Button
                 type="submit"
-                className="w-full py-3 bg-burnt-orange hover:bg-burnt-orange-hover text-white font-semibold rounded-xl transition-all shadow-sm hover:shadow-glow-orange"
+                className="w-full py-3.5 bg-gradient-to-br from-burnt-orange-dim to-burnt-orange hover:from-burnt-orange hover:to-burnt-orange-hover text-white font-bold rounded-neu shadow-neu-btn hover:shadow-glow-orange"
               >
                 Sign In
               </Button>
             )}
 
             {/* Link to Signup */}
-            <p className="pt-2 text-center text-sm text-warm-charcoal">
+            <p className="pt-2 text-center text-sm text-charcoal-muted">
               Don't have an account?{' '}
               <Link
                 to="/signup"
-                className="text-burnt-orange-link hover:text-deep-brown font-semibold hover:underline ml-1"
+                className="text-burnt-orange hover:text-burnt-orange-hover font-bold hover:underline ml-1"
               >
                 Create one here
               </Link>

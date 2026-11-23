@@ -18,6 +18,9 @@ router.get('/get', isAuth, getAppliedJobs);
 
 router.get('/:id/applicants', isAuth, getApplicants);
 
+router.post('/status/:id/update', isAuth, updateStatus);
+router.patch('/status/:id/update', isAuth, updateStatus);
+router.post('/status/:id', isAuth, updateStatus);
 router.patch('/status/:id', isAuth, updateStatus);
 
 module.exports = router;

@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setAllApplicants } from '@/redux/applicationSlice';
 import { motion } from 'framer-motion';
 import Footer from '../shared/Footer';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Users, Briefcase } from 'lucide-react';
 import { Button } from '../ui/button';
 
 const Applicants = () => {
@@ -26,7 +26,7 @@ const Applicants = () => {
         );
         dispatch(setAllApplicants(res.data.job));
       } catch (error) {
-        console.error("Failed to fetch applicants:", error);
+        console.error('Failed to fetch applicants:', error);
       }
     };
 
@@ -35,37 +35,48 @@ const Applicants = () => {
     }
   }, [params.id, dispatch]);
 
+  const applicantCount = applicants?.applications?.length || 0;
+  const jobTitle = applicants?.title || 'Job Opening';
+
   return (
-    <div className="bg-warm-ivory min-h-screen text-charcoal flex flex-col justify-between">
+    <div className="bg-[#FAF8F5] min-h-screen text-slate-800 flex flex-col justify-between font-sans">
       <Navbar />
-      <motion.div
-        className="max-w-7xl mx-auto w-full pt-24 pb-16 px-4 sm:px-6 flex-1"
-        initial={{ opacity: 0, y: 15 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
-      >
-        <div className="mb-6 flex items-center justify-between">
-          <div>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => navigate('/admin/jobs')}
-              className="text-burnt-orange hover:text-burnt-orange-hover hover:bg-burnt-orange-light mb-2 -ml-2 flex items-center gap-1.5"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              <span>Back to Jobs</span>
-            </Button>
-            <h1 className="font-extrabold text-2xl sm:text-3xl text-charcoal tracking-tight">
-              Job Applicants{' '}
-              <span className="text-burnt-orange font-normal text-xl">
-                ({applicants?.applications?.length || 0})
-              </span>
-            </h1>
+
+      {/* Forest Green Header */}
+      <section className="bg-gradient-to-b from-[#143D2B] via-[#1B4332] to-[#245740] text-white pt-28 pb-12 px-4 sm:px-6 relative overflow-hidden border-b border-[#2D6A4F]/40 shadow-inner">
+        <div className="max-w-7xl mx-auto relative z-10 space-y-4">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => navigate('/admin/jobs')}
+            className="bg-white/10 hover:bg-white/20 border-white/20 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 backdrop-blur-md"
+          >
+            <ArrowLeft className="w-4 h-4 text-emerald-300" />
+            <span>Back to Jobs</span>
+          </Button>
+
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div>
+              <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-white/10 text-emerald-200 text-xs font-semibold mb-2">
+                <Briefcase className="w-3.5 h-3.5" />
+                <span>{jobTitle}</span>
+              </div>
+              <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white flex items-center gap-3">
+                <span>Candidate Applicants</span>
+                <span className="text-lg font-bold px-3 py-0.5 rounded-full bg-emerald-500/30 text-emerald-200 border border-emerald-400/40">
+                  {applicantCount}
+                </span>
+              </h1>
+            </div>
           </div>
         </div>
+      </section>
 
+      {/* Main Content */}
+      <main className="max-w-7xl mx-auto w-full px-4 sm:px-6 py-8 flex-1 space-y-6">
         <ApplicantsTable />
-      </motion.div>
+      </main>
+
       <Footer />
     </div>
   );

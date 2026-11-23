@@ -48,14 +48,14 @@ const AdminJobsTable = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.4 }}
-            className="overflow-x-auto border border-[--border-subtle] rounded-2xl shadow-warm-md bg-white"
+            className="overflow-x-auto border border-white/25 rounded-neu-lg shadow-neu-raised bg-neu-base"
         >
             <Table className="min-w-full">
                 <TableCaption className="text-center text-charcoal-dim py-4 text-xs">
                     List of all job postings managed by your organization
                 </TableCaption>
                 <TableHeader>
-                    <TableRow className="bg-warm-ivory-dark/70 hover:bg-warm-ivory-dark/70 border-b border-[--border-subtle]">
+                    <TableRow className="bg-neu-base-dark/60 hover:bg-neu-base-dark/60 border-b border-white/20">
                         <TableHead className="py-4 px-6 text-charcoal font-bold text-xs uppercase tracking-wider">Company</TableHead>
                         <TableHead className="py-4 px-6 text-charcoal font-bold text-xs uppercase tracking-wider">Role Title</TableHead>
                         <TableHead className="py-4 px-6 text-charcoal font-bold text-xs uppercase tracking-wider">Posted Date</TableHead>
@@ -70,7 +70,7 @@ const AdminJobsTable = () => {
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
                                 transition={{ duration: 0.2 }}
-                                className="hover:bg-warm-ivory/40 border-b border-[--border-subtle] last:border-b-0 transition-colors"
+                                className="hover:bg-neu-base-dark/40 border-b border-white/15 last:border-b-0 transition-colors"
                             >
                                 <TableCell className="py-4 px-6 whitespace-nowrap font-bold text-charcoal">
                                     {job?.company?.name}
@@ -84,28 +84,28 @@ const AdminJobsTable = () => {
                                 <TableCell className="py-4 px-6 text-right">
                                     <Popover>
                                         <PopoverTrigger asChild>
-                                            <button className="p-1.5 rounded-lg hover:bg-warm-ivory-dark text-charcoal-muted hover:text-burnt-orange transition">
-                                                <MoreHorizontal className="w-5 h-5" />
+                                            <button className="p-2 rounded-xl bg-neu-base shadow-neu-flat hover:shadow-neu-raised-xs text-charcoal-muted hover:text-burnt-orange border border-white/20 transition">
+                                                <MoreHorizontal className="w-4 h-4" />
                                             </button>
                                         </PopoverTrigger>
-                                        <PopoverContent className="w-36 bg-white border border-[--border-subtle] shadow-warm-lg rounded-xl p-1.5 space-y-0.5">
+                                        <PopoverContent className="w-36 bg-neu-base border border-white/25 shadow-neu-raised-md rounded-neu p-1.5 space-y-1">
                                             <div
                                                 onClick={() => navigate(`/admin/jobs/${job.id}/update`)}
-                                                className="flex items-center gap-2 cursor-pointer text-charcoal hover:text-burnt-orange hover:bg-warm-ivory-dark p-2 rounded-lg text-sm font-medium transition"
+                                                className="flex items-center gap-2 cursor-pointer text-charcoal hover:text-burnt-orange hover:bg-neu-base-dark p-2 rounded-lg text-sm font-semibold transition"
                                             >
                                                 <Edit2 className="w-3.5 h-3.5 text-burnt-orange" />
                                                 <span>Edit</span>
                                             </div>
                                             <div
                                                 onClick={() => navigate(`/admin/jobs/${job.id}/applicants`)}
-                                                className="flex items-center gap-2 cursor-pointer text-charcoal hover:text-lime-green-dark hover:bg-warm-ivory-dark p-2 rounded-lg text-sm font-medium transition"
+                                                className="flex items-center gap-2 cursor-pointer text-charcoal hover:text-lime-green-dark hover:bg-neu-base-dark p-2 rounded-lg text-sm font-semibold transition"
                                             >
                                                 <Users className="w-3.5 h-3.5 text-lime-green-dark" />
                                                 <span>Applicants</span>
                                             </div>
                                             <div
                                                 onClick={() => handleDeleteJob(job?.id)}
-                                                className="flex items-center gap-2 cursor-pointer text-terracotta hover:bg-red-50 p-2 rounded-lg text-sm font-medium transition"
+                                                className="flex items-center gap-2 cursor-pointer text-terracotta hover:bg-red-50/50 p-2 rounded-lg text-sm font-semibold transition"
                                             >
                                                 <Trash2 className="w-3.5 h-3.5 text-terracotta" />
                                                 <span>Delete</span>

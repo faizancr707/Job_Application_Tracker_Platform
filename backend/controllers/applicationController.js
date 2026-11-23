@@ -141,7 +141,18 @@ const getApplicants = async (req, res) => {
             {
               model: User,
               as: 'applicant',
-              attributes: ['id', 'fullname', 'email', 'phoneNumber']
+              attributes: [
+                'id',
+                'fullname',
+                'email',
+                'phoneNumber',
+                'resume',
+                'resumeOriginalName',
+                'profilePhoto',
+                'bio',
+                'skills',
+                'createdAt',
+              ]
             }
           ]
         }
@@ -158,9 +169,43 @@ const getApplicants = async (req, res) => {
       });
     }
 
+    const plainJob = job.toJSON();
+    if (plainJob.applications && Array.isArray(plainJob.applications)) {
+      const Resume = require('../models/resume');
+      for (const app of plainJob.applications) {
+        if (app.applicant) {
+          app.applicant.profile = {
+            profilePhoto: app.applicant.profilePhoto,
+            bio: app.applicant.bio,
+            skills: app.applicant.skills || [],
+            resume: app.applicant.resume,
+            resumeOriginalName: app.applicant.resumeOriginalName,
+          };
+
+          // If resume not set on User, check Resume table
+          if (!app.applicant.profile.resume) {
+            try {
+              const resumeRecord = await Resume.findOne({
+                where: { userId: app.applicant.id },
+                order: [['isPrimary', 'DESC'], ['createdAt', 'DESC']]
+              });
+              if (resumeRecord) {
+                app.applicant.profile.resume = resumeRecord.fileUrl;
+                app.applicant.profile.resumeOriginalName = resumeRecord.fileName;
+                app.applicant.resume = resumeRecord.fileUrl;
+                app.applicant.resumeOriginalName = resumeRecord.fileName;
+              }
+            } catch (rErr) {
+              // Ignore if resume table not available
+            }
+          }
+        }
+      }
+    }
+
     return res.status(200).json({
       success: true,
-      job
+      job: plainJob
     });
   } catch (error) {
     console.error('getApplicants error:', error);
@@ -186,8 +231,9 @@ const updateStatus = async (req, res) => {
       });
     }
 
-    const allowedStatuses = ['pending', 'accepted', 'rejected'];
-    if (!allowedStatuses.includes(status.toLowerCase())) {
+    const allowedStatuses = ['pending', 'review', 'interview', 'accepted', 'rejected'];
+    const normalized = status.toLowerCase().trim();
+    if (!allowedStatuses.includes(normalized)) {
       return res.status(400).json({
         success: false,
         message: `Status must be one of: ${allowedStatuses.join(', ')}`
@@ -202,12 +248,37 @@ const updateStatus = async (req, res) => {
       });
     }
 
-    application.status = status.toLowerCase();
+    application.status = normalized;
     await application.save();
+
+    // Trigger Amazon SES notification email (asynchronous, non-blocking)
+    try {
+      const { sendApplicationStatusEmail } = require('../services/email/ses.service');
+      const applicantUser = await User.findByPk(application.applicantId, {
+        attributes: ['id', 'fullname', 'email']
+      });
+      const jobItem = await Job.findByPk(application.jobId, {
+        include: [{ model: Company, as: 'company' }]
+      });
+
+      if (applicantUser && applicantUser.email && jobItem) {
+        sendApplicationStatusEmail({
+          toEmail: applicantUser.email,
+          applicantName: applicantUser.fullname || 'Candidate',
+          jobTitle: jobItem.title || 'Position',
+          companyName: jobItem?.company?.name || 'Company',
+          newStatus: normalized,
+        }).catch((err) => {
+          console.warn('[Amazon SES] Status email background error:', err.message);
+        });
+      }
+    } catch (sesErr) {
+      console.warn('[Amazon SES] Notification trigger caught:', sesErr.message);
+    }
 
     return res.status(200).json({
       success: true,
-      message: 'Status updated successfully.',
+      message: `Status updated to ${normalized}.`,
       application
     });
   } catch (error) {

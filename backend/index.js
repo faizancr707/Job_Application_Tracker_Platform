@@ -5,6 +5,7 @@ const path = require("path");
 // Load central root .env first, then backend/.env as fallback/override
 dotenv.config({ path: path.resolve(__dirname, "../.env") });
 dotenv.config({ path: path.resolve(__dirname, ".env") });
+const express = require("express");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const helmet = require("helmet");
@@ -67,6 +68,7 @@ app.use("/api/v1/application", applicationRoute);
 // ============================================
 app.use("/api/v1/ai", aiRoute);
 app.use("/api/v1/resumes", resumeRoute);
+app.use("/api/v1/resume", resumeRoute);
 app.use("/api/v1/interview", interviewRoute);
 app.use("/api/v1/copilot", copilotRoute);
 
@@ -128,6 +130,10 @@ const PORT = process.env.PORT || 8000;
 async function startServer() {
   try {
     await connectDB();
+    try {
+      const { sequelize } = require('./utils/db');
+      await sequelize.query("ALTER TABLE Applications MODIFY COLUMN status VARCHAR(50) DEFAULT 'pending';");
+    } catch (_) {}
     app.listen(PORT, () => {
       console.log(`🚀 Server running at port ${PORT}`);
       console.log(`📊 Health: http://localhost:${PORT}/api/v1/health`);

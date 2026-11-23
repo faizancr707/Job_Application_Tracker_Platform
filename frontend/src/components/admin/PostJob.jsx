@@ -80,7 +80,7 @@ const PostJob = () => {
   };
 
   return (
-    <div className="bg-warm-ivory min-h-screen text-charcoal flex flex-col justify-between">
+    <div className="bg-neu-base min-h-screen text-charcoal flex flex-col justify-between">
       <Navbar />
       <motion.div
         className="flex items-center justify-center w-full pt-24 pb-16 px-4 sm:px-6 flex-1"
@@ -90,17 +90,17 @@ const PostJob = () => {
       >
         <form
           onSubmit={submitHandler}
-          className="p-8 sm:p-10 max-w-4xl w-full bg-white border border-[--border-subtle] shadow-warm-md rounded-2xl"
+          className="p-8 sm:p-10 max-w-4xl w-full bg-neu-base border border-white/30 shadow-neu-raised-lg rounded-neu-lg"
         >
-          <div className="flex items-center gap-3 mb-8 pb-4 border-b border-[--border-subtle]">
-            <div className="p-3 rounded-xl bg-burnt-orange-light border border-burnt-orange/20 text-burnt-orange">
+          <div className="flex items-center gap-3.5 mb-8 pb-4 border-b border-white/20">
+            <div className="p-3.5 rounded-2xl bg-neu-base shadow-neu-flat border border-white/20 text-burnt-orange">
               <Briefcase className="w-6 h-6" />
             </div>
             <div>
               <h1 className="text-2xl sm:text-3xl font-extrabold text-charcoal tracking-tight">
                 Post a New Opportunity
               </h1>
-              <p className="text-sm text-charcoal-muted mt-0.5">
+              <p className="text-sm text-charcoal-muted mt-0.5 font-normal">
                 Fill in the opening details to attract top talent
               </p>
             </div>
@@ -108,7 +108,7 @@ const PostJob = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div>
-              <Label className="block text-sm font-semibold text-charcoal mb-1">
+              <Label className="block text-xs font-bold uppercase tracking-wider text-charcoal mb-1.5">
                 Job Title <span className="text-burnt-orange">*</span>
               </Label>
               <Input
@@ -117,13 +117,13 @@ const PostJob = () => {
                 placeholder="e.g. Senior Frontend Engineer"
                 value={input.title}
                 onChange={changeEventHandler}
-                className="bg-warm-ivory/50 border border-[--border-subtle] rounded-xl text-charcoal focus:border-burnt-orange"
+                className="bg-gradient-to-br from-neu-base-dark to-neu-base-light shadow-neu-inset-sm border border-white/10"
                 required
               />
             </div>
 
             <div>
-              <Label className="block text-sm font-semibold text-charcoal mb-1">
+              <Label className="block text-xs font-bold uppercase tracking-wider text-charcoal mb-1.5">
                 Location <span className="text-burnt-orange">*</span>
               </Label>
               <Input
@@ -132,13 +132,13 @@ const PostJob = () => {
                 placeholder="e.g. Bangalore, Remote, New York"
                 value={input.location}
                 onChange={changeEventHandler}
-                className="bg-warm-ivory/50 border border-[--border-subtle] rounded-xl text-charcoal focus:border-burnt-orange"
+                className="bg-gradient-to-br from-neu-base-dark to-neu-base-light shadow-neu-inset-sm border border-white/10"
                 required
               />
             </div>
 
             <div className="md:col-span-2">
-              <Label className="block text-sm font-semibold text-charcoal mb-1">
+              <Label className="block text-xs font-bold uppercase tracking-wider text-charcoal mb-1.5">
                 Job Description <span className="text-burnt-orange">*</span>
               </Label>
               <Input
@@ -147,13 +147,13 @@ const PostJob = () => {
                 placeholder="Detailed description of responsibilities and day-to-day work"
                 value={input.description}
                 onChange={changeEventHandler}
-                className="bg-warm-ivory/50 border border-[--border-subtle] rounded-xl text-charcoal focus:border-burnt-orange"
+                className="bg-gradient-to-br from-neu-base-dark to-neu-base-light shadow-neu-inset-sm border border-white/10"
                 required
               />
             </div>
 
             <div className="md:col-span-2">
-              <Label className="block text-sm font-semibold text-charcoal mb-1">
+              <Label className="block text-xs font-bold uppercase tracking-wider text-charcoal mb-1.5">
                 Requirements <span className="text-burnt-orange">*</span>
               </Label>
               <Input
@@ -162,13 +162,13 @@ const PostJob = () => {
                 placeholder="Comma separated skills (e.g. React, TypeScript, Node.js)"
                 value={input.requirements}
                 onChange={changeEventHandler}
-                className="bg-warm-ivory/50 border border-[--border-subtle] rounded-xl text-charcoal focus:border-burnt-orange"
+                className="bg-gradient-to-br from-neu-base-dark to-neu-base-light shadow-neu-inset-sm border border-white/10"
                 required
               />
             </div>
 
             <div>
-              <Label className="block text-sm font-semibold text-charcoal mb-1">
+              <Label className="block text-xs font-bold uppercase tracking-wider text-charcoal mb-1.5">
                 Salary (LPA) <span className="text-burnt-orange">*</span>
               </Label>
               <Input
@@ -177,13 +177,13 @@ const PostJob = () => {
                 placeholder="e.g. 15"
                 value={input.salary}
                 onChange={changeEventHandler}
-                className="bg-warm-ivory/50 border border-[--border-subtle] rounded-xl text-charcoal focus:border-burnt-orange"
+                className="bg-gradient-to-br from-neu-base-dark to-neu-base-light shadow-neu-inset-sm border border-white/10"
                 required
               />
             </div>
 
             <div>
-              <Label className="block text-sm font-semibold text-charcoal mb-1">
+              <Label className="block text-xs font-bold uppercase tracking-wider text-charcoal mb-1.5">
                 Job Type <span className="text-burnt-orange">*</span>
               </Label>
               <Input
@@ -192,13 +192,13 @@ const PostJob = () => {
                 placeholder="Full-time, Part-time, Contract"
                 value={input.jobType}
                 onChange={changeEventHandler}
-                className="bg-warm-ivory/50 border border-[--border-subtle] rounded-xl text-charcoal focus:border-burnt-orange"
+                className="bg-gradient-to-br from-neu-base-dark to-neu-base-light shadow-neu-inset-sm border border-white/10"
                 required
               />
             </div>
 
             <div>
-              <Label className="block text-sm font-semibold text-charcoal mb-1">
+              <Label className="block text-xs font-bold uppercase tracking-wider text-charcoal mb-1.5">
                 Experience Level (Years) <span className="text-burnt-orange">*</span>
               </Label>
               <Input
@@ -207,13 +207,13 @@ const PostJob = () => {
                 placeholder="e.g. 3"
                 value={input.experience}
                 onChange={changeEventHandler}
-                className="bg-warm-ivory/50 border border-[--border-subtle] rounded-xl text-charcoal focus:border-burnt-orange"
+                className="bg-gradient-to-br from-neu-base-dark to-neu-base-light shadow-neu-inset-sm border border-white/10"
                 required
               />
             </div>
 
             <div>
-              <Label className="block text-sm font-semibold text-charcoal mb-1">
+              <Label className="block text-xs font-bold uppercase tracking-wider text-charcoal mb-1.5">
                 No. of Openings <span className="text-burnt-orange">*</span>
               </Label>
               <Input
@@ -222,21 +222,21 @@ const PostJob = () => {
                 placeholder="e.g. 2"
                 value={input.position}
                 onChange={changeEventHandler}
-                className="bg-warm-ivory/50 border border-[--border-subtle] rounded-xl text-charcoal focus:border-burnt-orange"
+                className="bg-gradient-to-br from-neu-base-dark to-neu-base-light shadow-neu-inset-sm border border-white/10"
                 required
               />
             </div>
 
             {companies.length > 0 && (
               <div className="md:col-span-2">
-                <Label className="block text-sm font-semibold text-charcoal mb-1">
+                <Label className="block text-xs font-bold uppercase tracking-wider text-charcoal mb-1.5">
                   Assign to Company <span className="text-burnt-orange">*</span>
                 </Label>
                 <Select onValueChange={selectChangeHandler}>
-                  <SelectTrigger className="w-full bg-warm-ivory/50 border border-[--border-subtle] rounded-xl text-charcoal">
+                  <SelectTrigger className="w-full bg-gradient-to-br from-neu-base-dark to-neu-base-light shadow-neu-inset-sm border border-white/10">
                     <SelectValue placeholder="Select a Company Workspace" />
                   </SelectTrigger>
-                  <SelectContent className="bg-white border border-[--border-subtle] shadow-warm-lg rounded-xl">
+                  <SelectContent className="bg-neu-base border border-white/25 shadow-neu-raised-md rounded-neu">
                     <SelectGroup>
                       {companies.map((company) => (
                         <SelectItem key={company.id} value={company.name.toLowerCase()}>
@@ -250,15 +250,15 @@ const PostJob = () => {
             )}
           </div>
 
-          <div className="mt-8 pt-4 border-t border-[--border-subtle]">
+          <div className="mt-8 pt-4 border-t border-white/20">
             {loading ? (
-              <Button disabled className="w-full py-3 bg-burnt-orange text-white rounded-xl shadow-sm">
+              <Button disabled className="w-full py-3.5 bg-gradient-to-br from-burnt-orange-dim to-burnt-orange text-white font-bold rounded-neu shadow-neu-btn">
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Publishing Opening...
               </Button>
             ) : (
               <Button
                 type="submit"
-                className="w-full py-3 bg-burnt-orange hover:bg-burnt-orange-hover text-white font-semibold rounded-xl shadow-sm hover:shadow-glow-orange transition"
+                className="w-full py-3.5 bg-gradient-to-br from-burnt-orange-dim to-burnt-orange hover:from-burnt-orange hover:to-burnt-orange-hover text-white font-bold rounded-neu shadow-neu-btn hover:shadow-glow-orange transition"
               >
                 Publish Job Opening
               </Button>

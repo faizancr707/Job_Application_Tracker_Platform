@@ -39,10 +39,10 @@ const mockCareers = [
 
 const CareersPage = () => {
   return (
-    <div className="bg-warm-ivory min-h-screen text-charcoal">
+    <div className="bg-neu-base min-h-screen text-charcoal">
       <Navbar />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-20">
         {/* Hero Section */}
         <motion.div
           className="text-center mb-16"
@@ -50,7 +50,7 @@ const CareersPage = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <span className="inline-block px-4 py-1.5 rounded-full bg-burnt-orange-light text-burnt-orange text-xs font-bold uppercase tracking-wider mb-4 border border-burnt-orange/20">
+          <span className="inline-block px-4 py-1.5 rounded-full bg-neu-base text-burnt-orange text-xs font-bold uppercase tracking-wider mb-4 border border-white/40 shadow-neu-raised-xs">
             We are hiring
           </span>
           <h1 className="text-4xl sm:text-6xl font-extrabold mb-6 tracking-tight text-charcoal">
@@ -71,8 +71,8 @@ const CareersPage = () => {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.5 }}
         >
-          <Card className="bg-white border border-[--border-subtle] p-8 flex flex-col items-center text-center rounded-2xl shadow-warm-sm hover:shadow-warm-md transition">
-            <div className="p-4 bg-burnt-orange-light rounded-2xl mb-4 text-burnt-orange">
+          <Card className="bg-neu-base border border-white/30 p-8 flex flex-col items-center text-center rounded-neu shadow-neu-raised-md hover:shadow-neu-raised-lg transition-all duration-300">
+            <div className="p-4 bg-neu-base shadow-neu-flat border border-white/20 rounded-2xl mb-5 text-burnt-orange">
               <Zap className="h-6 w-6" />
             </div>
             <h3 className="text-lg font-bold text-charcoal mb-2">High Impact</h3>
@@ -81,8 +81,8 @@ const CareersPage = () => {
             </p>
           </Card>
 
-          <Card className="bg-white border border-[--border-subtle] p-8 flex flex-col items-center text-center rounded-2xl shadow-warm-sm hover:shadow-warm-md transition">
-            <div className="p-4 bg-lime-green-light rounded-2xl mb-4 text-lime-green-dark">
+          <Card className="bg-neu-base border border-white/30 p-8 flex flex-col items-center text-center rounded-neu shadow-neu-raised-md hover:shadow-neu-raised-lg transition-all duration-300">
+            <div className="p-4 bg-neu-base shadow-neu-flat border border-white/20 rounded-2xl mb-5 text-lime-green-dark">
               <Heart className="h-6 w-6" />
             </div>
             <h3 className="text-lg font-bold text-charcoal mb-2">Empathy & Inclusivity</h3>
@@ -91,8 +91,8 @@ const CareersPage = () => {
             </p>
           </Card>
 
-          <Card className="bg-white border border-[--border-subtle] p-8 flex flex-col items-center text-center rounded-2xl shadow-warm-sm hover:shadow-warm-md transition">
-            <div className="p-4 bg-warm-ivory-dark rounded-2xl mb-4 text-burnt-orange">
+          <Card className="bg-neu-base border border-white/30 p-8 flex flex-col items-center text-center rounded-neu shadow-neu-raised-md hover:shadow-neu-raised-lg transition-all duration-300">
+            <div className="p-4 bg-neu-base shadow-neu-flat border border-white/20 rounded-2xl mb-5 text-burnt-orange">
               <Star className="h-6 w-6" />
             </div>
             <h3 className="text-lg font-bold text-charcoal mb-2">Continuous Learning</h3>
@@ -105,7 +105,7 @@ const CareersPage = () => {
         {/* Open Positions */}
         <div className="max-w-4xl mx-auto">
           <motion.h2
-            className="text-3xl font-extrabold text-charcoal mb-8 text-center"
+            className="text-3xl font-extrabold text-charcoal mb-8 text-center tracking-tight"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
@@ -114,7 +114,7 @@ const CareersPage = () => {
           </motion.h2>
 
           <motion.div
-            className="space-y-4"
+            className="space-y-5"
             initial="hidden"
             animate="visible"
             variants={{
@@ -128,7 +128,7 @@ const CareersPage = () => {
             {mockCareers.map((career) => (
               <motion.div
                 key={career.id}
-                className="bg-white border border-[--border-subtle] rounded-2xl p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between hover:border-burnt-orange/50 hover:shadow-warm-md transition-all duration-300 gap-4"
+                className="bg-neu-base border border-white/30 rounded-neu p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between shadow-neu-raised-sm hover:shadow-neu-raised-md transition-all duration-300 gap-4"
                 variants={{
                   hidden: { opacity: 0, y: 15 },
                   visible: { opacity: 1, y: 0 }
@@ -136,7 +136,7 @@ const CareersPage = () => {
               >
                 <div>
                   <h3 className="text-xl font-bold text-charcoal">{career.title}</h3>
-                  <div className="flex flex-wrap gap-3 mt-2 text-sm text-charcoal-muted">
+                  <div className="flex flex-wrap gap-3 mt-2.5 text-sm text-charcoal-muted">
                     <span className="flex items-center gap-1.5 font-medium">
                       <Briefcase className="h-4 w-4 text-burnt-orange" />
                       {career.department}
@@ -145,14 +145,14 @@ const CareersPage = () => {
                       <MapPin className="h-4 w-4 text-burnt-orange" />
                       {career.location}
                     </span>
-                    <span className="inline-block px-2.5 py-0.5 rounded-full bg-warm-ivory-dark text-xs font-semibold text-charcoal border border-[--border-subtle]">
+                    <span className="inline-block px-3 py-0.5 rounded-full bg-neu-base text-xs font-semibold text-charcoal shadow-neu-flat border border-white/20">
                       {career.type}
                     </span>
                   </div>
                 </div>
                 <Button
                   onClick={() => alert(`Thank you for your interest in the ${career.title} position! Please send your resume to careers@hirehub.com`)}
-                  className="bg-burnt-orange hover:bg-burnt-orange-hover text-white font-semibold rounded-xl shrink-0 shadow-sm"
+                  className="rounded-xl px-6 py-2.5 shrink-0"
                 >
                   Apply Now
                 </Button>

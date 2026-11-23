@@ -61,52 +61,60 @@ const FilterCard = () => {
 
     return (
         <motion.div
-            className="w-full bg-white border border-[--border-subtle] p-5 rounded-xl shadow-warm-sm"
+            className="w-full bg-neu-base border border-white/25 p-6 rounded-neu shadow-neu-raised"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.4 }}
         >
             <div className="flex items-center justify-between">
-                <h1 className="font-bold text-lg text-charcoal">Filter Jobs</h1>
+                <h1 className="font-extrabold text-lg text-charcoal tracking-tight">Filter Jobs</h1>
                 {hasActiveFilters && (
                     <button
                         onClick={clearFilters}
-                        className="text-xs text-burnt-orange hover:underline font-semibold"
+                        className="text-xs text-burnt-orange hover:text-burnt-orange-hover font-bold px-2.5 py-1 rounded-full bg-neu-base shadow-neu-flat border border-white/20 transition active:shadow-neu-inset-xs"
                     >
                         Reset
                     </button>
                 )}
             </div>
-            <hr className="mt-3 mb-4 border-[--border-subtle]" />
+            <hr className="mt-3 mb-4 border-white/20" />
             {filterData.map((data, index) => (
-                <div key={index} className="mt-4">
-                    <h2 className="font-bold text-xs uppercase tracking-wider text-burnt-orange mb-2.5">
+                <div key={index} className="mt-5">
+                    <h2 className="font-bold text-xs uppercase tracking-wider text-burnt-orange mb-3">
                         {data.filterType}
                     </h2>
-                    {data.array.map((item, idx) => {
-                        const itemId = `id${index}-${idx}`;
-                        const isChecked = (selectedFilters[data.filterType] || []).includes(item);
+                    <div className="space-y-2.5">
+                        {data.array.map((item, idx) => {
+                            const itemId = `id${index}-${idx}`;
+                            const isChecked = (selectedFilters[data.filterType] || []).includes(item);
 
-                        return (
-                            <div key={itemId} className="flex items-center space-x-2.5 my-2">
-                                <input
-                                    type="checkbox"
-                                    id={itemId}
-                                    checked={isChecked}
-                                    onChange={() => handleFilterChange(data.filterType, item)}
-                                    className="h-4 w-4 rounded cursor-pointer border-[--border-subtle] text-burnt-orange accent-burnt-orange focus:ring-burnt-orange"
-                                />
-                                <label
-                                    htmlFor={itemId}
-                                    className={`text-sm cursor-pointer transition-colors select-none ${
-                                        isChecked ? 'text-charcoal font-semibold' : 'text-charcoal-muted hover:text-charcoal'
+                            return (
+                                <div
+                                    key={itemId}
+                                    onClick={() => handleFilterChange(data.filterType, item)}
+                                    className={`flex items-center space-x-3 px-3 py-2 rounded-xl cursor-pointer transition-all select-none border border-white/10 ${
+                                        isChecked
+                                            ? 'bg-neu-base shadow-neu-inset-xs border-burnt-orange/20 text-burnt-orange font-bold'
+                                            : 'hover:shadow-neu-flat text-charcoal-muted hover:text-charcoal'
                                     }`}
                                 >
-                                    {item}
-                                </label>
-                            </div>
-                        );
-                    })}
+                                    <input
+                                        type="checkbox"
+                                        id={itemId}
+                                        checked={isChecked}
+                                        onChange={() => {}}
+                                        className="h-4 w-4 rounded cursor-pointer accent-burnt-orange"
+                                    />
+                                    <label
+                                        htmlFor={itemId}
+                                        className="text-sm cursor-pointer flex-1"
+                                    >
+                                        {item}
+                                    </label>
+                                </div>
+                            );
+                        })}
+                    </div>
                 </div>
             ))}
         </motion.div>

@@ -9,7 +9,7 @@ import { USER_API_END_POINT } from '@/utils/constant';
 import { toast } from 'sonner';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLoading } from '@/redux/authSlice';
-import { Loader2, Upload } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const Signup = () => {
@@ -80,7 +80,7 @@ const Signup = () => {
   }, [user, navigate]);
 
   return (
-    <div className="bg-warm-ivory min-h-screen text-charcoal">
+    <div className="bg-neu-base min-h-screen text-charcoal">
       <Navbar />
       <motion.div
         className="flex justify-center items-center min-h-[calc(100vh-4rem)] pt-20 px-4 pb-16"
@@ -90,16 +90,16 @@ const Signup = () => {
         transition={{ duration: 0.4 }}
       >
         <motion.div
-          className="w-full max-w-lg p-8 sm:p-10 bg-white border border-[--border-subtle] shadow-warm-lg rounded-2xl"
+          className="w-full max-w-lg p-8 sm:p-10 bg-neu-base border border-white/30 shadow-neu-raised-lg rounded-neu-lg"
           initial={{ y: 25, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.4 }}
         >
           <div className="text-center mb-8">
-            <h1 className="font-extrabold text-3xl text-deep-brown tracking-tight">
+            <h1 className="font-extrabold text-3xl text-charcoal tracking-tight">
               Create an Account
             </h1>
-            <p className="text-sm text-warm-charcoal mt-1.5">
+            <p className="text-sm text-charcoal-muted mt-1.5">
               Join HireHub to unlock smart job tracking and AI career tools
             </p>
           </div>
@@ -107,7 +107,7 @@ const Signup = () => {
           <form onSubmit={submitHandler} className="space-y-4">
             {/* Full Name */}
             <div>
-              <Label htmlFor="fullname" className="block text-sm font-semibold text-dark-charcoal mb-1">
+              <Label htmlFor="fullname" className="block text-xs font-bold uppercase tracking-wider text-charcoal mb-1.5">
                 Full Name <span className="text-burnt-orange">*</span>
               </Label>
               <Input
@@ -117,13 +117,13 @@ const Signup = () => {
                 placeholder="Alex Morgan"
                 value={input.fullname}
                 onChange={changeEventHandler}
-                className="p-3 bg-warm-ivory/50 border border-[--border-subtle] rounded-xl text-charcoal placeholder:text-charcoal-dim focus:border-burnt-orange focus:ring-burnt-orange"
+                className="bg-gradient-to-br from-neu-base-dark to-neu-base-light shadow-neu-inset-sm border border-white/10"
               />
             </div>
 
             {/* Email */}
             <div>
-              <Label htmlFor="email" className="block text-sm font-semibold text-dark-charcoal mb-1">
+              <Label htmlFor="email" className="block text-xs font-bold uppercase tracking-wider text-charcoal mb-1.5">
                 Email Address <span className="text-burnt-orange">*</span>
               </Label>
               <Input
@@ -133,13 +133,13 @@ const Signup = () => {
                 placeholder="alex.morgan@example.com"
                 value={input.email}
                 onChange={changeEventHandler}
-                className="p-3 bg-warm-ivory/50 border border-[--border-subtle] rounded-xl text-charcoal placeholder:text-charcoal-dim focus:border-burnt-orange focus:ring-burnt-orange"
+                className="bg-gradient-to-br from-neu-base-dark to-neu-base-light shadow-neu-inset-sm border border-white/10"
               />
             </div>
 
             {/* Phone Number */}
             <div>
-              <Label htmlFor="phoneNumber" className="block text-sm font-semibold text-dark-charcoal mb-1">
+              <Label htmlFor="phoneNumber" className="block text-xs font-bold uppercase tracking-wider text-charcoal mb-1.5">
                 Phone Number <span className="text-burnt-orange">*</span>
               </Label>
               <Input
@@ -149,13 +149,13 @@ const Signup = () => {
                 placeholder="+1 (555) 000-0000"
                 value={input.phoneNumber}
                 onChange={changeEventHandler}
-                className="p-3 bg-warm-ivory/50 border border-[--border-subtle] rounded-xl text-charcoal placeholder:text-charcoal-dim focus:border-burnt-orange focus:ring-burnt-orange"
+                className="bg-gradient-to-br from-neu-base-dark to-neu-base-light shadow-neu-inset-sm border border-white/10"
               />
             </div>
 
             {/* Password */}
             <div>
-              <Label htmlFor="password" className="block text-sm font-semibold text-dark-charcoal mb-1">
+              <Label htmlFor="password" className="block text-xs font-bold uppercase tracking-wider text-charcoal mb-1.5">
                 Password <span className="text-burnt-orange">*</span>
               </Label>
               <Input
@@ -165,38 +165,36 @@ const Signup = () => {
                 placeholder="••••••••"
                 value={input.password}
                 onChange={changeEventHandler}
-                className="p-3 bg-warm-ivory/50 border border-[--border-subtle] rounded-xl text-charcoal placeholder:text-charcoal-dim focus:border-burnt-orange focus:ring-burnt-orange"
+                className="bg-gradient-to-br from-neu-base-dark to-neu-base-light shadow-neu-inset-sm border border-white/10"
               />
             </div>
 
             {/* Profile Picture */}
             <div>
-              <Label htmlFor="profilePicture" className="block text-sm font-semibold text-dark-charcoal mb-1">
+              <Label htmlFor="profilePicture" className="block text-xs font-bold uppercase tracking-wider text-charcoal mb-1.5">
                 Profile Avatar (Optional)
               </Label>
-              <div className="flex items-center gap-3">
-                <Input
-                  id="profilePicture"
-                  type="file"
-                  accept="image/*"
-                  onChange={profilePictureHandler}
-                  className="bg-warm-ivory/50 border border-[--border-subtle] text-charcoal file:text-charcoal file:bg-white file:border file:border-[--border-subtle] file:rounded-lg file:px-3 file:py-1 cursor-pointer text-xs"
-                />
-              </div>
+              <Input
+                id="profilePicture"
+                type="file"
+                accept="image/*"
+                onChange={profilePictureHandler}
+                className="bg-gradient-to-br from-neu-base-dark to-neu-base-light shadow-neu-inset-sm border border-white/10 cursor-pointer text-xs"
+              />
             </div>
 
             {/* Role */}
             <div className="pt-2">
-              <Label className="block text-sm font-semibold text-dark-charcoal mb-2">
+              <Label className="block text-xs font-bold uppercase tracking-wider text-charcoal mb-2.5">
                 Register as: <span className="text-burnt-orange">*</span>
               </Label>
               <div className="grid grid-cols-2 gap-3">
                 <label
                   htmlFor="student"
-                  className={`flex items-center justify-center gap-2 p-3 rounded-xl border cursor-pointer transition text-sm font-medium ${
+                  className={`flex items-center justify-center gap-2 p-3 rounded-xl border cursor-pointer transition text-sm font-semibold select-none ${
                     input.role === 'student'
-                      ? 'border-burnt-orange bg-burnt-orange-light text-burnt-orange font-bold'
-                      : 'border-[--border-subtle] bg-white text-muted-brown hover:bg-warm-ivory/50'
+                      ? 'border-burnt-orange/30 bg-neu-base shadow-neu-inset-xs text-burnt-orange'
+                      : 'border-white/20 bg-neu-base shadow-neu-flat text-charcoal-muted hover:text-charcoal'
                   }`}
                 >
                   <input
@@ -213,10 +211,10 @@ const Signup = () => {
 
                 <label
                   htmlFor="recruiter"
-                  className={`flex items-center justify-center gap-2 p-3 rounded-xl border cursor-pointer transition text-sm font-medium ${
+                  className={`flex items-center justify-center gap-2 p-3 rounded-xl border cursor-pointer transition text-sm font-semibold select-none ${
                     input.role === 'recruiter'
-                      ? 'border-burnt-orange bg-burnt-orange-light text-burnt-orange font-bold'
-                      : 'border-[--border-subtle] bg-white text-muted-brown hover:bg-warm-ivory/50'
+                      ? 'border-burnt-orange/30 bg-neu-base shadow-neu-inset-xs text-burnt-orange'
+                      : 'border-white/20 bg-neu-base shadow-neu-flat text-charcoal-muted hover:text-charcoal'
                   }`}
                 >
                   <input
@@ -226,7 +224,6 @@ const Signup = () => {
                     id="recruiter"
                     checked={input.role === 'recruiter'}
                     onChange={changeEventHandler}
-                    className="accent-burnt-orange"
                   />
                   <span>Recruiter</span>
                 </label>
@@ -236,23 +233,23 @@ const Signup = () => {
             {/* Submit Button */}
             <div className="pt-2">
               {loading ? (
-                <Button disabled className="w-full py-3 bg-burnt-orange text-white rounded-xl shadow-sm">
+                <Button disabled className="w-full py-3.5 bg-gradient-to-br from-burnt-orange-dim to-burnt-orange text-white font-bold rounded-neu shadow-neu-btn">
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   Creating Account...
                 </Button>
               ) : (
                 <Button
                   type="submit"
-                  className="w-full py-3 bg-burnt-orange hover:bg-burnt-orange-hover text-white font-semibold rounded-xl transition-all shadow-sm hover:shadow-glow-orange"
+                  className="w-full py-3.5 bg-gradient-to-br from-burnt-orange-dim to-burnt-orange hover:from-burnt-orange hover:to-burnt-orange-hover text-white font-bold rounded-neu shadow-neu-btn hover:shadow-glow-orange"
                 >
                   Sign Up
                 </Button>
               )}
             </div>
 
-            <p className="pt-2 text-center text-sm text-warm-charcoal">
+            <p className="pt-2 text-center text-sm text-charcoal-muted">
               Already have an account?{' '}
-              <Link to="/login" className="text-burnt-orange-link hover:text-deep-brown font-semibold hover:underline ml-1">
+              <Link to="/login" className="text-burnt-orange hover:text-burnt-orange-hover font-bold hover:underline ml-1">
                 Sign In
               </Link>
             </p>

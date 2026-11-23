@@ -53,7 +53,7 @@ const CompanyCreate = () => {
   };
 
   return (
-    <div className="bg-warm-ivory min-h-screen text-charcoal flex flex-col justify-between">
+    <div className="bg-neu-base min-h-screen text-charcoal flex flex-col justify-between">
       <Navbar />
       <motion.div
         className="max-w-2xl mx-auto w-full pt-28 pb-20 px-4 sm:px-6 flex-1"
@@ -61,22 +61,22 @@ const CompanyCreate = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
       >
-        <div className="bg-white border border-[--border-subtle] rounded-2xl p-8 sm:p-10 shadow-warm-md">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="p-3 rounded-xl bg-burnt-orange-light border border-burnt-orange/20 text-burnt-orange">
+        <div className="bg-neu-base border border-white/30 rounded-neu-lg p-8 sm:p-10 shadow-neu-raised-lg">
+          <div className="flex items-center gap-3.5 mb-6">
+            <div className="p-3.5 rounded-2xl bg-neu-base shadow-neu-flat border border-white/20 text-burnt-orange">
               <Building2 className="w-6 h-6" />
             </div>
             <div>
               <h1 className="font-extrabold text-2xl sm:text-3xl text-charcoal tracking-tight">
                 Register Your Company
               </h1>
-              <p className="text-sm text-charcoal-muted mt-0.5">What would you like to name your company or workspace?</p>
+              <p className="text-sm text-charcoal-muted mt-0.5 font-normal">What would you like to name your company or workspace?</p>
             </div>
           </div>
 
           <div className="space-y-4">
             <div>
-              <Label className="block text-sm font-semibold text-charcoal mb-1.5">
+              <Label className="block text-xs font-bold uppercase tracking-wider text-charcoal mb-2">
                 Company Name <span className="text-burnt-orange">*</span>
               </Label>
               <Input
@@ -84,22 +84,22 @@ const CompanyCreate = () => {
                 value={companyName}
                 onChange={(e) => setCompanyName(e.target.value)}
                 placeholder="e.g. Acme Innovations, Stripe, Google"
-                className="p-3 bg-warm-ivory/50 border border-[--border-subtle] rounded-xl text-charcoal placeholder:text-charcoal-dim focus:border-burnt-orange focus:ring-burnt-orange text-base"
+                className="bg-gradient-to-br from-neu-base-dark to-neu-base-light shadow-neu-inset-sm border border-white/10 text-base"
               />
-              <p className="text-xs text-charcoal-dim mt-1.5">You can update the logo, website, and details on the next step.</p>
+              <p className="text-xs text-charcoal-dim mt-2">You can update the logo, website, and details on the next step.</p>
             </div>
 
-            <div className="flex items-center justify-end gap-3 pt-6 border-t border-[--border-subtle]">
+            <div className="flex items-center justify-end gap-3 pt-6 border-t border-white/20">
               <Button
                 variant="outline"
                 onClick={() => navigate('/admin/companies')}
-                className="border-burnt-orange/40 text-charcoal hover:bg-warm-ivory-dark rounded-xl px-5"
+                className="shadow-neu-btn hover:shadow-neu-raised-xs rounded-neu px-5 text-charcoal font-semibold"
               >
                 Cancel
               </Button>
               <Button
                 onClick={registerNewCompany}
-                className="bg-burnt-orange hover:bg-burnt-orange-hover text-white rounded-xl px-6 font-semibold shadow-sm hover:shadow-glow-orange"
+                className="bg-gradient-to-br from-burnt-orange-dim to-burnt-orange hover:from-burnt-orange hover:to-burnt-orange-hover text-white rounded-neu px-6 font-bold shadow-neu-btn hover:shadow-glow-orange"
               >
                 Continue to Setup →
               </Button>
