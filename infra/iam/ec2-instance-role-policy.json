@@ -1,0 +1,87 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "S3DocumentStorageAccess",
+      "Effect": "Allow",
+      "Action": [
+        "s3:PutObject",
+        "s3:GetObject",
+        "s3:DeleteObject",
+        "s3:HeadObject"
+      ],
+      "Resource": [
+        "arn:aws:s3:::hirehub-documents-production/resumes/*",
+        "arn:aws:s3:::hirehub-documents-production/images/*",
+        "arn:aws:s3:::hirehub-documents-production/cover-letters/*",
+        "arn:aws:s3:::hirehub-documents-production/uploads/*"
+      ]
+    },
+    {
+      "Sid": "S3ListBucketLimited",
+      "Effect": "Allow",
+      "Action": "s3:ListBucket",
+      "Resource": "arn:aws:s3:::hirehub-documents-production",
+      "Condition": {
+        "StringLike": {
+          "s3:prefix": ["resumes/*", "images/*", "cover-letters/*", "uploads/*"]
+        }
+      }
+    },
+    {
+      "Sid": "SecretsManagerReadAppAndRdsSecrets",
+      "Effect": "Allow",
+      "Action": [
+        "secretsmanager:GetSecretValue",
+        "secretsmanager:DescribeSecret"
+      ],
+      "Resource": [
+        "arn:aws:secretsmanager:*:*:secret:hirehub/production/app-secrets-*",
+        "arn:aws:secretsmanager:*:*:secret:hirehub/production/rds-credentials-*"
+      ]
+    },
+    {
+      "Sid": "KMSDecryptForSecretsAndS3",
+      "Effect": "Allow",
+      "Action": [
+        "kms:Decrypt",
+        "kms:GenerateDataKey"
+      ],
+      "Resource": "arn:aws:kms:*:*:key/*",
+      "Condition": {
+        "StringEquals": {
+          "kms:ViaService": [
+            "secretsmanager.us-east-1.amazonaws.com",
+            "s3.us-east-1.amazonaws.com"
+          ]
+        }
+      }
+    },
+    {
+      "Sid": "CloudWatchLogsAndMetrics",
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents",
+        "logs:DescribeLogStreams",
+        "cloudwatch:PutMetricData"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "SESTransactionalEmails",
+      "Effect": "Allow",
+      "Action": [
+        "ses:SendEmail",
+        "ses:SendRawEmail"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "StringEquals": {
+          "ses:FromAddress": "notifications@hirehub.careers"
+        }
+      }
+    }
+  ]
+}

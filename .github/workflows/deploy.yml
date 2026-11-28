@@ -6,10 +6,9 @@
 name: Deploy HireHub to AWS
 
 on:
+  workflow_dispatch: # Allows manual trigger from GitHub Actions tab once AWS secrets are added
   push:
-    branches: [main, production]
-  pull_request:
-    branches: [main]
+    branches: [production] # Only trigger on production release branch, not main commits during setup
 
 env:
   AWS_REGION: us-east-1

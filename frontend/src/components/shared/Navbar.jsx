@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { Button } from '../ui/button';
 import { Avatar, AvatarImage } from '../ui/avatar';
@@ -34,18 +35,26 @@ const Navbar = () => {
     };
 
     return (
-        <nav className="fixed top-0 left-0 right-0 z-50 bg-neu-base/95 backdrop-blur-xl border-b border-white/25 shadow-neu-flat transition-all">
+        <motion.nav
+            initial={{ y: -24, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed top-0 left-0 right-0 z-50 bg-neu-base/95 backdrop-blur-xl border-b border-white/25 shadow-neu-flat transition-all"
+        >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16">
                     {/* Brand Logo with Soft Embossed Badge */}
-                    <div
+                    <motion.div
                         className="text-2xl font-extrabold text-charcoal cursor-pointer flex items-center tracking-tight gap-1 select-none"
                         onClick={() => navigate('/')}
+                        whileHover={{ scale: 1.03 }}
+                        whileTap={{ scale: 0.97 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 20 }}
                     >
                         <span className="px-2.5 py-0.5 rounded-xl bg-neu-base shadow-neu-flat border border-white/30 text-charcoal">
                             Hire<span className="text-burnt-orange font-black">Hub</span>
                         </span>
-                    </div>
+                    </motion.div>
 
                     {/* Mobile Menu Toggle */}
                     <div className="md:hidden flex items-center">
@@ -71,44 +80,48 @@ const Navbar = () => {
                                     {user && user.role === 'recruiter' ? (
                                         <>
                                             <Link to='/admin/companies'>
-                                                <li className='cursor-pointer px-3.5 py-1.5 rounded-xl text-charcoal hover:text-burnt-orange font-semibold transition hover:shadow-neu-flat'>
+                                                <motion.li whileHover={{ y: -2 }} className='cursor-pointer px-3.5 py-1.5 rounded-xl text-charcoal hover:text-burnt-orange font-semibold transition hover:shadow-neu-flat'>
                                                     Companies
-                                                </li>
+                                                </motion.li>
                                             </Link>
                                             <Link to='/admin/jobs'>
-                                                <li className='cursor-pointer px-3.5 py-1.5 rounded-xl text-charcoal hover:text-burnt-orange font-semibold transition hover:shadow-neu-flat'>
+                                                <motion.li whileHover={{ y: -2 }} className='cursor-pointer px-3.5 py-1.5 rounded-xl text-charcoal hover:text-burnt-orange font-semibold transition hover:shadow-neu-flat'>
                                                     Jobs
-                                                </li>
+                                                </motion.li>
                                             </Link>
                                         </>
                                     ) : (
                                         <>
                                             <Link to='/'>
-                                                <li className='cursor-pointer px-3 py-1.5 rounded-xl text-charcoal hover:text-burnt-orange font-semibold transition hover:shadow-neu-flat'>
+                                                <motion.li whileHover={{ y: -2 }} className='cursor-pointer px-3 py-1.5 rounded-xl text-charcoal hover:text-burnt-orange font-semibold transition hover:shadow-neu-flat'>
                                                     Home
-                                                </li>
+                                                </motion.li>
                                             </Link>
                                             <Link to='/jobs'>
-                                                <li className='cursor-pointer px-3 py-1.5 rounded-xl text-charcoal hover:text-burnt-orange font-semibold transition hover:shadow-neu-flat'>
+                                                <motion.li whileHover={{ y: -2 }} className='cursor-pointer px-3 py-1.5 rounded-xl text-charcoal hover:text-burnt-orange font-semibold transition hover:shadow-neu-flat'>
                                                     Jobs
-                                                </li>
+                                                </motion.li>
                                             </Link>
                                             <Link to='/browse'>
-                                                <li className='cursor-pointer px-3 py-1.5 rounded-xl text-charcoal hover:text-burnt-orange font-semibold transition hover:shadow-neu-flat'>
+                                                <motion.li whileHover={{ y: -2 }} className='cursor-pointer px-3 py-1.5 rounded-xl text-charcoal hover:text-burnt-orange font-semibold transition hover:shadow-neu-flat'>
                                                     Browse
-                                                </li>
+                                                </motion.li>
                                             </Link>
                                             <Link to='/tracker'>
-                                                <li className='cursor-pointer px-3 py-1.5 rounded-xl text-charcoal hover:text-emerald-700 font-semibold transition hover:shadow-neu-flat flex items-center gap-1.5'>
+                                                <motion.li whileHover={{ y: -2 }} className='cursor-pointer px-3 py-1.5 rounded-xl text-charcoal hover:text-emerald-700 font-semibold transition hover:shadow-neu-flat flex items-center gap-1.5'>
                                                     <LayoutGrid className="w-3.5 h-3.5 text-emerald-700" />
                                                     Tracker
-                                                </li>
+                                                </motion.li>
                                             </Link>
                                             <Link to='/ai/copilot'>
-                                                <li className='cursor-pointer text-burnt-orange font-bold flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-neu-base shadow-neu-flat border border-burnt-orange/20 hover:shadow-neu-raised-xs transition'>
-                                                    <Sparkles className="w-3.5 h-3.5 text-burnt-orange" />
+                                                <motion.li
+                                                    whileHover={{ scale: 1.04, y: -2 }}
+                                                    whileTap={{ scale: 0.96 }}
+                                                    className='cursor-pointer text-burnt-orange font-bold flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-neu-base shadow-neu-flat border border-burnt-orange/20 hover:shadow-neu-raised-xs transition'
+                                                >
+                                                    <Sparkles className="w-3.5 h-3.5 text-burnt-orange animate-pulse" />
                                                     Copilot
-                                                </li>
+                                                </motion.li>
                                             </Link>
                                             <Popover>
                                                 <PopoverTrigger asChild>
@@ -140,7 +153,11 @@ const Navbar = () => {
 
                                 <Popover>
                                     <PopoverTrigger asChild>
-                                        <div className="cursor-pointer">
+                                        <motion.div
+                                            whileHover={{ scale: 1.08 }}
+                                            whileTap={{ scale: 0.95 }}
+                                            className="cursor-pointer"
+                                        >
                                             <Avatar className="w-10 h-10 rounded-full overflow-hidden shadow-neu-raised-xs border-2 border-white/40 hover:shadow-neu-raised transition">
                                                 <AvatarImage
                                                     src={user?.profile?.profilePhoto ? user?.profile?.profilePhoto : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSq8T0hZUoX8kuRi3EZpZbUDtZ_WqqN9Ll15Q&s'}
@@ -148,7 +165,7 @@ const Navbar = () => {
                                                     className="object-cover w-full h-full"
                                                 />
                                             </Avatar>
-                                        </div>
+                                        </motion.div>
                                     </PopoverTrigger>
                                     <PopoverContent className="p-4 bg-neu-base border border-white/25 shadow-neu-raised-lg rounded-neu w-80">
                                         <div className="flex items-center gap-3">
@@ -193,19 +210,19 @@ const Navbar = () => {
                             <>
                                 <ul className="flex font-sans items-center space-x-5 text-charcoal-muted">
                                     <Link to="/">
-                                        <li className="cursor-pointer px-3 py-1.5 rounded-xl text-charcoal hover:text-burnt-orange font-semibold transition hover:shadow-neu-flat">
+                                        <motion.li whileHover={{ y: -2 }} className="cursor-pointer px-3 py-1.5 rounded-xl text-charcoal hover:text-burnt-orange font-semibold transition hover:shadow-neu-flat">
                                             Home
-                                        </li>
+                                        </motion.li>
                                     </Link>
                                     <Link to="/jobs">
-                                        <li className="cursor-pointer px-3 py-1.5 rounded-xl text-charcoal hover:text-burnt-orange font-semibold transition hover:shadow-neu-flat">
+                                        <motion.li whileHover={{ y: -2 }} className="cursor-pointer px-3 py-1.5 rounded-xl text-charcoal hover:text-burnt-orange font-semibold transition hover:shadow-neu-flat">
                                             Jobs
-                                        </li>
+                                        </motion.li>
                                     </Link>
                                     <Link to="/browse">
-                                        <li className="cursor-pointer px-3 py-1.5 rounded-xl text-charcoal hover:text-burnt-orange font-semibold transition hover:shadow-neu-flat">
+                                        <motion.li whileHover={{ y: -2 }} className="cursor-pointer px-3 py-1.5 rounded-xl text-charcoal hover:text-burnt-orange font-semibold transition hover:shadow-neu-flat">
                                             Browse
-                                        </li>
+                                        </motion.li>
                                     </Link>
                                 </ul>
                                 <Link to="/login">
@@ -224,43 +241,51 @@ const Navbar = () => {
                 </div>
             </div>
 
-            {/* Mobile Menu */}
-            {menuOpen && (
-                <div className="absolute top-16 left-0 right-0 bg-neu-base border-b border-white/25 shadow-neu-raised-lg p-5 md:hidden z-50">
-                    <ul className="space-y-3 text-charcoal font-medium">
-                        <li className="cursor-pointer hover:text-burnt-orange">
-                            <Link to="/" onClick={() => setMenuOpen(false)}>Home</Link>
-                        </li>
-                        <li className="cursor-pointer hover:text-burnt-orange">
-                            <Link to="/jobs" onClick={() => setMenuOpen(false)}>Jobs</Link>
-                        </li>
-                        <li className="cursor-pointer hover:text-burnt-orange">
-                            <Link to="/browse" onClick={() => setMenuOpen(false)}>Browse</Link>
-                        </li>
-                        <li className="cursor-pointer hover:text-emerald-700 font-bold">
-                            <Link to="/tracker" onClick={() => setMenuOpen(false)}>📊 Application Tracker</Link>
-                        </li>
-                        <li className="cursor-pointer text-burnt-orange font-bold">
-                            <Link to="/ai/copilot" onClick={() => setMenuOpen(false)}>🤖 Copilot</Link>
-                        </li>
-                        {!user && (
-                            <div className="flex flex-col gap-2.5 pt-3 border-t border-white/20">
-                                <Link to="/login" onClick={() => setMenuOpen(false)}>
-                                    <Button variant="outline" className="w-full text-burnt-orange shadow-neu-btn">
-                                        Login
-                                    </Button>
-                                </Link>
-                                <Link to="/signup" onClick={() => setMenuOpen(false)}>
-                                    <Button className="w-full bg-gradient-to-br from-burnt-orange-dim to-burnt-orange text-white shadow-neu-btn">
-                                        Signup
-                                    </Button>
-                                </Link>
-                            </div>
-                        )}
-                    </ul>
-                </div>
-            )}
-        </nav>
+            {/* Mobile Menu with Smooth Animated Drawer */}
+            <AnimatePresence>
+                {menuOpen && (
+                    <motion.div
+                        initial={{ opacity: 0, height: 0, y: -10 }}
+                        animate={{ opacity: 1, height: 'auto', y: 0 }}
+                        exit={{ opacity: 0, height: 0, y: -10 }}
+                        transition={{ duration: 0.3, ease: 'easeInOut' }}
+                        className="overflow-hidden absolute top-16 left-0 right-0 bg-neu-base border-b border-white/25 shadow-neu-raised-lg p-5 md:hidden z-50"
+                    >
+                        <ul className="space-y-3 text-charcoal font-medium">
+                            <li className="cursor-pointer hover:text-burnt-orange">
+                                <Link to="/" onClick={() => setMenuOpen(false)}>Home</Link>
+                            </li>
+                            <li className="cursor-pointer hover:text-burnt-orange">
+                                <Link to="/jobs" onClick={() => setMenuOpen(false)}>Jobs</Link>
+                            </li>
+                            <li className="cursor-pointer hover:text-burnt-orange">
+                                <Link to="/browse" onClick={() => setMenuOpen(false)}>Browse</Link>
+                            </li>
+                            <li className="cursor-pointer hover:text-emerald-700 font-bold">
+                                <Link to="/tracker" onClick={() => setMenuOpen(false)}>📊 Application Tracker</Link>
+                            </li>
+                            <li className="cursor-pointer text-burnt-orange font-bold">
+                                <Link to="/ai/copilot" onClick={() => setMenuOpen(false)}>🤖 Copilot</Link>
+                            </li>
+                            {!user && (
+                                <div className="flex flex-col gap-2.5 pt-3 border-t border-white/20">
+                                    <Link to="/login" onClick={() => setMenuOpen(false)}>
+                                        <Button variant="outline" className="w-full text-burnt-orange shadow-neu-btn">
+                                            Login
+                                        </Button>
+                                    </Link>
+                                    <Link to="/signup" onClick={() => setMenuOpen(false)}>
+                                        <Button className="w-full bg-gradient-to-br from-burnt-orange-dim to-burnt-orange text-white shadow-neu-btn">
+                                            Signup
+                                        </Button>
+                                    </Link>
+                                </div>
+                            )}
+                        </ul>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </motion.nav>
     );
 };
 

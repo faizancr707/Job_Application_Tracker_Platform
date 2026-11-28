@@ -53,20 +53,20 @@ const Job = ({ job }) => {
 
     return (
         <motion.div
-            className="flex items-stretch gap-4 p-1 sm:p-2"
-            whileHover={{ y: -3 }}
+            className="flex items-stretch gap-4 p-1 sm:p-2 group"
+            whileHover={{ y: -6, scale: 1.012 }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ type: "spring", stiffness: 350, damping: 25 }}
         >
-            <Card key={job?.id} className="bg-neu-base border border-white/25 hover:border-burnt-orange/40 w-full p-6 rounded-neu shadow-neu-raised hover:shadow-neu-raised-md transition-all">
+            <Card key={job?.id} className="bg-neu-base border border-white/25 group-hover:border-burnt-orange/50 w-full p-6 rounded-neu shadow-neu-raised group-hover:shadow-neu-raised-md transition-all duration-300">
                 <div className="flex items-start justify-between">
                     <div className="flex items-center">
-                        <Avatar className="w-12 h-12 rounded-xl shadow-neu-flat border border-white/30">
+                        <Avatar className="w-12 h-12 rounded-xl shadow-neu-flat border border-white/30 group-hover:scale-105 transition-transform duration-300">
                             <AvatarImage src={job?.company?.logo} alt={job?.company?.name} />
                         </Avatar>
                         <div className="ml-4">
-                            <h3 className="text-lg font-bold text-charcoal hover:text-burnt-orange transition-colors cursor-pointer" onClick={() => navigate(`/description/${job?.id}`)}>
+                            <h3 className="text-lg font-bold text-charcoal group-hover:text-burnt-orange transition-colors cursor-pointer" onClick={() => navigate(`/description/${job?.id}`)}>
                                 {job?.title}
                             </h3>
                             <p className="text-sm text-charcoal-muted font-medium">{job?.company?.name}</p>
@@ -76,7 +76,9 @@ const Job = ({ job }) => {
                         variant="ghost"
                         size="icon"
                         onClick={() => handleSaveForLater(job?.id)}
-                        className="text-charcoal-dim hover:text-burnt-orange shadow-neu-flat hover:shadow-neu-raised-xs rounded-xl border border-white/20"
+                        whileHover={{ scale: 1.15 }}
+                        whileTap={{ scale: 0.85 }}
+                        className="text-charcoal-dim hover:text-burnt-orange shadow-neu-flat hover:shadow-neu-raised-xs rounded-xl border border-white/20 transition-all"
                     >
                         <BookmarkPlus className={`h-5 w-5 ${isSaved ? 'text-burnt-orange fill-burnt-orange' : ''}`} />
                     </Button>
@@ -84,13 +86,13 @@ const Job = ({ job }) => {
 
                 <div className="mt-4">
                     <div className="flex items-center gap-2 mb-2 flex-wrap">
-                        <Badge variant="secondary" className="shadow-neu-flat border border-white/20 font-medium">
+                        <Badge variant="secondary" className="shadow-neu-flat border border-white/20 font-medium hover:scale-105 transition-transform">
                             {job?.position} Positions
                         </Badge>
-                        <span className="text-xs text-charcoal-muted px-3 py-1 rounded-full bg-neu-base shadow-neu-flat border border-white/20 font-medium">
+                        <span className="text-xs text-charcoal-muted px-3 py-1 rounded-full bg-neu-base shadow-neu-flat border border-white/20 font-medium hover:scale-105 transition-transform">
                             📍 {job?.location}
                         </span>
-                        <span className="text-xs text-charcoal-muted px-3 py-1 rounded-full bg-neu-base shadow-neu-flat border border-white/20 font-medium">
+                        <span className="text-xs text-charcoal-muted px-3 py-1 rounded-full bg-neu-base shadow-neu-flat border border-white/20 font-medium hover:scale-105 transition-transform">
                             💼 {job?.jobType || 'Full Time'}
                         </span>
                     </div>
@@ -106,6 +108,8 @@ const Job = ({ job }) => {
                             <Button
                                 className="bg-gradient-to-br from-burnt-orange-dim to-burnt-orange hover:from-burnt-orange hover:to-burnt-orange-hover text-white font-semibold text-xs sm:text-sm py-1.5 px-3.5 shadow-neu-btn hover:shadow-glow-orange"
                                 onClick={() => handleSaveForLater(job?.id)}
+                                whileHover={{ scale: 1.04 }}
+                                whileTap={{ scale: 0.96 }}
                             >
                                 Save For Later
                             </Button>
@@ -118,13 +122,15 @@ const Job = ({ job }) => {
                         </span>
 
                         <Button
-                            className="text-burnt-orange hover:text-burnt-orange-hover shadow-neu-btn hover:shadow-neu-raised-xs text-xs sm:text-sm font-semibold py-1.5 px-3.5 rounded-xl"
+                            className="text-burnt-orange hover:text-burnt-orange-hover shadow-neu-btn hover:shadow-neu-raised-xs text-xs sm:text-sm font-semibold py-1.5 px-3.5 rounded-xl group/btn"
                             variant="outline"
                             size="sm"
                             onClick={() => navigate(`/description/${job?.id}`)}
+                            whileHover={{ scale: 1.04, x: 2 }}
+                            whileTap={{ scale: 0.96 }}
                         >
                             Details
-                            <ArrowUpRight className="ml-1.5 h-4 w-4" />
+                            <ArrowUpRight className="ml-1.5 h-4 w-4 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
                         </Button>
                     </div>
                 </div>

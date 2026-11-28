@@ -66,7 +66,11 @@ const connectDB = async () => {
     await sequelize.sync({ alter: true });
     console.log('✅ [Database] All Sequelize models synchronized');
   } catch (error) {
-    console.error(`❌ [Database] Connection failed:`, error.message);
+    const errDetail = error.original?.message || error.parent?.message || error.message || error;
+    console.error(`❌ [Database] Connection failed:`, errDetail);
+    if (error.original?.code === 'ECONNREFUSED' || error.parent?.code === 'ECONNREFUSED' || (error.original?.errors && error.original.errors[0]?.code === 'ECONNREFUSED')) {
+      console.error(`👉 Ensure your MySQL server is running at ${DATABASE_HOST}:${DATABASE_PORT || 3306} and accessible.`);
+    }
     throw error;
   }
 };

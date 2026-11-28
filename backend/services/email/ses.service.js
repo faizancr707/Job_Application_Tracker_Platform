@@ -18,24 +18,26 @@ const AWS_REGION = process.env.AWS_REGION || 'us-east-1';
 const AWS_SES_FROM_EMAIL = process.env.AWS_SES_FROM_EMAIL || 'notifications@hirehub.careers';
 const AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID;
 const AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY;
+const AWS_USE_IAM_ROLE = process.env.AWS_USE_IAM_ROLE === 'true' || process.env.NODE_ENV === 'production';
 
+const hasExplicitKeys = Boolean(AWS_ACCESS_KEY_ID && AWS_SECRET_ACCESS_KEY);
 const isSESConfigured = Boolean(
   SESClient &&
-  AWS_ACCESS_KEY_ID &&
-  AWS_SECRET_ACCESS_KEY &&
-  process.env.AWS_SES_FROM_EMAIL
+  process.env.AWS_SES_FROM_EMAIL &&
+  (hasExplicitKeys || AWS_USE_IAM_ROLE)
 );
 
 let sesClient = null;
 if (isSESConfigured) {
-  sesClient = new SESClient({
-    region: AWS_REGION,
-    credentials: {
+  const clientConfig = { region: AWS_REGION };
+  if (hasExplicitKeys) {
+    clientConfig.credentials = {
       accessKeyId: AWS_ACCESS_KEY_ID,
       secretAccessKey: AWS_SECRET_ACCESS_KEY,
-    },
-  });
-  console.log(`[Amazon SES] Initialized email client (From: ${AWS_SES_FROM_EMAIL})`);
+    };
+  }
+  sesClient = new SESClient(clientConfig);
+  console.log(`[Amazon SES] Initialized email client (From: ${AWS_SES_FROM_EMAIL}, auth: ${hasExplicitKeys ? 'keys' : 'IAM Role'})`);
 } else {
   console.log('[Amazon SES] Credentials or SES SDK not active. Status emails will log to console.');
 }

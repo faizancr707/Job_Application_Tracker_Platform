@@ -9,24 +9,23 @@ const crypto = require('crypto');
 const path = require('path');
 const fs = require('fs');
 
-// Check if S3 is configured
-const isS3Configured = !!(
-  process.env.AWS_ACCESS_KEY_ID &&
-  process.env.AWS_SECRET_ACCESS_KEY &&
-  process.env.AWS_S3_BUCKET
-);
+// Check if S3 is configured (supports both explicit keys and EC2 IAM Instance Profile)
+const hasExplicitKeys = !!(process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY);
+const useIamRole = process.env.AWS_USE_IAM_ROLE === 'true' || process.env.NODE_ENV === 'production';
+const isS3Configured = !!(process.env.AWS_S3_BUCKET && (hasExplicitKeys || useIamRole));
 
 let s3Client = null;
 
 if (isS3Configured) {
-  s3Client = new S3Client({
-    region: process.env.AWS_REGION || 'us-east-1',
-    credentials: {
+  const clientConfig = { region: process.env.AWS_REGION || 'us-east-1' };
+  if (hasExplicitKeys) {
+    clientConfig.credentials = {
       accessKeyId: process.env.AWS_ACCESS_KEY_ID,
       secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-    },
-  });
-  console.log('✅ S3 storage configured');
+    };
+  }
+  s3Client = new S3Client(clientConfig);
+  console.log(`✅ S3 storage configured (auth: ${hasExplicitKeys ? 'keys' : 'IAM Role'})`);
 } else {
   console.log('⚠️ S3 not configured, falling back to local file storage');
 }

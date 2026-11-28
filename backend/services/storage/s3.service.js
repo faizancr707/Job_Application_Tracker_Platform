@@ -28,27 +28,27 @@ const AWS_REGION = process.env.AWS_REGION || 'us-east-1';
 const AWS_S3_BUCKET = process.env.AWS_S3_BUCKET;
 const AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID;
 const AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY;
+const AWS_USE_IAM_ROLE = process.env.AWS_USE_IAM_ROLE === 'true' || process.env.NODE_ENV === 'production';
 const CLOUDFRONT_DOMAIN = process.env.CLOUDFRONT_DOMAIN || ''; // e.g. https://d1234.cloudfront.net
 
-const isS3Configured = Boolean(
-  AWS_ACCESS_KEY_ID &&
-  AWS_SECRET_ACCESS_KEY &&
-  AWS_S3_BUCKET
-);
+const hasExplicitKeys = Boolean(AWS_ACCESS_KEY_ID && AWS_SECRET_ACCESS_KEY);
+const isS3Configured = Boolean(AWS_S3_BUCKET && (hasExplicitKeys || AWS_USE_IAM_ROLE));
 
 let s3Client = null;
 
 if (isS3Configured) {
-  s3Client = new S3Client({
-    region: AWS_REGION,
-    credentials: {
+  const clientConfig = { region: AWS_REGION };
+  if (hasExplicitKeys) {
+    clientConfig.credentials = {
       accessKeyId: AWS_ACCESS_KEY_ID,
       secretAccessKey: AWS_SECRET_ACCESS_KEY,
-    },
-  });
-  console.log(`[AWS S3] Initialized client for bucket: ${AWS_S3_BUCKET} (${AWS_REGION})`);
+    };
+  }
+  // On EC2/ECS, omitting credentials delegates to IMDSv2 IAM Instance Profile
+  s3Client = new S3Client(clientConfig);
+  console.log(`[AWS S3] Initialized client for bucket: ${AWS_S3_BUCKET} (${AWS_REGION}, auth: ${hasExplicitKeys ? 'keys' : 'IAM Role'})`);
 } else {
-  console.log('[AWS S3] Credentials not detected. Operating in local filesystem fallback mode.');
+  console.log('[AWS S3] Bucket/credentials not detected. Operating in local filesystem fallback mode.');
 }
 
 // Local fallback directory

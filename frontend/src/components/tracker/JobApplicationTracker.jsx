@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useMotionValue, useTransform, animate } from 'framer-motion';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
@@ -12,6 +12,28 @@ import { setAllAppliedJobs } from '@/redux/jobSlice';
 import { setsavedJobs } from '@/redux/authSlice';
 import Navbar from '../shared/Navbar';
 import Footer from '../shared/Footer';
+
+// Animated Counter for Live Metrics
+const AnimatedCounter = ({ value, suffix = '', duration = 1.0 }) => {
+  const numericValue = typeof value === 'string' ? parseFloat(value.replace(/[^0-9.-]+/g, '')) || 0 : Number(value) || 0;
+  const count = useMotionValue(0);
+  const rounded = useTransform(count, (latest) => Math.round(latest));
+  const [displayValue, setDisplayValue] = useState(0);
+
+  useEffect(() => {
+    const controls = animate(count, numericValue, {
+      duration,
+      ease: [0.16, 1, 0.3, 1],
+    });
+    const unsubscribe = rounded.on('change', (v) => setDisplayValue(v));
+    return () => {
+      controls.stop();
+      unsubscribe();
+    };
+  }, [numericValue, duration]);
+
+  return <span>{displayValue}{suffix}</span>;
+};
 import {
   Briefcase,
   Building2,
@@ -281,21 +303,29 @@ const JobApplicationTracker = () => {
               { label: 'In Review', val: metrics.review, sub: 'under evaluation', icon: Clock, color: 'text-amber-300' },
               { label: 'Interviews', val: metrics.interview || 0, sub: 'in discussion', icon: Target, color: 'text-purple-300' },
               { label: 'Offers Earned', val: metrics.accepted, sub: 'accepted', icon: CheckCircle2, color: 'text-emerald-300' },
-              { label: 'Response Rate', val: `${metrics.responseRate}%`, sub: 'active feedback', icon: TrendingUp, color: 'text-teal-200' },
+              { label: 'Response Rate', val: metrics.responseRate, suffix: '%', sub: 'active feedback', icon: TrendingUp, color: 'text-teal-200' },
               { label: 'Saved Roles', val: savedJobs?.length || 0, sub: 'bookmarked', icon: Star, color: 'text-amber-200' },
             ].map((m, idx) => (
               <motion.div
                 key={idx}
-                initial={{ opacity: 0, y: 10 }}
+                initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: idx * 0.04 }}
-                className="bg-white/[0.08] backdrop-blur-md border border-white/10 rounded-2xl p-3.5 space-y-1 hover:bg-white/[0.12] transition"
+                whileHover={{ y: -4, scale: 1.02 }}
+                transition={{
+                  delay: idx * 0.05,
+                  type: 'spring',
+                  stiffness: 350,
+                  damping: 25,
+                }}
+                className="bg-white/[0.08] backdrop-blur-md border border-white/10 rounded-2xl p-3.5 space-y-1 hover:bg-white/[0.14] hover:border-white/20 transition-colors shadow-sm cursor-default"
               >
                 <div className="flex items-center justify-between">
                   <span className="text-[11px] font-semibold text-[#D8D2C4]">{m.label}</span>
                   <m.icon className={`w-3.5 h-3.5 ${m.color}`} />
                 </div>
-                <div className={`text-2xl font-black ${m.color}`}>{m.val}</div>
+                <div className={`text-2xl font-black ${m.color} tracking-tight`}>
+                  <AnimatedCounter value={m.val} suffix={m.suffix || ''} />
+                </div>
                 <div className="text-[10px] text-white/50">{m.sub}</div>
               </motion.div>
             ))}

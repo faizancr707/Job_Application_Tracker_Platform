@@ -1,0 +1,48 @@
+{
+  "agent": {
+    "metrics_collection_interval": 60,
+    "run_as_user": "cwagent"
+  },
+  "logs": {
+    "logs_collected": {
+      "files": {
+        "collect_list": [
+          {
+            "file_path": "/var/log/hirehub/app-out.log",
+            "log_group_name": "/hirehub/production/backend",
+            "log_stream_name": "{instance_id}/app-stdout",
+            "retention_in_days": 30
+          },
+          {
+            "file_path": "/var/log/hirehub/app-err.log",
+            "log_group_name": "/hirehub/production/backend-errors",
+            "log_stream_name": "{instance_id}/app-stderr",
+            "retention_in_days": 90
+          },
+          {
+            "file_path": "/var/log/nginx/access.log",
+            "log_group_name": "/hirehub/production/nginx",
+            "log_stream_name": "{instance_id}/access",
+            "retention_in_days": 30
+          }
+        ]
+      }
+    }
+  },
+  "metrics": {
+    "namespace": "HireHub/EC2",
+    "metrics_collected": {
+      "mem": {
+        "measurement": ["mem_used_percent"]
+      },
+      "disk": {
+        "measurement": ["used_percent"],
+        "resources": ["/"]
+      },
+      "cpu": {
+        "measurement": ["cpu_usage_active"],
+        "totalcpu": true
+      }
+    }
+  }
+}
